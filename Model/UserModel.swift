@@ -57,50 +57,82 @@ extension UserModel{
      - parameter once:              once
      - parameter completionHandler: 登录回调
      */
-    class func Login(_ username:String,password:String ,once:String,
-                     usernameFieldName:String ,passwordFieldName:String,
-                     codeFieldName:String, code:String,
+//    class func Login(_ username:String,password:String ,once:String,
+//                     usernameFieldName:String ,passwordFieldName:String,
+//                     codeFieldName:String, code:String,
+//                     completionHandler: @escaping (V2ValueResponse<String>, Bool) -> Void){
+//        let prames = [
+//            "once":once,
+//            "next":"/",
+//            passwordFieldName:password,
+//            usernameFieldName:username,
+//            codeFieldName: code
+//        ]
+//
+//        var dict = MOBILE_CLIENT_HEADERS
+//        //为安全，此处使用https
+//        dict["Referer"] = "https://v2ex.com/signin"
+//        //登录
+//        Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, headers: dict).responseJiHtml{
+//            (response) -> Void in
+//            if let jiHtml = response .result.value{
+//                //判断有没有用户头像，如果有，则证明登录成功了
+//                if let avatarImg = jiHtml.xPath("//*[@id='Top']/div/div/table/tr/td[3]/a[1]/img[1]")?.first {
+//                    if let username = avatarImg.parent?["href"]{
+//                        if username.hasPrefix("/member/") {
+//                            let username = username.replacingOccurrences(of: "/member/", with: "")
+//
+//                            //用户开启了两步验证
+//                            if let url = response.response?.url?.absoluteString, url.contains("2fa") {
+//                                completionHandler(V2ValueResponse(value: username, success: true),true)
+//                            }
+//                                //登陆完成
+//                            else{
+//                                completionHandler(V2ValueResponse(value: username, success: true),false)
+//                            }
+//                            return;
+//                        }
+//                    }
+//                }
+//                else if let errMessage = jiHtml.xPath("//*[contains(@class, 'problem')]/ul/li")?.first?.value , errMessage.count > 0 {
+//                    completionHandler(V2ValueResponse(success: false,message: errMessage),false)
+//                    return
+//                }
+//
+//            }
+//            completionHandler(V2ValueResponse(success: false,message: "登录失败"),false)
+//        }
+//    }
+
+    class func Login(_ username:String,password:String ,
+                     code:String,loginTicket:String,
                      completionHandler: @escaping (V2ValueResponse<String>, Bool) -> Void){
         let prames = [
-            "once":once,
-            "next":"/",
-            passwordFieldName:password,
-            usernameFieldName:username,
-            codeFieldName: code
+            "password": password,
+            "username": username
         ]
-        
+
         var dict = MOBILE_CLIENT_HEADERS
+        dict["content-type"] = "application/json"
         //为安全，此处使用https
-        dict["Referer"] = "https://v2ex.com/signin"
+        var loginUrl = "https://ava.acxca.com/auth/login/"+loginTicket+"/"+code
         //登录
-        Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, headers: dict).responseJiHtml{
+        Alamofire.request(loginUrl,method:.post, parameters: prames, encoding: JSONEncoding.default,headers: dict).responseString{
             (response) -> Void in
-            if let jiHtml = response .result.value{
-                //判断有没有用户头像，如果有，则证明登录成功了
-                if let avatarImg = jiHtml.xPath("//*[@id='Top']/div/div/table/tr/td[3]/a[1]/img[1]")?.first {
-                    if let username = avatarImg.parent?["href"]{
-                        if username.hasPrefix("/member/") {
-                            let username = username.replacingOccurrences(of: "/member/", with: "")
-                            
-                            //用户开启了两步验证
-                            if let url = response.response?.url?.absoluteString, url.contains("2fa") {
-                                completionHandler(V2ValueResponse(value: username, success: true),true)
-                            }
-                                //登陆完成
-                            else{
-                                completionHandler(V2ValueResponse(value: username, success: true),false)
-                            }
-                            return;
-                        }
-                    }
+
+            var statusCode = response.response?.statusCode
+            if(statusCode != 200){
+                var error_msg:String = "后台系统发生错误"
+                if let msg = response.response?.allHeaderFields["msg-content"]{
+                    error_msg = (msg as! String).removingPercentEncoding!
                 }
-                else if let errMessage = jiHtml.xPath("//*[contains(@class, 'problem')]/ul/li")?.first?.value , errMessage.count > 0 {
-                    completionHandler(V2ValueResponse(success: false,message: errMessage),false)
-                    return
-                }
-                
+
+                completionHandler(V2ValueResponse(success: false,message: error_msg),false)
             }
-            completionHandler(V2ValueResponse(success: false,message: "登录失败"),false)
+            else{
+                var token = response.result.value!
+                completionHandler(V2ValueResponse(value: token, success: true),false)
+            }
         }
     }
     
@@ -148,6 +180,11 @@ extension UserModel{
             }, onError: { (error) in
                 completionHandler?(V2ValueResponse(success: false,message: "获取用户信息失败"))
             });
+    }
+
+    class func getUserInfoFromToken(_ token:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){
+
+
     }
     
     

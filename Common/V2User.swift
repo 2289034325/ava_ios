@@ -11,6 +11,7 @@ import Alamofire
 import Ji
 
 let kUserName = "me.fin.username"
+let kUserToken = "me.fin.token"
 
 class V2User: NSObject {
     static let sharedInstance = V2User()

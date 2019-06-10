@@ -100,51 +100,43 @@ class LoginViewController: UIViewController {
             self.codeTextField.becomeFirstResponder()
             return
         }
+
+        var loginTicket = V2EXSettings.sharedInstance["loginTicket"]!
         
         V2BeginLoadingWithStatus("正在登录")
-        if let onceStr = onceStr , let usernameStr = usernameStr, let passwordStr = passwordStr, let codeStr = codeStr {
-            UserModel.Login(userName,
-                            password: password,
-                            once: onceStr,
-                            usernameFieldName: usernameStr,
-                            passwordFieldName: passwordStr ,
-                            codeFieldName:codeStr,
-                            code:code){
-                (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
-                if response.success {
-                    V2Success("登录成功")
-                    let username = response.value!
-                    //保存下用户名
-                    V2EXSettings.sharedInstance[kUserName] = username
-                    
-                    //将用户名密码保存进keychain （安全保存)
-                    V2UsersKeychain.sharedInstance.addUser(username, password: password)
-                    
-                    //调用登录成功回调
-                    if let handel = self.successHandel {
-                        handel(username)
-                    }
-                    
-                    //获取用户信息
-                    UserModel.getUserInfoByUsername(username,completionHandler: nil)
-                    self.dismiss(animated: true){
-                        if is2FALoggedIn {
-                            let twoFaViewController = TwoFAViewController()
-                            V2Client.sharedInstance.centerViewController!.navigationController?.present(twoFaViewController, animated: true, completion: nil);
-                        }
-                    }
+        UserModel.Login(userName,
+                        password: password.md5(),
+                        code:code,
+                        loginTicket:loginTicket){
+            (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
+            if response.success {
+                V2Success("登录成功")
+                let token = response.value!
+                //保存下用户名
+                V2EXSettings.sharedInstance[kUserToken] = token
+
+                //将用户名密码保存进keychain （安全保存)
+                V2UsersKeychain.sharedInstance.addUser(userName, password: password)
+
+                //调用登录成功回调
+                if let handel = self.successHandel {
+                    handel(token)
                 }
-                else{
-                    V2Error(response.message)
-                    self.refreshCode()
+
+                //获取用户信息
+                UserModel.getUserInfoFromToken(token,completionHandler: nil)
+                self.dismiss(animated: true){
+                    if is2FALoggedIn {
+                        let twoFaViewController = TwoFAViewController()
+                        V2Client.sharedInstance.centerViewController!.navigationController?.present(twoFaViewController, animated: true, completion: nil);
+                    }
                 }
             }
-            return;
+            else{
+                V2Error(response.message)
+                self.refreshCode()
+            }
         }
-        else{
-            V2Error("不知道啥错误")
-        }
-        
     }
     
     var onceStr:String?
@@ -152,31 +144,26 @@ class LoginViewController: UIViewController {
     var passwordStr:String?
     var codeStr:String?
     @objc func refreshCode(){
-        
-        Alamofire.request(V2EXURL+"signin", headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
-            (response) -> Void in
-            
-            if let jiHtml = response .result.value{
-                //获取帖子内容
-                //取出 once 登录时要用
-                
-                //self.onceStr = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
-                self.usernameStr = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[1]/td[2]/input[@class='sl']")?.first?["name"]
-                self.passwordStr = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[2]/td[2]/input[@class='sl']")?.first?["name"]
-                self.codeStr = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[4]/td[2]/input[@class='sl']")?.first?["name"]
-                
-                
-                if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
-                    let codeUrl = "\(V2EXURL)_captcha?once=\(once)"
-                    self.onceStr = once
-                    Alamofire.request(codeUrl).responseData(completionHandler: { (dataResp) in
-                        self.codeImageView.image = UIImage(data: dataResp.data!)
-                    })
-                }
-                else{
-                    SVProgressHUD.showError(withStatus: "刷新验证码失败")
-                }
+
+        let codeUrl = "https://ava.acxca.com/kaptcha/";
+
+//        let codeUrl = "https://www.baidu.com";
+
+        Alamofire.request(codeUrl, headers: MOBILE_CLIENT_HEADERS).responseJSON{
+            response in
+
+            switch response.result {
+            case .success(let value):
+                let jsonData = value as! Dictionary<String,String>
+                self.codeImageView.image = UIImage(data: Data(base64Encoded: jsonData["img"]!, options: .ignoreUnknownCharacters)!)
+                //保存ticket
+                V2EXSettings.sharedInstance["loginTicket"] = jsonData["ticket"]
+                print("JSON: \(jsonData)")
+            case .failure(let error):
+                print(error)
+                SVProgressHUD.showError(withStatus: "刷新验证码失败")
             }
+
 
         }
     }
@@ -195,118 +182,306 @@ extension UIViewController {
 }
 
 //MARK: - 初始化界面
+//extension LoginViewController {
+//    func setupView(){
+//        self.view.backgroundColor = UIColor.black
+//
+//        self.backgroundImageView.image = UIImage(named: "32.jpg")
+//        self.backgroundImageView.frame = self.view.frame
+//        self.backgroundImageView.contentMode = .scaleToFill
+//        self.view.addSubview(self.backgroundImageView)
+//        backgroundImageView.alpha = 0
+//
+//        self.frostedView.frame = self.view.frame
+//        self.view.addSubview(self.frostedView)
+//
+//        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+//        let vibrancyView = UIVisualEffectView(effect: vibrancy)
+//        vibrancyView.isUserInteractionEnabled = true
+//        vibrancyView.frame = self.frostedView.frame
+//        self.frostedView.contentView.addSubview(vibrancyView)
+//
+//        let v2exLabel = UILabel()
+//        v2exLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 25)!;
+//        v2exLabel.text = "Explore"
+//        vibrancyView.contentView.addSubview(v2exLabel);
+//        v2exLabel.snp.makeConstraints{ (make) -> Void in
+//            make.centerX.equalTo(vibrancyView)
+//            make.top.equalTo(vibrancyView).offset(40)
+//        }
+//
+//        let v2exSummaryLabel = UILabel()
+//        v2exSummaryLabel.font = v2Font(13);
+//        v2exSummaryLabel.text = "创意者的工作社区"
+//        vibrancyView.contentView.addSubview(v2exSummaryLabel);
+//        v2exSummaryLabel.snp.makeConstraints{ (make) -> Void in
+//            make.centerX.equalTo(vibrancyView)
+//            make.top.equalTo(v2exLabel.snp.bottom).offset(2)
+//        }
+//
+//        self.userNameTextField.autocorrectionType = UITextAutocorrectionType.no
+//        self.userNameTextField.autocapitalizationType = UITextAutocapitalizationType.none
+//
+//        self.userNameTextField.textColor = UIColor.white
+//        self.userNameTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
+//        self.userNameTextField.font = v2Font(15)
+//        self.userNameTextField.layer.cornerRadius = 3;
+//        self.userNameTextField.layer.borderWidth = 0.5
+//        self.userNameTextField.keyboardType = .asciiCapable
+//        self.userNameTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+//        self.userNameTextField.placeholder = "用户名"
+//        self.userNameTextField.clearButtonMode = .always
+//
+//        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.withRenderingMode(.alwaysTemplate));
+//        userNameIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+//        userNameIconImageView.tintColor = UIColor.white
+//        userNameIconImageView.contentMode = .scaleAspectFit
+//        self.userNameTextField.leftView = userNameIconImageView
+//        self.userNameTextField.leftViewMode = .always
+//
+//        vibrancyView.contentView.addSubview(self.userNameTextField);
+//
+//        self.userNameTextField.snp.makeConstraints{ (make) -> Void in
+//            make.top.equalTo(v2exSummaryLabel.snp.bottom).offset(25)
+//            make.centerX.equalTo(vibrancyView)
+//            make.width.equalTo(300)
+//            make.height.equalTo(38)
+//        }
+//
+//        self.passwordTextField.textColor = UIColor.white
+//        self.passwordTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
+//        self.passwordTextField.font = v2Font(15)
+//        self.passwordTextField.layer.cornerRadius = 3;
+//        self.passwordTextField.layer.borderWidth = 0.5
+//        self.passwordTextField.keyboardType = .asciiCapable
+//        self.passwordTextField.isSecureTextEntry = true
+//        self.passwordTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+//        self.passwordTextField.placeholder = "密码"
+//        self.passwordTextField.clearButtonMode = .always
+//
+//        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.withRenderingMode(.alwaysTemplate));
+//        passwordIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+//        passwordIconImageView.contentMode = .scaleAspectFit
+//        userNameIconImageView.tintColor = UIColor.white
+//        self.passwordTextField.leftView = passwordIconImageView
+//        self.passwordTextField.leftViewMode = .always
+//
+//        vibrancyView.contentView.addSubview(self.passwordTextField);
+//
+//        self.passwordTextField.snp.makeConstraints{ (make) -> Void in
+//            make.top.equalTo(self.userNameTextField.snp.bottom).offset(15)
+//            make.centerX.equalTo(vibrancyView)
+//            make.width.equalTo(300)
+//            make.height.equalTo(38)
+//        }
+//
+//
+//        self.codeTextField.textColor = UIColor.white
+//        self.codeTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
+//        self.codeTextField.font = v2Font(15)
+//        self.codeTextField.layer.cornerRadius = 3;
+//        self.codeTextField.layer.borderWidth = 0.5
+//        self.codeTextField.keyboardType = .asciiCapable
+//        self.codeTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+//        self.codeTextField.placeholder = "验证码"
+//        self.codeTextField.clearButtonMode = .always
+//
+//        let codeTextFieldImageView = UIImageView(image: UIImage(named: "ic_vpn_key")!.withRenderingMode(.alwaysTemplate));
+//        codeTextFieldImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+//        codeTextFieldImageView.contentMode = .scaleAspectFit
+//        codeTextFieldImageView.tintColor = UIColor.white
+//        self.codeTextField.leftView = codeTextFieldImageView
+//        self.codeTextField.leftViewMode = .always
+//
+//        vibrancyView.contentView.addSubview(self.codeTextField)
+//
+//        self.codeTextField.snp.makeConstraints { (make) in
+//            make.top.equalTo(self.passwordTextField.snp.bottom).offset(15)
+//            make.left.equalTo(passwordTextField)
+//            make.width.equalTo(180)
+//            make.height.equalTo(38)
+//        }
+//
+//        self.codeImageView.backgroundColor = UIColor.white
+//        self.codeImageView.layer.cornerRadius = 3;
+//        self.codeImageView.clipsToBounds = true
+//        self.codeImageView.isUserInteractionEnabled = true
+//        vibrancyView.contentView.addSubview(self.codeImageView)
+//        self.codeImageView.snp.makeConstraints { (make) in
+//            make.top.bottom.equalTo(self.codeTextField)
+//            make.left.equalTo(self.codeTextField.snp.right).offset(-5)
+//            make.right.equalTo(self.passwordTextField)
+//        }
+//        self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshCode)))
+//
+//        self.loginButton.setTitle("登  录", for: UIControlState())
+//        self.loginButton.titleLabel!.font = v2Font(20)
+//        self.loginButton.layer.cornerRadius = 3;
+//        self.loginButton.layer.borderWidth = 0.5
+//        self.loginButton.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+//        vibrancyView.contentView.addSubview(self.loginButton);
+//
+//        self.loginButton.snp.makeConstraints{ (make) -> Void in
+//            make.top.equalTo(self.codeTextField.snp.bottom).offset(20)
+//            make.centerX.equalTo(vibrancyView)
+//            make.width.equalTo(300)
+//            make.height.equalTo(38)
+//        }
+//        let codeProblem = UILabel()
+//        codeProblem.alpha = 0.5
+//        codeProblem.font = v2Font(12)
+//        codeProblem.text = "验证码不显示?"
+//        codeProblem.isUserInteractionEnabled = true
+//        codeProblem.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(codeProblemClick)))
+//        vibrancyView.contentView.addSubview(codeProblem);
+//
+//        codeProblem.snp.makeConstraints{ (make) -> Void in
+//            make.top.equalTo(self.loginButton.snp.bottom).offset(14)
+//            make.right.equalTo(self.loginButton)
+//        }
+//
+//        let footLabel = UILabel()
+//        footLabel.alpha = 0.5
+//        footLabel.font = v2Font(12)
+//        footLabel.text = "© 2018 Fin"
+//
+//        vibrancyView.contentView.addSubview(footLabel);
+//
+//        footLabel.snp.makeConstraints{ (make) -> Void in
+//            make.bottom.equalTo(vibrancyView).offset(-20)
+//            make.centerX.equalTo(vibrancyView)
+//        }
+//
+//        self.cancelButton.contentMode = .center
+//        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+//        vibrancyView.contentView.addSubview(cancelButton)
+//        cancelButton.snp.makeConstraints{ (make) -> Void in
+//            make.centerY.equalTo(footLabel)
+//            make.right.equalTo(vibrancyView).offset(-5)
+//            make.width.height.equalTo(40)
+//        }
+//
+//        refreshCode()
+//    }
+//
+//    @objc func codeProblemClick(){
+//        UIAlertView(title: "验证码不显示？", message: "如果验证码输错次数过多，V2EX将暂时禁止你的登录。", delegate: nil, cancelButtonTitle: "知道了").show()
+//    }
+//}
+
 extension LoginViewController {
     func setupView(){
-        self.view.backgroundColor = UIColor.black
-
-        self.backgroundImageView.image = UIImage(named: "32.jpg")
-        self.backgroundImageView.frame = self.view.frame
-        self.backgroundImageView.contentMode = .scaleToFill
-        self.view.addSubview(self.backgroundImageView)
-        backgroundImageView.alpha = 0
-
-        self.frostedView.frame = self.view.frame
-        self.view.addSubview(self.frostedView)
-
-        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
-        let vibrancyView = UIVisualEffectView(effect: vibrancy)
-        vibrancyView.isUserInteractionEnabled = true
-        vibrancyView.frame = self.frostedView.frame
-        self.frostedView.contentView.addSubview(vibrancyView)
-
+        self.view.backgroundColor = UIColor.white
+        
+//        self.backgroundImageView.image = UIImage(named: "32.jpg")
+//        self.backgroundImageView.frame = self.view.frame
+//        self.backgroundImageView.contentMode = .scaleToFill
+//        self.view.addSubview(self.backgroundImageView)
+//        backgroundImageView.alpha = 0
+        
+//        self.frostedView.frame = self.view.frame
+//        self.view.addSubview(self.frostedView)
+//
+//        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+//        let vibrancyView = UIVisualEffectView(effect: vibrancy)
+//        vibrancyView.isUserInteractionEnabled = true
+//        vibrancyView.frame = self.frostedView.frame
+//        self.frostedView.contentView.addSubview(vibrancyView)
+        
         let v2exLabel = UILabel()
         v2exLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 25)!;
-        v2exLabel.text = "Explore"
-        vibrancyView.contentView.addSubview(v2exLabel);
+        v2exLabel.text = "AVA"
+        self.view.addSubview(v2exLabel);
         v2exLabel.snp.makeConstraints{ (make) -> Void in
-            make.centerX.equalTo(vibrancyView)
-            make.top.equalTo(vibrancyView).offset(40)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(self.view).offset(40)
         }
-
+        
         let v2exSummaryLabel = UILabel()
         v2exSummaryLabel.font = v2Font(13);
-        v2exSummaryLabel.text = "创意者的工作社区"
-        vibrancyView.contentView.addSubview(v2exSummaryLabel);
+        v2exSummaryLabel.text = "freedom"
+        self.view.addSubview(v2exSummaryLabel);
         v2exSummaryLabel.snp.makeConstraints{ (make) -> Void in
-            make.centerX.equalTo(vibrancyView)
+            make.centerX.equalTo(self.view)
             make.top.equalTo(v2exLabel.snp.bottom).offset(2)
         }
-
+        
         self.userNameTextField.autocorrectionType = UITextAutocorrectionType.no
         self.userNameTextField.autocapitalizationType = UITextAutocapitalizationType.none
         
-        self.userNameTextField.textColor = UIColor.white
+        self.userNameTextField.textColor = UIColor.gray
         self.userNameTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
         self.userNameTextField.font = v2Font(15)
         self.userNameTextField.layer.cornerRadius = 3;
         self.userNameTextField.layer.borderWidth = 0.5
         self.userNameTextField.keyboardType = .asciiCapable
-        self.userNameTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+        self.userNameTextField.layer.borderColor = UIColor(white: 0.5, alpha: 0.8).cgColor;
         self.userNameTextField.placeholder = "用户名"
         self.userNameTextField.clearButtonMode = .always
-
+        
         let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.withRenderingMode(.alwaysTemplate));
         userNameIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
         userNameIconImageView.tintColor = UIColor.white
         userNameIconImageView.contentMode = .scaleAspectFit
+        userNameIconImageView.tintColor = UIColor.gray
         self.userNameTextField.leftView = userNameIconImageView
         self.userNameTextField.leftViewMode = .always
-
-        vibrancyView.contentView.addSubview(self.userNameTextField);
-
+        
+        self.view.addSubview(self.userNameTextField);
+        
         self.userNameTextField.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(v2exSummaryLabel.snp.bottom).offset(25)
-            make.centerX.equalTo(vibrancyView)
+            make.centerX.equalTo(self.view)
             make.width.equalTo(300)
             make.height.equalTo(38)
         }
-
-        self.passwordTextField.textColor = UIColor.white
+        
+        self.passwordTextField.textColor = UIColor.gray
         self.passwordTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
         self.passwordTextField.font = v2Font(15)
         self.passwordTextField.layer.cornerRadius = 3;
         self.passwordTextField.layer.borderWidth = 0.5
         self.passwordTextField.keyboardType = .asciiCapable
         self.passwordTextField.isSecureTextEntry = true
-        self.passwordTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+        self.passwordTextField.layer.borderColor = UIColor(white: 0.5, alpha: 0.8).cgColor;
         self.passwordTextField.placeholder = "密码"
         self.passwordTextField.clearButtonMode = .always
-
+        
         let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.withRenderingMode(.alwaysTemplate));
         passwordIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
         passwordIconImageView.contentMode = .scaleAspectFit
-        userNameIconImageView.tintColor = UIColor.white
+        passwordIconImageView.tintColor = UIColor.gray
         self.passwordTextField.leftView = passwordIconImageView
         self.passwordTextField.leftViewMode = .always
-
-        vibrancyView.contentView.addSubview(self.passwordTextField);
-
+        
+        self.view.addSubview(self.passwordTextField);
+        
         self.passwordTextField.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.userNameTextField.snp.bottom).offset(15)
-            make.centerX.equalTo(vibrancyView)
+            make.centerX.equalTo(self.view)
             make.width.equalTo(300)
             make.height.equalTo(38)
         }
         
         
-        self.codeTextField.textColor = UIColor.white
+        self.codeTextField.textColor = UIColor.gray
         self.codeTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
         self.codeTextField.font = v2Font(15)
         self.codeTextField.layer.cornerRadius = 3;
         self.codeTextField.layer.borderWidth = 0.5
         self.codeTextField.keyboardType = .asciiCapable
-        self.codeTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+        self.codeTextField.layer.borderColor = UIColor(white: 0.5, alpha: 0.8).cgColor;
         self.codeTextField.placeholder = "验证码"
         self.codeTextField.clearButtonMode = .always
         
         let codeTextFieldImageView = UIImageView(image: UIImage(named: "ic_vpn_key")!.withRenderingMode(.alwaysTemplate));
         codeTextFieldImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
         codeTextFieldImageView.contentMode = .scaleAspectFit
-        codeTextFieldImageView.tintColor = UIColor.white
+        codeTextFieldImageView.tintColor = UIColor.gray
         self.codeTextField.leftView = codeTextFieldImageView
         self.codeTextField.leftViewMode = .always
         
-        vibrancyView.contentView.addSubview(self.codeTextField)
+        self.view.addSubview(self.codeTextField)
         
         self.codeTextField.snp.makeConstraints { (make) in
             make.top.equalTo(self.passwordTextField.snp.bottom).offset(15)
@@ -319,58 +494,61 @@ extension LoginViewController {
         self.codeImageView.layer.cornerRadius = 3;
         self.codeImageView.clipsToBounds = true
         self.codeImageView.isUserInteractionEnabled = true
-        vibrancyView.contentView.addSubview(self.codeImageView)
+        self.view.addSubview(self.codeImageView)
         self.codeImageView.snp.makeConstraints { (make) in
             make.top.bottom.equalTo(self.codeTextField)
-            make.left.equalTo(self.codeTextField.snp.right).offset(-5)
+            make.left.equalTo(self.codeTextField.snp.right).offset(5)
             make.right.equalTo(self.passwordTextField)
         }
         self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshCode)))
         
         self.loginButton.setTitle("登  录", for: UIControlState())
+        self.loginButton.setTitleColor(UIColor(white: 0.2, alpha: 0.9), for: UIControlState())
         self.loginButton.titleLabel!.font = v2Font(20)
         self.loginButton.layer.cornerRadius = 3;
         self.loginButton.layer.borderWidth = 0.5
-        self.loginButton.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
-        vibrancyView.contentView.addSubview(self.loginButton);
-
+        self.loginButton.layer.borderColor = UIColor(white: 0.5, alpha: 0.8).cgColor;
+        self.view.addSubview(self.loginButton);
+        
         self.loginButton.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.codeTextField.snp.bottom).offset(20)
-            make.centerX.equalTo(vibrancyView)
+            make.centerX.equalTo(self.view)
             make.width.equalTo(300)
             make.height.equalTo(38)
         }
-        let codeProblem = UILabel()
-        codeProblem.alpha = 0.5
-        codeProblem.font = v2Font(12)
-        codeProblem.text = "验证码不显示?"
-        codeProblem.isUserInteractionEnabled = true
-        codeProblem.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(codeProblemClick)))
-        vibrancyView.contentView.addSubview(codeProblem);
+//        self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(login)))
 
-        codeProblem.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.loginButton.snp.bottom).offset(14)
-            make.right.equalTo(self.loginButton)
-        }
-
+//        let codeProblem = UILabel()
+//        codeProblem.alpha = 0.5
+//        codeProblem.font = v2Font(12)
+//        codeProblem.text = "验证码不显示?"
+//        codeProblem.isUserInteractionEnabled = true
+//        codeProblem.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(codeProblemClick)))
+//        self.view.addSubview(codeProblem);
+//
+//        codeProblem.snp.makeConstraints{ (make) -> Void in
+//            make.top.equalTo(self.loginButton.snp.bottom).offset(14)
+//            make.right.equalTo(self.loginButton)
+//        }
+        
         let footLabel = UILabel()
         footLabel.alpha = 0.5
         footLabel.font = v2Font(12)
         footLabel.text = "© 2018 Fin"
-
-        vibrancyView.contentView.addSubview(footLabel);
-
+        
+        self.view.addSubview(footLabel);
+        
         footLabel.snp.makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(vibrancyView).offset(-20)
-            make.centerX.equalTo(vibrancyView)
+            make.bottom.equalTo(self.view).offset(-20)
+            make.centerX.equalTo(self.view)
         }
-
+        
         self.cancelButton.contentMode = .center
         cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
-        vibrancyView.contentView.addSubview(cancelButton)
+        self.view.addSubview(cancelButton)
         cancelButton.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(footLabel)
-            make.right.equalTo(vibrancyView).offset(-5)
+            make.right.equalTo(self.view).offset(-5)
             make.width.height.equalTo(40)
         }
         
