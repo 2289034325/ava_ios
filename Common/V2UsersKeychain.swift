@@ -28,10 +28,11 @@ class V2UsersKeychain {
             assert(false, "username must not be 'nil'")
         }
     }
-    func addUser(_ username:String,password:String,avata:String? = nil) {
+    func addUser(_ username:String,password:String,avatar:String? = nil) {
         let user = LocalSecurityAccountModel()
         user.username = username
-        user.avatar = avata
+        user.password = password
+        user.avatar = avatar
         self.addUser(user)
     }
     
@@ -69,6 +70,9 @@ class V2UsersKeychain {
     
     func update(_ username:String,password:String? = nil,avatar:String? = nil){
         if let user = self.users[username] {
+            if let password = password {
+                user.password = password
+            }
             if let avatar = avatar {
                 user.avatar = avatar
             }
@@ -82,16 +86,19 @@ class V2UsersKeychain {
 /// 将会序列化后保存进keychain中的 账户model
 class LocalSecurityAccountModel :NSObject, NSCoding {
     var username:String?
+    var password:String?
     var avatar:String?
     override init(){
         
     }
     required init?(coder aDecoder: NSCoder){
         self.username = aDecoder.decodeObject(forKey: "username") as? String
+        self.password = aDecoder.decodeObject(forKey: "password") as? String
         self.avatar = aDecoder.decodeObject(forKey: "avatar") as? String
     }
     func encode(with aCoder: NSCoder){
         aCoder.encode(self.username, forKey: "username")
+        aCoder.encode(self.password, forKey: "password")
         aCoder.encode(self.avatar, forKey: "avatar")
     }
 }

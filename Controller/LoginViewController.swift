@@ -11,6 +11,7 @@ import OnePasswordExtension
 import Kingfisher
 import SVProgressHUD
 import Alamofire
+import ObjectMapper
 
 public typealias LoginSuccessHandel = (String) -> Void
 
@@ -101,30 +102,41 @@ class LoginViewController: UIViewController {
             return
         }
 
-        var loginTicket = V2EXSettings.sharedInstance["loginTicket"]!
+        var loginTicket = V2EXSettings.sharedInstance[kUserTicket]!
         
         V2BeginLoadingWithStatus("正在登录")
         UserModel.Login(userName,
                         password: password.md5(),
                         code:code,
                         loginTicket:loginTicket){
-            (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
+            (response:V2ValueResponse<[String:String]> , is2FALoggedIn:Bool) -> Void in
             if response.success {
                 V2Success("登录成功")
-                let token = response.value!
+                let res = response.value!
                 //保存下用户名
-                V2EXSettings.sharedInstance[kUserToken] = token
+                V2EXSettings.sharedInstance[kUserName] = userName
+
+                //保存token
+                var token = res["token"]!
+                V2EXSettings.sharedInstance[kUserToken] = res["token"]
 
                 //将用户名密码保存进keychain （安全保存)
-                V2UsersKeychain.sharedInstance.addUser(userName, password: password)
+                var avatar = res["avatar"]!
+                V2UsersKeychain.sharedInstance.addUser(userName, password: password, avatar: avatar)
 
+                var map = [String:String]()
+                map["username"] =  userName
+                map["password"] = password
+                map["avatar_large"] = avatar
+                map["avatar_normal"] = avatar
+                V2User.sharedInstance.user = Mapper<UserModel>().map(JSON: map)
                 //调用登录成功回调
                 if let handel = self.successHandel {
                     handel(token)
                 }
 
                 //获取用户信息
-                UserModel.getUserInfoFromToken(token,completionHandler: nil)
+//                UserModel.getUserInfoFromToken(token,completionHandler: nil)
                 self.dismiss(animated: true){
                     if is2FALoggedIn {
                         let twoFaViewController = TwoFAViewController()
@@ -147,8 +159,6 @@ class LoginViewController: UIViewController {
 
         let codeUrl = "https://ava.acxca.com/kaptcha/";
 
-//        let codeUrl = "https://www.baidu.com";
-
         Alamofire.request(codeUrl, headers: MOBILE_CLIENT_HEADERS).responseJSON{
             response in
 
@@ -157,8 +167,7 @@ class LoginViewController: UIViewController {
                 let jsonData = value as! Dictionary<String,String>
                 self.codeImageView.image = UIImage(data: Data(base64Encoded: jsonData["img"]!, options: .ignoreUnknownCharacters)!)
                 //保存ticket
-                V2EXSettings.sharedInstance["loginTicket"] = jsonData["ticket"]
-                print("JSON: \(jsonData)")
+                V2EXSettings.sharedInstance[kUserTicket] = jsonData["ticket"]
             case .failure(let error):
                 print(error)
                 SVProgressHUD.showError(withStatus: "刷新验证码失败")

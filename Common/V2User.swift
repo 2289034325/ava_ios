@@ -12,6 +12,7 @@ import Ji
 
 let kUserName = "me.fin.username"
 let kUserToken = "me.fin.token"
+let kUserTicket = "me.fin.ticket"
 
 class V2User: NSObject {
     static let sharedInstance = V2User()

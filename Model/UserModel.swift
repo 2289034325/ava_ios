@@ -106,7 +106,7 @@ extension UserModel{
 
     class func Login(_ username:String,password:String ,
                      code:String,loginTicket:String,
-                     completionHandler: @escaping (V2ValueResponse<String>, Bool) -> Void){
+                     completionHandler: @escaping (V2ValueResponse<[String:String]>, Bool) -> Void){
         let prames = [
             "password": password,
             "username": username
@@ -117,7 +117,7 @@ extension UserModel{
         //为安全，此处使用https
         var loginUrl = "https://ava.acxca.com/auth/login/"+loginTicket+"/"+code
         //登录
-        Alamofire.request(loginUrl,method:.post, parameters: prames, encoding: JSONEncoding.default,headers: dict).responseString{
+        Alamofire.request(loginUrl,method:.post, parameters: prames, encoding: JSONEncoding.default,headers: dict).responseJSON{
             (response) -> Void in
 
             var statusCode = response.response?.statusCode
@@ -130,8 +130,8 @@ extension UserModel{
                 completionHandler(V2ValueResponse(success: false,message: error_msg),false)
             }
             else{
-                var token = response.result.value!
-                completionHandler(V2ValueResponse(value: token, success: true),false)
+                var res = response.result.value as! [String:String]
+                completionHandler(V2ValueResponse(value: res, success: true),false)
             }
         }
     }
