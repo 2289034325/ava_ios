@@ -6,6 +6,8 @@
   Copyright © 2016 Fin. All rights reserved.
 */
 //右侧边栏
+dict     = "Dictionary";
+speech   = "Speech";
 tech     = "Technology";
 creative = "Creative";
 play     = "Play";

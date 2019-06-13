@@ -22,6 +22,7 @@ PODS:
   - Ji/Ji (2.1.0):
     - Ji/Ji-libxml
   - Ji/Ji-libxml (2.1.0)
+  - JWTDecode (2.3.0)
   - KeychainSwift (13.0.0)
   - Kingfisher (4.10.0)
   - KVOController (1.2.0)
@@ -53,6 +54,7 @@ DEPENDENCIES:
   - FDFullscreenPopGesture
   - FXBlurView
   - Ji
+  - JWTDecode (~> 2.3)
   - KeychainSwift
   - Kingfisher
   - KVOController
@@ -78,6 +80,7 @@ SPEC REPOS:
     - FDFullscreenPopGesture
     - FXBlurView
     - Ji
+    - JWTDecode
     - KeychainSwift
     - Kingfisher
     - KVOController
@@ -104,6 +107,7 @@ SPEC CHECKSUMS:
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: 21946da4e13425485ddd424edfaeeced0d80ad28
+  JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
   Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
@@ -118,6 +122,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 3bebd54be53fb9da8f92c4319385674751ea6a12
+PODFILE CHECKSUM: b69d7e65d5ed51c93a7dbb2725eb2f2cec6ff3c7
 
 COCOAPODS: 1.6.1

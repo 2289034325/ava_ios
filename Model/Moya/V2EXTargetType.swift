@@ -20,10 +20,13 @@ protocol V2EXTargetType: TargetType {
 
 extension V2EXTargetType {
     var headers: [String : String]? {
-        return MOBILE_CLIENT_HEADERS
+        var headers = MOBILE_CLIENT_HEADERS;
+        var token = V2EXSettings.sharedInstance[kUserToken]!
+        headers["Authorization"] = "Bearer \(token)";
+        return headers
     }
     var baseURL: URL {
-        return URL(string: "https://www.v2ex.com")!
+        return URL(string: "https://ava.acxca.com")!
     }
     
     var method: Moya.Method {

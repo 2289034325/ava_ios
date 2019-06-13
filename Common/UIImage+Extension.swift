@@ -42,4 +42,21 @@ extension UIImage {
         }
         return image!.withRenderingMode(.alwaysTemplate)
     }
+
+    class func getLangFlag(_ lang:Int) -> UIImage{
+        if(lang == 1){
+            return UIImage(named: "flg_en")!
+        }
+        else if(lang == 2){
+            return UIImage(named: "flg_jp")!
+        }
+        else if(lang == 3){
+            return UIImage(named: "flg_kr")!
+        }
+        else if(lang == 4){
+            return UIImage(named: "flg_fr")!
+        }
+
+        return UIImage(named: "flg_en")!
+    }
 }

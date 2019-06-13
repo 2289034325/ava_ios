@@ -25,6 +25,7 @@ def pods
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'DeviceKit'
+    pod 'JWTDecode', '~> 2.3'
 end
 
 target 'V2ex-Swift' do

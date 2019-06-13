@@ -13,6 +13,9 @@ import Crashlytics
 import DrawerController
 import SVProgressHUD
 
+import JWTDecode
+import ObjectMapper
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -27,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.frame=UIScreen.main.bounds;
         self.window?.makeKeyAndVisible();
 
-        let centerNav = V2EXNavigationController(rootViewController: HomeViewController());
+        let centerNav = V2EXNavigationController(rootViewController: UserBookViewController());
         let leftViewController = LeftViewController();
         let rightViewController = RightViewController();
         let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
@@ -41,30 +44,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         drawerController.maximumRightDrawerWidth = rightViewController.maximumRightDrawerWidth()
         drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.panningCenterView
         drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.all;
-        self.window?.rootViewController = drawerController;
+
+        //判断是否登陆，token是否过期
+        let loginController = LoginViewController();
+        if let token = V2EXSettings.sharedInstance[kUserToken] {
+            do {
+                let jwt = try decode(jwt: token)
+                let username = jwt.body["username"] as! String
+                let exp = jwt.body["exp"] as! Int
+                let now = Int(Date().timeIntervalSince1970)
+                if(exp < now){
+                    self.window?.rootViewController = loginController;
+                }
+                else {
+                    let su = V2UsersKeychain.sharedInstance.users[username]
+                    var map = [String:String]()
+                    map["username"] =  username
+                    map["password"] = su?.password
+                    map["avatar_large"] = su?.avatar
+                    map["avatar_normal"] = su?.avatar
+                    V2User.sharedInstance.user = Mapper<UserModel>().map(JSON: map)
+                    self.window?.rootViewController = drawerController;
+                }
+            }
+            catch let exp{
+                print(exp)
+            }
+        }
+        else{
+            self.window?.rootViewController = loginController;
+        }
+
+
 
         V2Client.sharedInstance.drawerController = drawerController
-        V2Client.sharedInstance.centerViewController = centerNav.viewControllers[0] as? HomeViewController
+        V2Client.sharedInstance.centerViewController = centerNav.viewControllers[0] as? UserBookViewController
         V2Client.sharedInstance.centerNavigation = centerNav
-        #if DEBUG
-            let fpsLabel = V2FPSLabel(frame: CGRect(x: 15, y: SCREEN_HEIGHT-40,width: 55,height: 20));
-            self.window?.addSubview(fpsLabel);
-        #else
-        #endif
-        
+
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
         SVProgressHUD.setDefaultMaskType(.none)
         SVProgressHUD.setMinimumDismissTimeInterval(1.5)
         SVProgressHUD.setContainerView(self.window!)
-        
-        /**
-        DEBUG 模式下不统计任何信息，如果你需要使用Crashlytics ，请自行申请账号替换我的Key
-        */
-        #if DEBUG
-        #else
-            Fabric.with([Crashlytics.self])
-        #endif
+
         return true
     }
     

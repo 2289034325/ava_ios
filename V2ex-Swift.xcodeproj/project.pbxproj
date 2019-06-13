@@ -112,7 +112,14 @@
 		2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */; };
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
 		641612FB6CCABA53083DADCF /* libPods-V2ex-Swift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B0F4B166DB726F4DA349A16 /* libPods-V2ex-Swift.a */; };
+		C2226BFCCAF7D63DEEF2C7DB /* PublicBookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */; };
 		C2265112502B0C95A4A16942 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C220453B026D8AF38BFC20F8 /* String+Extension.swift */; };
+		C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */; };
+		C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */; };
+		C22D6E134D969ECC7E6CB9AA /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2201CD3DE6FB98613F6F018 /* BookModel.swift */; };
+		C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2207FE837BC256E49304E3E /* DictionaryApi.swift */; };
+		C22F27E5D716D916EB554F48 /* UserBookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */; };
+		C22FCCAB57EAA0D181D17112 /* PublicBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2288C8026F0506633977DB2 /* PublicBookViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -227,7 +234,14 @@
 		52700928D2B67AA24FBCC006 /* Pods-V2ex-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		61362A97378A23EFC5EDD56C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8659DB1BFBA4E17FA63A4C14 /* Pods-V2ex-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.release.xcconfig"; sourceTree = "<group>"; };
+		C2201CD3DE6FB98613F6F018 /* BookModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
+		C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookListTableViewCell.swift; sourceTree = "<group>"; };
 		C220453B026D8AF38BFC20F8 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		C2207FE837BC256E49304E3E /* DictionaryApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryApi.swift; sourceTree = "<group>"; };
+		C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		C2288C8026F0506633977DB2 /* PublicBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookViewController.swift; sourceTree = "<group>"; };
+		C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookViewController.swift; sourceTree = "<group>"; };
+		C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				0620DA02214F56FC00761FBB /* TopicListApi.swift */,
+				C2207FE837BC256E49304E3E /* DictionaryApi.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -294,6 +309,7 @@
 				06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */,
 				06E52F771E012A8000E69084 /* UIView+Extension.swift */,
 				C220453B026D8AF38BFC20F8 /* String+Extension.swift */,
+				C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -390,6 +406,8 @@
 				061876881C7C15BC002E9C33 /* PodsTableViewController.swift */,
 				0618768E1C7C6A50002E9C33 /* SettingsTableViewController.swift */,
 				06744A521E49D4C0001E3D1B /* TwoFAViewController.swift */,
+				C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */,
+				C2288C8026F0506633977DB2 /* PublicBookViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -408,6 +426,7 @@
 				0611DE5A1C5F3ACA00933964 /* MemberModel.swift */,
 				06E145A31C60A86D00BDD63D /* NodeModel.swift */,
 				0678F47820CE8DB80048A64B /* UserApi.swift */,
+				C2201CD3DE6FB98613F6F018 /* BookModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -427,6 +446,8 @@
 				064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */,
 				0684A1E11C5B4BA500B12437 /* NotificationTableViewCell.swift */,
 				0618768A1C7C19F0002E9C33 /* PodCellTableViewCell.swift */,
+				C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */,
+				C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -768,6 +789,13 @@
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
 				0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */,
 				C2265112502B0C95A4A16942 /* String+Extension.swift in Sources */,
+				C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */,
+				C22D6E134D969ECC7E6CB9AA /* BookModel.swift in Sources */,
+				C22F27E5D716D916EB554F48 /* UserBookListTableViewCell.swift in Sources */,
+				C2226BFCCAF7D63DEEF2C7DB /* PublicBookListTableViewCell.swift in Sources */,
+				C22FCCAB57EAA0D181D17112 /* PublicBookViewController.swift in Sources */,
+				C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */,
+				C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

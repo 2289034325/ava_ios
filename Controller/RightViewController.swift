@@ -11,17 +11,6 @@ import FXBlurView
 let RightViewControllerRightNodes = [
     rightNodeModel(nodeName: NSLocalizedString("tech" ), nodeTab: "tech"),
     rightNodeModel(nodeName: NSLocalizedString("creative" ), nodeTab: "creative"),
-    rightNodeModel(nodeName: NSLocalizedString("play" ), nodeTab: "play"),
-    rightNodeModel(nodeName: NSLocalizedString("apple" ), nodeTab: "apple"),
-    rightNodeModel(nodeName: NSLocalizedString("jobs" ), nodeTab: "jobs"),
-    rightNodeModel(nodeName: NSLocalizedString("deals" ), nodeTab: "deals"),
-    rightNodeModel(nodeName: NSLocalizedString("city" ), nodeTab: "city"),
-    rightNodeModel(nodeName: NSLocalizedString("qna" ), nodeTab: "qna"),
-    rightNodeModel(nodeName: NSLocalizedString("hot"), nodeTab: "hot"),
-    rightNodeModel(nodeName: NSLocalizedString("all"), nodeTab: "all"),
-    rightNodeModel(nodeName: NSLocalizedString("r2" ), nodeTab: "r2"),
-    rightNodeModel(nodeName: NSLocalizedString("nodes" ), nodeTab: "nodes"),
-    rightNodeModel(nodeName: NSLocalizedString("members" ), nodeTab: "members"),
 ]
 class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     let rightNodes = RightViewControllerRightNodes
@@ -49,11 +38,11 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         
-        var currentTab = V2EXSettings.sharedInstance[kHomeTab]
-        if currentTab == nil {
-            currentTab = "all"
-        }
-        self.currentSelectedTabIndex = rightNodes.index { $0.nodeTab == currentTab }!
+//        var currentTab = V2EXSettings.sharedInstance[kHomeTab]
+//        if currentTab == nil {
+//            currentTab = "all"
+//        }
+//        self.currentSelectedTabIndex = rightNodes.index { $0.nodeTab == currentTab }!
         
         self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
@@ -121,7 +110,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let node = self.rightNodes[indexPath.row];
-        V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
+//        V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
         V2Client.sharedInstance.centerViewController?.refreshPage()
         V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
     }
