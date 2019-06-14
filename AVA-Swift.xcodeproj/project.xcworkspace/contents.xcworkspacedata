@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:V2ex-Swift.xcodeproj">
+      location = "self:AVA-Swift.xcodeproj">
    </FileRef>
 </Workspace>

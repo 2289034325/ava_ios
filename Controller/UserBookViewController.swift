@@ -78,7 +78,7 @@ class UserBookViewController: UIViewController {
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        rightButton.setImage(UIImage.imageUsedTemplateMode("plus")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(UserBookViewController.rightClick), for: .touchUpInside)
 
@@ -88,8 +88,8 @@ class UserBookViewController: UIViewController {
     }
     //打开公共词书页面，选择词书
     @objc func rightClick(){
-
-//        V2Client.sharedInstance.drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
+        let publicBookController = PublicBookViewController()
+        self.navigationController?.pushViewController(publicBookController, animated: true)
     }
     
     func refreshPage(){

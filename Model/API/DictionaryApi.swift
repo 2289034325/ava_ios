@@ -18,6 +18,8 @@ enum DictionaryApi {
 
     //获取我的词书
     case getMyBooks()
+    //获取公共词书
+    case getPublicBooks()
 }
 
 extension DictionaryApi: V2EXTargetType {
@@ -34,6 +36,8 @@ extension DictionaryApi: V2EXTargetType {
         case let .nodeTopicList(_, page):
             return ["p": page]
         case let .getMyBooks():
+            return nil
+        case let .getPublicBooks():
             return nil
 //        default:
 //            return nil
@@ -53,6 +57,8 @@ extension DictionaryApi: V2EXTargetType {
             return "/go/\(nodeName)"
         case let .getMyBooks():
             return "/dictionary/book/mybooks"
+        case let .getPublicBooks():
+            return "/dictionary/book/publicbooks"
 //        default:
 //            return ""
         }

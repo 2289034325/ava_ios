@@ -16,7 +16,9 @@ class BookModel: BaseJsonModel {
     var id:String?
     var lang:Int?
     var name:String?
+    var description:String?
     var word_count:Int?
+    var user_count:Int?
     var finished_count:Int?
     var learning_count:Int?
     var notstart_count:Int?
@@ -36,7 +38,9 @@ class BookModel: BaseJsonModel {
         id <- map["id"]
         lang <- map["lang"]
         name <- map["name"]
+        description <- map["description"]
         word_count <- map["word_count"]
+        user_count <- map["user_count"]
         finished_count <- map["finished_count"]
         learning_count <- map["learning_count"]
         notstart_count <- map["notstart_count"]

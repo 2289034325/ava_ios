@@ -28,7 +28,7 @@ class PublicBookListTableViewCell: UITableViewCell {
     /// 语言国旗
     var avatarImageView: UIImageView = {
         let imageview = UIImageView()
-        imageview.contentMode=UIViewContentMode.scaleAspectFit
+        imageview.contentMode=UIViewContentMode.scaleToFill
         return imageview
     }()
 
@@ -38,11 +38,16 @@ class PublicBookListTableViewCell: UITableViewCell {
         label.font = v2Font(14)
         return label;
     }()
-    /// 上次学习日期和数量
-    var dateAndLastLearnedLabel: UILabel = {
-        let label = UILabel()
-        label.font=v2Font(12)
+    /// 用户数量
+    var userCountLabel: YYLabel = {
+        let label = YYLabel()
+        label.font=v2Font(10)
         return label
+    }()
+    var userCountIconImageView: UIImageView = {
+        let imageview = UIImageView(image: UIImage(named: "users"))
+        imageview.contentMode = .scaleAspectFit
+        return imageview
     }()
     /// 单词数量
     var wordCountLabel: UILabel = {
@@ -51,20 +56,23 @@ class PublicBookListTableViewCell: UITableViewCell {
         return label
     }()
     var wordCountIconImageView: UIImageView = {
-        let imageview = UIImageView(image: UIImage(named: "reply_n"))
+        let imageview = UIImageView(image: UIImage(named: "book"))
         imageview.contentMode = .scaleAspectFit
         return imageview
     }()
 
-    /// 已掌握，学习中，未学习
-    var progressLabel: YYLabel = {
+    /// 描述
+    var descriptionLabel: YYLabel = {
         let label = YYLabel()
         label.textVerticalAlignment = .top
         label.font=v2Font(18)
         label.displaysAsynchronously = true
         label.numberOfLines=0
+        label.preferredMaxLayoutWidth = SCREEN_WIDTH-24
         return label
     }()
+
+    var descriptionLayout: YYTextLayout?
 
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView = UIView()
@@ -86,12 +94,16 @@ class PublicBookListTableViewCell: UITableViewCell {
         self.contentView .addSubview(self.contentPanel);
         self.contentPanel.addSubview(self.bookNameLabel);
         self.contentPanel.addSubview(self.avatarImageView);
-        self.contentPanel.addSubview(self.dateAndLastLearnedLabel);
+        self.contentPanel.addSubview(self.userCountLabel);
+        self.contentPanel.addSubview(self.userCountIconImageView);
         self.contentPanel.addSubview(self.wordCountLabel);
         self.contentPanel.addSubview(self.wordCountIconImageView);
-        self.contentPanel.addSubview(self.progressLabel);
+        self.contentPanel.addSubview(self.descriptionLabel);
 
         self.setupLayout()
+
+        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        self.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     fileprivate func setupLayout(){
@@ -106,9 +118,14 @@ class PublicBookListTableViewCell: UITableViewCell {
             make.left.equalTo(self.avatarImageView.snp.right).offset(10);
             make.top.equalTo(self.avatarImageView);
         }
-        self.dateAndLastLearnedLabel.snp.makeConstraints{ (make) -> Void in
+        self.userCountIconImageView.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.avatarImageView);
+            make.width.height.equalTo(13);
             make.left.equalTo(self.bookNameLabel);
+        }
+        self.userCountLabel.snp.makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.avatarImageView);
+            make.left.equalTo(self.userCountIconImageView.snp.right).offset(3);
         }
         self.wordCountLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.bookNameLabel);
@@ -119,14 +136,14 @@ class PublicBookListTableViewCell: UITableViewCell {
             make.width.height.equalTo(18);
             make.right.equalTo(self.wordCountLabel.snp.left).offset(-2);
         }
-        self.progressLabel.snp.makeConstraints{ (make) -> Void in
+        self.descriptionLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
             make.right.equalTo(self.contentPanel).offset(-12);
             make.bottom.equalTo(self.contentView).offset(-8)
         }
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp.bottom).offset(-8);
+            make.bottom.equalTo(self.contentView.snp.bottom).offset(-1);
         }
     }
 
@@ -146,20 +163,18 @@ class PublicBookListTableViewCell: UITableViewCell {
 
     func superBind(_ model:BookModel){
         self.bookNameLabel.text = model.name;
-//        if let layout = model.topicTitleLayout {
-//            //如果新旧model标题相同,则不需要赋值
-//            //不然layout需要重新绘制，会造成刷新闪烁
-//            if layout.text.string == self.itemModel?.topicTitleLayout?.text.string {
-//                return
-//            }
-//            else{
-//                self.topicTitleLabel.textLayout = layout
-//            }
-//        }
-//        if let avata = model.avata {
-//            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
-//        }
         self.wordCountLabel.text = String(model.word_count!);
+        self.avatarImageView.image = UIImage.getLangFlag(model.lang!)
+        self.userCountLabel.text = String(model.user_count!)
+        self.descriptionLabel.text = model.description
+
+        //计算描述label的高度
+        let attributedString = NSMutableAttributedString(string: model.description!,
+                attributes: [
+                    NSAttributedStringKey.font:v2Font(18)
+                ])
+        self.descriptionLayout = YYTextLayout(containerSize: CGSize(width: SCREEN_WIDTH-24, height: 9999), text: attributedString)
+
 
         self.itemModel = model
     }

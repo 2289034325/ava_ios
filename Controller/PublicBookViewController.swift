@@ -16,6 +16,7 @@ import Ji
 import MJRefresh
 
 import SVProgressHUD
+import YYText
 
 
 class PublicBookViewController: UIViewController {
@@ -27,7 +28,7 @@ class PublicBookViewController: UIViewController {
         tableView.cancelEstimatedHeight()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
 
-        regClass(tableView, cell: UserBookListTableViewCell.self)
+        regClass(tableView, cell: PublicBookListTableViewCell.self)
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -36,7 +37,7 @@ class PublicBookViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Learning"
+        self.title = "Public Books"
         self.setupNavigationItem()
 
         //监听程序即将进入前台运行、进入后台休眠 事件
@@ -69,18 +70,18 @@ class PublicBookViewController: UIViewController {
         V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
     }
     func setupNavigationItem(){
-        let leftButton = NotificationMenuButton()
-        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-        leftButton.addTarget(self, action: #selector(PublicBookViewController.leftClick), for: .touchUpInside)
-
-
-        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        rightButton.contentMode = .center
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: #selector(PublicBookViewController.rightClick), for: .touchUpInside)
+//        let leftButton = NotificationMenuButton()
+//        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
+//        leftButton.addTarget(self, action: #selector(PublicBookViewController.leftClick), for: .touchUpInside)
+//
+//
+//        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+//        rightButton.contentMode = .center
+//        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+//        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+//        rightButton.addTarget(self, action: #selector(PublicBookViewController.rightClick), for: .touchUpInside)
 
     }
     @objc func leftClick(){
@@ -96,7 +97,7 @@ class PublicBookViewController: UIViewController {
         self.tableView.mj_header.beginRefreshing();
 
 //        V2EXSettings.sharedInstance[kHomeTab] = tab
-        self.tableView.mj_header.endRefreshing();
+//        self.tableView.mj_header.endRefreshing();
     }
     func refresh(){
 
@@ -105,8 +106,28 @@ class PublicBookViewController: UIViewController {
             self.tableView.mj_footer.endRefreshing()
         }
 
-        //获取用户词书列表
-        self.tableView.mj_header.endRefreshing()
+        //获取公共词书列表
+        _ = DictionaryApi.provider
+                .requestAPI(.getPublicBooks())
+                .mapResponseToObjArray(BookModel.self)
+                .subscribe(onNext: { (response) in
+                    self.bookList = response
+                    self.tableView.reloadData()
+
+                    //判断标签是否能加载下一页, 不能就提示下
+                    let refreshFooter = self.tableView.mj_footer as! V2RefreshFooter
+
+                    refreshFooter.noMoreDataStateString = nil
+                    refreshFooter.resetNoMoreData()
+
+                    //重置page
+                    self.currentPage = 0
+                    self.tableView.mj_header.endRefreshing()
+
+                }, onError: { (error) in
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                    self.tableView.mj_header.endRefreshing()
+                })
 
     }
 
@@ -133,6 +154,18 @@ class PublicBookViewController: UIViewController {
     @objc func applicationDidEnterBackground(){
         PublicBookViewController.lastLeaveTime = Date()
     }
+
+    func getDescriptionHeight(_ model:BookModel)->CGFloat{
+        //计算描述label的高度
+        let attributedString = NSMutableAttributedString(string: model.description!,
+                attributes: [
+                    NSAttributedStringKey.font:v2Font(18)
+                ])
+        let descriptionLayout = YYTextLayout(containerSize: CGSize(width: SCREEN_WIDTH-24, height: 9999), text: attributedString)
+        let descriptionHeight = descriptionLayout?.textBoundingRect.size.height ?? 0
+
+        return descriptionHeight
+    }
 }
 
 
@@ -146,16 +179,16 @@ extension PublicBookViewController:UITableViewDataSource,UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = self.bookList![indexPath.row]
-//        let titleHeight = item.topicTitleLayout?.textBoundingRect.size.height ?? 0
-        let titleHeight = 20
-        //          上间隔   头像高度  头像下间隔       标题高度    标题下间隔 cell间隔
-        let height = 12    +  35     +  12      + titleHeight   + 12      + 8
+        let descriptionHeight = getDescriptionHeight(item)
+
+        //          上间隔   头像高度  头像下间隔       描述高度    标题下间隔   cell间隔
+        let height = 12 +     35 +       12 +   descriptionHeight + 12 +      8
 
         return CGFloat(height)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = getCell(tableView, cell: UserBookListTableViewCell.self, indexPath: indexPath);
+        let cell = getCell(tableView, cell: PublicBookListTableViewCell.self, indexPath: indexPath);
         cell.bind(self.bookList![indexPath.row]);
         return cell;
     }
