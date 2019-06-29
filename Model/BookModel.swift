@@ -13,7 +13,7 @@ import ObjectMapper
 import Foundation
 
 class BookModel: BaseJsonModel {
-    var id:String?
+    var id:Int?
     var lang:Int?
     var name:String?
     var description:String?

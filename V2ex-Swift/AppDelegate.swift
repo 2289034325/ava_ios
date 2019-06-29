@@ -30,20 +30,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.frame=UIScreen.main.bounds;
         self.window?.makeKeyAndVisible();
 
-        let centerNav = V2EXNavigationController(rootViewController: UserBookViewController());
-        let leftViewController = LeftViewController();
-        let rightViewController = RightViewController();
-        let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
-        
-        self.window?.themeChangedHandler = {[weak self] (style) -> Void in
-            self?.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
-            drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
-        }
-        
-        drawerController.maximumLeftDrawerWidth=230;
-        drawerController.maximumRightDrawerWidth = rightViewController.maximumRightDrawerWidth()
-        drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.panningCenterView
-        drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.all;
+//        let centerNav = V2EXNavigationController(rootViewController: UserBookViewController());
+//        let leftViewController = LeftViewController();
+//        let rightViewController = RightViewController();
+//        let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
+//
+//
+//        self.window?.themeChangedHandler = {[weak self] (style) -> Void in
+//            self?.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
+//            drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+//        }
+//
+//        drawerController.maximumLeftDrawerWidth=230;
+//        drawerController.maximumRightDrawerWidth = rightViewController.maximumRightDrawerWidth()
+//        drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.panningCenterView
+//        drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.all;
 
         //判断是否登陆，token是否过期
         let loginController = LoginViewController();
@@ -64,7 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     map["avatar_large"] = su?.avatar
                     map["avatar_normal"] = su?.avatar
                     V2User.sharedInstance.user = Mapper<UserModel>().map(JSON: map)
-                    self.window?.rootViewController = drawerController;
+                    let rootNav = LayoutViewController()
+                    self.window?.rootViewController = rootNav;
                 }
             }
             catch let exp{
@@ -77,9 +79,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
-        V2Client.sharedInstance.drawerController = drawerController
-        V2Client.sharedInstance.centerViewController = centerNav.viewControllers[0] as? UserBookViewController
-        V2Client.sharedInstance.centerNavigation = centerNav
+//        V2Client.sharedInstance.drawerController = drawerController
+//        V2Client.sharedInstance.centerViewController = centerNav.viewControllers[0] as? UserBookViewController
+//        V2Client.sharedInstance.centerNavigation = centerNav
 
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))

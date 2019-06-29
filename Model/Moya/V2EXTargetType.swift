@@ -94,7 +94,30 @@ extension V2EXTargetType {
 
 extension RxSwift.Reactive where Base: MoyaProviderType {
     public func requestAPI(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Observable<Response> {
-        return self.request(token, callbackQueue: callbackQueue).asObservable()
+
+        return self.custom_request(token, callbackQueue: callbackQueue).asObservable()
+//        let res = self.request(token, callbackQueue: callbackQueue).asObservable()
+//        res.subscribe(onNext:{(response) in
+//            let code = response.statusCode
+//            let msg = response.response?.allHeaderFields["statusCode"] as! String
+//            if(code != 200){
+//                V2Error(msg)
+//            }
+//        },onError:{(error) in
+//            V2Error(error.rawString())
+//        })
+//
+//        res.do(onNext: {(response) in
+//            let code = response.statusCode
+//            let msg = response.response?.allHeaderFields["statusCode"] as! String
+//            if(code != 200){
+//                V2Error(msg)
+//                res
+//            }
+//
+//        })
+//
+//        return res
     }
 }
 

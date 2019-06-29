@@ -20,6 +20,9 @@ enum DictionaryApi {
     case getMyBooks()
     //获取公共词书
     case getPublicBooks()
+
+    //将公共词书加入用户词书
+    case addUserBook(book_id: Int)
 }
 
 extension DictionaryApi: V2EXTargetType {
@@ -39,6 +42,8 @@ extension DictionaryApi: V2EXTargetType {
             return nil
         case let .getPublicBooks():
             return nil
+        case let .addUserBook(book_id):
+            return ["book_id":book_id]
 //        default:
 //            return nil
         }
@@ -59,6 +64,8 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/mybooks"
         case let .getPublicBooks():
             return "/dictionary/book/publicbooks"
+        case let .addUserBook(book_id):
+            return "/dictionary/book/adduserbook/\(book_id)"
 //        default:
 //            return ""
         }

@@ -36,13 +36,14 @@ class UserBookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "My Books"
+//        self.title = "My Books"
+//        self.navigationItem.title = "我的词书"
         self.setupNavigationItem()
-        
+
         //监听程序即将进入前台运行、进入后台休眠 事件
 //        NotificationCenter.default.addObserver(self, selector: #selector(UserBookViewController.applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(UserBookViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        
+
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
@@ -51,35 +52,37 @@ class UserBookViewController: UIViewController {
             self?.refresh()
         })
         self.refreshPage()
-        
+
         let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
         })
         footer?.centerOffset = -4
         self.tableView.mj_footer = footer
-        
+
         self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
+//        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
     }
     override func viewWillDisappear(_ animated: Bool) {
-        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
+//        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
     }
     func setupNavigationItem(){
-        let leftButton = NotificationMenuButton()
-        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-        leftButton.addTarget(self, action: #selector(UserBookViewController.leftClick), for: .touchUpInside)
+        self.navigationController!.navigationBar.topItem?.title = "我的词书"
+
+//        let leftButton = NotificationMenuButton()
+//        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
+//        leftButton.addTarget(self, action: #selector(UserBookViewController.leftClick), for: .touchUpInside)
         
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
         rightButton.setImage(UIImage.imageUsedTemplateMode("plus")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(UserBookViewController.rightClick), for: .touchUpInside)
 
     }
@@ -89,6 +92,7 @@ class UserBookViewController: UIViewController {
     //打开公共词书页面，选择词书
     @objc func rightClick(){
         let publicBookController = PublicBookViewController()
+        publicBookController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(publicBookController, animated: true)
     }
     
@@ -194,7 +198,7 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
 //        }
     }
     
-    @objc func ignoreTopicHandler(_ id:String) {
+    @objc func ignoreTopicHandler(_ id:Int) {
         let index = self.bookList?.index(where: {$0.id == id })
         if index == nil {
             return

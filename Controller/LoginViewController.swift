@@ -135,16 +135,23 @@ class LoginViewController: UIViewController {
                     handel(token)
                 }
 
+                let userBooksController = UserBookViewController()
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                V2Client.sharedInstance.centerViewController!.navigationController?.present(userBooksController, animated: true, completion: nil);
+                appDelegate.window!.rootViewController = V2Client.sharedInstance.drawerController
+
                 //获取用户信息
 //                UserModel.getUserInfoFromToken(token,completionHandler: nil)
-                self.dismiss(animated: true){
+                self.dismiss(animated: true,completion:{
 //                    if is2FALoggedIn {
 //                        let twoFaViewController = TwoFAViewController()
 //                        V2Client.sharedInstance.centerViewController!.navigationController?.present(twoFaViewController, animated: true, completion: nil);
 //                    }
-                    let userBooksController = UserBookViewController()
-                    V2Client.sharedInstance.centerViewController!.navigationController?.present(userBooksController, animated: true, completion: nil);
-                }
+//                    let userBooksController = UserBookViewController()
+//                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//                    V2Client.sharedInstance.centerViewController!.navigationController?.present(userBooksController, animated: true, completion: nil);
+//                    appDelegate.window!.rootViewController = V2Client.sharedInstance.centerViewController
+                })
             }
             else{
                 V2Error(response.message)

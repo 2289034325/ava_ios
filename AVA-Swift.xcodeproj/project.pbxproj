@@ -113,9 +113,12 @@
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
 		641612FB6CCABA53083DADCF /* libPods-V2ex-Swift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B0F4B166DB726F4DA349A16 /* libPods-V2ex-Swift.a */; };
 		C2226BFCCAF7D63DEEF2C7DB /* PublicBookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */; };
+		C2239D71F7635AA9B09D4F1C /* Reactive+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */; };
 		C2265112502B0C95A4A16942 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C220453B026D8AF38BFC20F8 /* String+Extension.swift */; };
+		C22772467F1F55966320F47F /* SpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B2C0504070406B222EE33 /* SpeechViewController.swift */; };
 		C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */; };
 		C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */; };
+		C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */; };
 		C22D6E134D969ECC7E6CB9AA /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2201CD3DE6FB98613F6F018 /* BookModel.swift */; };
 		C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2207FE837BC256E49304E3E /* DictionaryApi.swift */; };
 		C22F27E5D716D916EB554F48 /* UserBookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */; };
@@ -242,10 +245,13 @@
 		C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookListTableViewCell.swift; sourceTree = "<group>"; };
 		C220453B026D8AF38BFC20F8 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C2207FE837BC256E49304E3E /* DictionaryApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryApi.swift; sourceTree = "<group>"; };
+		C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutViewController.swift; sourceTree = "<group>"; };
 		C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		C2288C8026F0506633977DB2 /* PublicBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookViewController.swift; sourceTree = "<group>"; };
 		C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookViewController.swift; sourceTree = "<group>"; };
+		C22B2C0504070406B222EE33 /* SpeechViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
 		C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookListTableViewCell.swift; sourceTree = "<group>"; };
+		C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reactive+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +320,7 @@
 				06E52F771E012A8000E69084 /* UIView+Extension.swift */,
 				C220453B026D8AF38BFC20F8 /* String+Extension.swift */,
 				C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */,
+				C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -412,6 +419,8 @@
 				06744A521E49D4C0001E3D1B /* TwoFAViewController.swift */,
 				C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */,
 				C2288C8026F0506633977DB2 /* PublicBookViewController.swift */,
+				C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */,
+				C22B2C0504070406B222EE33 /* SpeechViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -803,6 +812,9 @@
 				C22FCCAB57EAA0D181D17112 /* PublicBookViewController.swift in Sources */,
 				C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */,
 				C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */,
+				C2239D71F7635AA9B09D4F1C /* Reactive+Extension.swift in Sources */,
+				C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */,
+				C22772467F1F55966320F47F /* SpeechViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

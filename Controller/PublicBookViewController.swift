@@ -205,9 +205,11 @@ extension PublicBookViewController:UITableViewDataSource,UITableViewDelegate {
 //            self.navigationController?.pushViewController(topicDetailController, animated: true)
 //            tableView .deselectRow(at: indexPath, animated: true);
 //        }
+
+        self.selectedRowWithActionSheet(indexPath)
     }
 
-    @objc func ignoreTopicHandler(_ id:String) {
+    @objc func ignoreTopicHandler(_ id:Int) {
         let index = self.bookList?.index(where: {$0.id == id })
         if index == nil {
             return
@@ -231,6 +233,42 @@ extension PublicBookViewController:UITableViewDataSource,UITableViewDelegate {
 
         self.tableView.endUpdates()
 
+
+    }
+}
+
+extension PublicBookViewController: UIActionSheetDelegate {
+
+    func selectedRowWithActionSheet(_ indexPath:IndexPath){
+        self.tableView.deselectRow(at: indexPath, animated: true);
+
+        //这段代码在iOS8.3中弃用，但是现在还可以使用，先用着吧
+        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "开始学习")
+        actionSheet.tag = indexPath.row
+        actionSheet.show(in: self.view)
+
+    }
+
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
+        guard buttonIndex > 0 && buttonIndex <= 3 else{
+            return
+        }
+        self.perform([#selector(PublicBookViewController.startLearning(_:))][buttonIndex - 1],
+                with: actionSheet.tag)
+        }
+
+    @objc func startLearning(_ row:NSNumber){
+        let item = self.bookList![row as! Int]
+
+        //加入用户词书
+        _ = DictionaryApi.provider
+                .requestAPI(.addUserBook(book_id:item.id!))
+                .subscribe(onNext: { (response) in
+                    V2Success("添加成功")
+                }, onError: { (error) in
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                    self.tableView.mj_header.endRefreshing()
+                })
 
     }
 }
