@@ -26,7 +26,7 @@ extension V2EXTargetType {
         return headers
     }
     var baseURL: URL {
-        return URL(string: "https://ava.acxca.com")!
+        return URL(string: API_BASE_URL)!
     }
     
     var method: Moya.Method {

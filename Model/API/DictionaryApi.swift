@@ -23,6 +23,9 @@ enum DictionaryApi {
 
     //将公共词书加入用户词书
     case addUserBook(book_id: Int)
+
+    //学习新词
+    case getNewWords(book_id: Int,word_count: Int)
 }
 
 extension DictionaryApi: V2EXTargetType {
@@ -44,6 +47,8 @@ extension DictionaryApi: V2EXTargetType {
             return nil
         case let .addUserBook(book_id):
             return ["book_id":book_id]
+        case let .getNewWords(book_id,word_count):
+            return ["book_id":book_id,"word_count":word_count]
 //        default:
 //            return nil
         }
@@ -66,6 +71,8 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/publicbooks"
         case let .addUserBook(book_id):
             return "/dictionary/book/adduserbook/\(book_id)"
+        case let .getNewWords(book_id,word_count):
+            return "/dictionary/book/\(book_id)/learn_new/\(word_count)"
 //        default:
 //            return ""
         }

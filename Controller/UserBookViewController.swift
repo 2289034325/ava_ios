@@ -21,6 +21,9 @@ import SVProgressHUD
 class UserBookViewController: UIViewController {
     var bookList:Array<BookModel>?
     var currentPage = 0
+    var pickerViewVc:UIViewController!
+    var pickerView:UIPickerView!
+    var pickerNums:[Int] = [5,10,15,20,25,30,35,40,45,50]
     
     fileprivate lazy var tableView: UITableView  = {
         let tableView = UITableView()
@@ -43,6 +46,28 @@ class UserBookViewController: UIViewController {
         //监听程序即将进入前台运行、进入后台休眠 事件
 //        NotificationCenter.default.addObserver(self, selector: #selector(UserBookViewController.applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(UserBookViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+
+//        var pickerFrame: CGRect = CGRect(x: 17, y: 52, width: 270, height: 100);
+//        pickerView = UIPickerView(frame: pickerFrame)
+
+//        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: 250,height: 100)
+//        vc.view.backgroundColor = UIColor.red
+        pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 100))
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        vc.view.addSubview(pickerView)
+        pickerViewVc = vc
+
+//        //将dataSource设置成自己
+//        pickerView.dataSource = self
+//        //将delegate设置成自己
+//        pickerView.delegate = self
+//        //设置选择框的默认值
+
+        pickerView.selectRow(3,inComponent:0,animated:true)
 
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
@@ -68,6 +93,8 @@ class UserBookViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
 //        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+//        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil;
     }
     func setupNavigationItem(){
         self.navigationController!.navigationBar.topItem?.title = "我的词书"
@@ -196,6 +223,8 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
 //            self.navigationController?.pushViewController(topicDetailController, animated: true)
 //            tableView .deselectRow(at: indexPath, animated: true);
 //        }
+
+        self.selectedRowWithActionSheet(indexPath)
     }
     
     @objc func ignoreTopicHandler(_ id:Int) {
@@ -223,5 +252,121 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
         self.tableView.endUpdates()
         
 
+    }
+
+    func selectedRowWithActionSheet(_ indexPath:IndexPath){
+        self.tableView.deselectRow(at: indexPath, animated: true);
+
+        //这段代码在iOS8.3中弃用，但是现在还可以使用，先用着吧
+//        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "学习","复习")
+//        actionSheet.tag = indexPath.row
+//        actionSheet.show(in: self.view)
+
+        let controller = UIAlertController(title: "请选择", message: "", preferredStyle: .actionSheet)
+        let names = ["学习", "复习"]
+        for name in names {
+            let action = UIAlertAction(title: name, style: .default) { (action) in
+
+                if name == "学习" {
+                    self.learnNew(indexPath.row)
+                }
+                else {
+                    self.reviewOld(indexPath.row)
+                }
+            }
+            controller.addAction(action)
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+
+        present(controller, animated: true, completion: nil)
+    }
+
+    @objc func learnNew(_ row:Int){
+        let item = self.bookList![row]
+
+        let controller = UIAlertController(title: "学习", message: "选择个数", preferredStyle: .alert)
+        controller.setValue(pickerViewVc, forKey: "contentViewController")
+
+        let okAction = UIAlertAction(title: "确定", style: .default) { (_) in
+
+            let pi = self.pickerView.selectedRow(inComponent: 0)
+            let wc = self.pickerNums[pi]
+
+//            SVProgressHUD.showError(withStatus:String(wc))
+
+
+            //获取用户词书列表
+            _ = DictionaryApi.provider
+                    .requestAPI(.getNewWords(book_id:item.id!,word_count:wc))
+                    .mapResponseToObjArray(WordModel.self)
+                    .subscribe(onNext: { (response) in
+
+//                        let wordController = WordScanViewController(words:response)
+                        let wordController = WordScanViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
+
+                        wordController.words=response
+                        wordController.hidesBottomBarWhenPushed = true
+
+//                        let wordController = PublicBookViewController()
+
+                        self.navigationController?.pushViewController(wordController, animated: true)
+
+                    }, onError: { (error) in
+                        SVProgressHUD.showError(withStatus: error.rawString())
+
+                    })
+
+            //学习新词
+//            _ = DictionaryApi.provider
+//                    .requestAPI(.getNewWords(book_id:item.id!,word_count:wc))
+//                    .subscribe(onNext: { (response) in
+//
+//
+//                    }, onError: { (error) in
+//                        SVProgressHUD.showError(withStatus: error.rawString())
+//                        self.tableView.mj_header.endRefreshing()
+//                    })
+        }
+        controller.addAction(okAction)
+
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
+    }
+    @objc func reviewOld(_ row:Int){
+        let item = self.bookList![row]
+
+        //复习
+        _ = DictionaryApi.provider
+                .requestAPI(.addUserBook(book_id:item.id!))
+                .subscribe(onNext: { (response) in
+
+
+                }, onError: { (error) in
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                    self.tableView.mj_header.endRefreshing()
+                })
+
+    }
+}
+
+extension UserBookViewController:UIPickerViewDelegate, UIPickerViewDataSource{
+
+    //设置选择框的列数为3列,继承于UIPickerViewDataSource协议
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    //设置选择框的行数为9行，继承于UIPickerViewDataSource协议
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
+        return self.pickerNums.count
+    }
+
+    //设置选择框各选项的内容，继承于UIPickerViewDelegate协议
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int,
+                    forComponent component: Int) -> String? {
+        return String(pickerNums[row])
     }
 }

@@ -115,7 +115,7 @@ extension UserModel{
         var dict = MOBILE_CLIENT_HEADERS
         dict["content-type"] = "application/json"
         //为安全，此处使用https
-        var loginUrl = "https://ava.acxca.com/auth/login/"+loginTicket+"/"+code
+        var loginUrl = API_BASE_URL+"/auth/login/"+loginTicket+"/"+code
         //登录
         Alamofire.request(loginUrl,method:.post, parameters: prames, encoding: JSONEncoding.default,headers: dict).responseJSON{
             (response) -> Void in

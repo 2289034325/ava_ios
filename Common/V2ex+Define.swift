@@ -28,6 +28,8 @@ let MOBILE_CLIENT_HEADERS = ["user-agent":USER_AGENT]
 //站点地址,客户端只有https,禁用http
 let V2EXURL = "https://www.v2ex.com/"
 
+let API_BASE_URL = "https://192.168.1.147"
+
 let SEPARATOR_HEIGHT = 1.0 / UIScreen.main.scale
 
 

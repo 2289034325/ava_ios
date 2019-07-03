@@ -19,7 +19,7 @@ def pods
     pod 'CXSwipeGestureRecognizer'
     pod '1PasswordExtension'
     pod 'Shimmer'
-    pod 'FDFullscreenPopGesture'
+
     pod 'Moya/RxSwift'
     pod 'SwiftyJSON', '~> 3.1.4'
     pod 'Fabric'
@@ -28,6 +28,6 @@ def pods
     pod 'JWTDecode', '~> 2.3'
 end
 
-target 'V2ex-Swift' do
+target 'AVA-Swift' do
     pods
 end

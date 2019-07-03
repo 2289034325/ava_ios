@@ -135,10 +135,11 @@ class LoginViewController: UIViewController {
                     handel(token)
                 }
 
-                let userBooksController = UserBookViewController()
+//                let userBooksController = UserBookViewController()
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                V2Client.sharedInstance.centerViewController!.navigationController?.present(userBooksController, animated: true, completion: nil);
-                appDelegate.window!.rootViewController = V2Client.sharedInstance.drawerController
+//                V2Client.sharedInstance.centerViewController!.navigationController?.present(userBooksController, animated: true, completion: nil);
+//                appDelegate.window!.rootViewController = V2Client.sharedInstance.drawerController
+                appDelegate.window!.rootViewController = LayoutViewController()
 
                 //获取用户信息
 //                UserModel.getUserInfoFromToken(token,completionHandler: nil)
@@ -166,7 +167,7 @@ class LoginViewController: UIViewController {
     var codeStr:String?
     @objc func refreshCode(){
 
-        let codeUrl = "https://ava.acxca.com/kaptcha/";
+        let codeUrl = API_BASE_URL+"/kaptcha/";
 
         Alamofire.request(codeUrl, headers: MOBILE_CLIENT_HEADERS).responseJSON{
             response in

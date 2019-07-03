@@ -40,6 +40,8 @@ class PublicBookViewController: UIViewController {
         self.title = "Public Books"
         self.setupNavigationItem()
 
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+
         //监听程序即将进入前台运行、进入后台休眠 事件
 //        NotificationCenter.default.addObserver(self, selector: #selector(PublicBookViewController.applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(PublicBookViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
@@ -64,10 +66,10 @@ class PublicBookViewController: UIViewController {
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
+//        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
     }
     override func viewWillDisappear(_ animated: Bool) {
-        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
+//        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
     }
     func setupNavigationItem(){
 //        let leftButton = NotificationMenuButton()

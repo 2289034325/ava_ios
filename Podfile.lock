@@ -15,7 +15,6 @@ PODS:
   - DrawerController/DrawerVisualStates (4.0.0):
     - DrawerController/Core
   - Fabric (1.8.0)
-  - FDFullscreenPopGesture (1.1)
   - FXBlurView (1.6.4)
   - Ji (2.1.0):
     - Ji/Ji (= 2.1.0)
@@ -51,7 +50,6 @@ DEPENDENCIES:
   - DeviceKit
   - DrawerController
   - Fabric
-  - FDFullscreenPopGesture
   - FXBlurView
   - Ji
   - JWTDecode (~> 2.3)
@@ -77,7 +75,6 @@ SPEC REPOS:
     - DeviceKit
     - DrawerController
     - Fabric
-    - FDFullscreenPopGesture
     - FXBlurView
     - Ji
     - JWTDecode
@@ -104,7 +101,6 @@ SPEC CHECKSUMS:
   DeviceKit: a376cb3d0dda0c27c81dcc0d2b7b8600b6802065
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
   Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
-  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: 21946da4e13425485ddd424edfaeeced0d80ad28
   JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
@@ -122,6 +118,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: b69d7e65d5ed51c93a7dbb2725eb2f2cec6ff3c7
+PODFILE CHECKSUM: 686a61e4b65b0759d33249baec2f61516dfe8c8c
 
 COCOAPODS: 1.6.1
