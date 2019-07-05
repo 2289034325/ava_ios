@@ -24,6 +24,7 @@ class WordViewController: UIViewController {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
 
         regClass(tableView, cell: WordSentenceTableViewCell.self)
         regClass(tableView, cell: WordTitleTableViewCell.self)
@@ -56,10 +57,53 @@ extension WordViewController: UITableViewDelegate,UITableViewDataSource {
         if(section == 0){
             return 1
         }
-        return word!.explains![section].sentences!.count
+        return word!.explains![section-1].sentences!.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       return 50
+        if(indexPath.section == 0){
+            return WordTitleTableViewCell().getHeight(word!)
+        }
+
+        let expl = word!.explains![indexPath.section-1]
+        let stc = expl.sentences![indexPath.row]
+       return WordSentenceTableViewCell().getHeight(stc)
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
+        if(section == 0) {
+            return 0
+        }
+
+        let htl = UILabel()
+        htl.font = v2Font(15)
+        htl.numberOfLines = 0
+        htl.lineBreakMode = .byCharWrapping
+        htl.text = word!.explains![section-1].explain!
+        return htl.actualHeight(SCREEN_WIDTH, htl.text!)
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?{
+        if(section == 0) {
+            return nil
+        }
+
+        let hv = UIView()
+        hv.backgroundColor = V2EXColor.colors.v2_backgroundColor;
+//        let htl = UILabel()
+        let htl = UILabel()
+        htl.font = v2Font(15)
+        htl.numberOfLines = 0
+        htl.lineBreakMode = .byCharWrapping
+        htl.text = word!.explains![section-1].explain!
+//        htl.backgroundColor = UIColor.red
+        hv.addSubview(htl)
+        htl.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(hv)
+            make.left.equalTo(hv).offset(5)
+            make.right.equalTo(hv).offset(-5)
+        }
+
+        return hv
     }
 
 
@@ -68,27 +112,29 @@ extension WordViewController: UITableViewDelegate,UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if(indexPath.section != 0) {
-            let cell = getCell(tableView, cell: WordSentenceTableViewCell.self, indexPath: indexPath);
-            let expl = word!.explains![indexPath.section]
-            let stc = expl.sentences![indexPath.row]
-            cell.setContent(stc)
+        if(indexPath.section == 0) {
+            let cell = getCell(tableView, cell: WordTitleTableViewCell.self, indexPath: indexPath);
+            cell.setContent(word!)
+//            cell.setNeedsLayout()
             return cell;
         }
         else{
-            let cell = getCell(tableView, cell: WordTitleTableViewCell.self, indexPath: indexPath);
-            cell.setContent(word!)
+            let cell = getCell(tableView, cell: WordSentenceTableViewCell.self, indexPath: indexPath);
+            let expl = word!.explains![indexPath.section-1]
+            let stc = expl.sentences![indexPath.row]
+            cell.setContent(stc)
+//            cell.setNeedsLayout()
             return cell;
         }
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if(section == 0) {
-            return ""
-        }
-
-        return word!.explains![section].explain!
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if(section == 0) {
+//            return ""
+//        }
+//
+//        return word!.explains![section-1].explain!
+//    }
 }
 
 

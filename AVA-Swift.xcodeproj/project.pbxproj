@@ -114,6 +114,7 @@
 		C2218B49B684C78B24DCC7CB /* SentenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B4CA62193A800C2B0758F /* SentenceModel.swift */; };
 		C2226BFCCAF7D63DEEF2C7DB /* PublicBookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */; };
 		C2239D71F7635AA9B09D4F1C /* Reactive+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */; };
+		C223B8CA22BAD683312E2D07 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */; };
 		C2245100A4C1899EB0B8AFEA /* WordScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225833574CBA028B300E23A /* WordScanViewController.swift */; };
 		C224B7A76DF0DE07811D9305 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222F448070E93539C4B3F03 /* WordModel.swift */; };
 		C224BB86E44D45C4A0B25366 /* ExplainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2243DA421D2117CEC13F51A /* ExplainModel.swift */; };
@@ -253,6 +254,7 @@
 		C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookListTableViewCell.swift; sourceTree = "<group>"; };
 		C220453B026D8AF38BFC20F8 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C2207FE837BC256E49304E3E /* DictionaryApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryApi.swift; sourceTree = "<group>"; };
+		C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		C222F448070E93539C4B3F03 /* WordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordModel.swift; sourceTree = "<group>"; };
 		C2243DA421D2117CEC13F51A /* ExplainModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplainModel.swift; sourceTree = "<group>"; };
 		C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutViewController.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				C220453B026D8AF38BFC20F8 /* String+Extension.swift */,
 				C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */,
 				C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */,
+				C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -849,6 +852,7 @@
 				C22E72A496E622CE14DB3CBC /* WordViewController.swift in Sources */,
 				C22559357A977D3CF425A049 /* WordSentenceTableViewCell.swift in Sources */,
 				C226D2BC457B8BFFAFDE6BD3 /* WordTitleTableViewCell.swift in Sources */,
+				C223B8CA22BAD683312E2D07 /* UILabel+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

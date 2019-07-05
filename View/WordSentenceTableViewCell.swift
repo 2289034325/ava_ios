@@ -11,15 +11,20 @@ import Kingfisher
 import YYText
 
 class WordSentenceTableViewCell: UITableViewCell {
+    var contentPanel:UIView = UIView()
 
     var sentenceLabel: UILabel = {
         let label = UILabel()
         label.font = v2Font(14)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byCharWrapping
         return label;
     }()
     var translationLabel: UILabel = {
         let label = UILabel()
         label.font = v2Font(14)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byCharWrapping
         return label;
     }()
 
@@ -39,22 +44,34 @@ class WordSentenceTableViewCell: UITableViewCell {
 
 //        contentPanel.addSubview(sentenceLabel);
 //        contentPanel.addSubview(translationLabel);
-        self.contentView.addSubview(sentenceLabel)
-        self.contentView.addSubview(translationLabel)
+
+        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        self.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+
+        contentView .addSubview(contentPanel);
+        contentPanel.snp.makeConstraints{ (make) -> Void in
+            make.top.left.right.equalTo(self.contentView)
+            make.bottom.equalTo(self.contentView.snp.bottom).offset(-1)
+        }
+
+        contentPanel.addSubview(sentenceLabel)
+        contentPanel.addSubview(translationLabel)
 
 //        contentPanel.snp.makeConstraints{ (make) -> Void in
 //            make.top.left.right.equalTo(self.contentView);
 //        }
 
         sentenceLabel.snp.makeConstraints{ (make) -> Void in
-            make.left.top.equalTo(self.contentView).offset(5);
+            make.left.equalTo(contentPanel).offset(5)
+            make.right.equalTo(contentPanel).offset(-5)
         }
         translationLabel.snp.makeConstraints{ (make) -> Void in
-            make.left.equalTo(sentenceLabel);
+            make.left.equalTo(contentPanel).offset(5)
+            make.right.equalTo(contentPanel).offset(-5)
             make.top.equalTo(sentenceLabel.snp.bottom);
         }
 
-        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+//        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
 //        contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
@@ -62,6 +79,16 @@ class WordSentenceTableViewCell: UITableViewCell {
     func setContent(_ sentence:SentenceModel){
         self.sentenceLabel.text = sentence.sentence
         self.translationLabel.text = sentence.translation
+
+//        self.sentenceLabel.sizeToFit()
+//        self.translationLabel.sizeToFit()
+    }
+
+    func getHeight(_ sentence:SentenceModel)->CGFloat{
+        let sentenceHeight = self.sentenceLabel.actualHeight(SCREEN_WIDTH-10,sentence.sentence!)
+        let translationHeight = self.translationLabel.actualHeight(SCREEN_WIDTH-10,sentence.translation!)
+
+        return sentenceHeight+translationHeight+1
     }
 
 }

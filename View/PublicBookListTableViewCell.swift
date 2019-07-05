@@ -68,7 +68,7 @@ class PublicBookListTableViewCell: UITableViewCell {
         label.font=v2Font(18)
         label.displaysAsynchronously = true
         label.numberOfLines=0
-        label.preferredMaxLayoutWidth = SCREEN_WIDTH-24
+//        label.preferredMaxLayoutWidth = SCREEN_WIDTH-24
         return label
     }()
 

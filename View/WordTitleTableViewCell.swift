@@ -11,10 +11,12 @@ import Kingfisher
 import YYText
 
 class WordTitleTableViewCell: UITableViewCell {
+    var contentPanel:UIView = UIView()
 
     var spellLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 25)!;
+        label.font = v2Font(25);
+//        label.backgroundColor = UIColor.red
         return label;
     }()
     var pronLabel: UILabel = {
@@ -22,9 +24,19 @@ class WordTitleTableViewCell: UITableViewCell {
         label.font = v2Font(12)
         return label;
     }()
+    var pronImage: UIImageView = {
+        let imageview = UIImageView(image: UIImage(named: "sound")?.withRenderingMode(.alwaysTemplate))
+        imageview.tintColor = UIColor.blue
+        imageview.contentMode = .scaleAspectFit
+        return imageview
+    }()
+    var pronImage_height:Int = 12
+
     var meaningLabel: UILabel = {
         let label = UILabel()
         label.font = v2Font(12)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byCharWrapping
         return label;
     }()
 
@@ -39,37 +51,44 @@ class WordTitleTableViewCell: UITableViewCell {
     
     func setup()->Void{
 
-        contentView.addSubview(spellLabel);
+//        contentView.backgroundColor = UIColor.blue
+
+        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        self.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+
+        contentView .addSubview(contentPanel);
+        contentPanel.snp.makeConstraints{ (make) -> Void in
+            make.top.left.right.equalTo(self.contentView)
+            make.bottom.equalTo(self.contentView.snp.bottom).offset(-1)
+        }
+
+        contentPanel.addSubview(spellLabel);
         spellLabel.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(contentView)
-            make.left.equalTo(contentView).offset(5)
+            make.top.equalTo(contentPanel)
+            make.left.equalTo(contentPanel).offset(5)
         }
 
 
-        contentView.addSubview(pronLabel);
+        contentPanel.addSubview(pronLabel);
         pronLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(spellLabel.snp.bottom)
             make.left.equalTo(spellLabel.snp.left)
         }
 
-        var pronImage: UIImageView = {
-            let imageview = UIImageView(image: UIImage(named: "sound")?.withRenderingMode(.alwaysTemplate))
-            imageview.tintColor = UIColor.blue
-            imageview.contentMode = .scaleAspectFit
 
-            return imageview
-        }()
-        contentView.addSubview(pronImage);
+        contentPanel.addSubview(pronImage);
         pronImage.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(pronLabel);
-            make.width.height.equalTo(12);
+            make.width.height.equalTo(pronImage_height);
             make.left.equalTo(pronLabel.snp.right).offset(2);
         }
 
-        contentView.addSubview(meaningLabel);
+        contentPanel.addSubview(meaningLabel);
         meaningLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(pronLabel.snp.bottom).offset(5)
             make.left.equalTo(pronLabel.snp.left)
+            make.right.equalTo(contentPanel.snp.right).offset(-5)
+//            make.bottom.equalTo(contentView.snp.bottom)
         }
     }
 
@@ -78,6 +97,22 @@ class WordTitleTableViewCell: UITableViewCell {
         spellLabel.text = word.spell
         pronLabel.text = "[\(word.pronounce!)]"
         meaningLabel.text = word.meaning!
+
+//        spellLabel.sizeToFit()
+//        pronLabel.sizeToFit()
+//        meaningLabel.sizeToFit()
+//
+//        spellLabel.setNeedsLayout()
+//        pronLabel.setNeedsLayout()
+//        meaningLabel.setNeedsLayout()
+    }
+
+    func getHeight(_ word:WordModel)->CGFloat{
+        let spellHeight = self.spellLabel.actualHeight(SCREEN_WIDTH,word.spell!)
+        let pronHeight = self.pronLabel.actualHeight(SCREEN_WIDTH,word.pronounce!)
+        let meaningHeight = self.meaningLabel.actualHeight(SCREEN_WIDTH-10,word.meaning!)
+
+        return spellHeight+pronHeight+5+meaningHeight+10
     }
 
 }
