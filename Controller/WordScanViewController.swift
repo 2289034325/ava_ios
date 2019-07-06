@@ -17,6 +17,7 @@ import SnapKit
 
 
 class WordScanViewController: UIPageViewController {
+    var book:BookModel?
     var words:[WordModel]?
     var curr_word_index:Int = 0
     var title_panel:UIView?
@@ -137,29 +138,6 @@ extension WordScanViewController: UIPageViewControllerDelegate,UIPageViewControl
 
 }
 
-extension WordScanViewController: UITableViewDelegate,UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       return 50
-    }
-
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = getCell(tableView, cell: UITableViewCell.self, indexPath: indexPath);
-        cell.textLabel?.text = "test"
-
-        return cell;
-    }
-}
-
-
 extension WordScanViewController {
 
     func setupView(){
@@ -194,6 +172,7 @@ extension WordScanViewController {
 //        // 用UIView，上方会被navigationbar挡住
 //        // 因为UIView似乎是从屏幕左上方开始布局，不管是否有navigationbar
 //        // UIScrollView是自动从navigationbar的下面开始
+//        // 也可以设置 self.edgesForExtendedLayout = []
 //        let contentView = UIScrollView()
 //        self.view.addSubview(contentView);
 //        contentView.snp.makeConstraints{ (make) -> Void in
@@ -245,8 +224,10 @@ extension WordScanViewController {
 
     //开始测试
     @objc func rightClick(){
-//        let publicBookController = PublicBookViewController()
-//        publicBookController.hidesBottomBarWhenPushed = true
-//        self.navigationController?.pushViewController(publicBookController, animated: true)
+        let testController = LearnTestViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
+        testController.hidesBottomBarWhenPushed = true
+        testController.book = self.book
+        testController.words = self.words
+        self.navigationController?.pushViewController(testController, animated: true)
     }
 }

@@ -304,7 +304,7 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
 
 //                        let wordController = WordScanViewController(words:response)
                         let wordController = WordScanViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
-
+                        wordController.book = item
                         wordController.words=response
                         wordController.hidesBottomBarWhenPushed = true
 

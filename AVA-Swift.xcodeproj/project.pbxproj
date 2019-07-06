@@ -116,18 +116,25 @@
 		C2239D71F7635AA9B09D4F1C /* Reactive+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */; };
 		C223B8CA22BAD683312E2D07 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */; };
 		C2245100A4C1899EB0B8AFEA /* WordScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225833574CBA028B300E23A /* WordScanViewController.swift */; };
+		C22469D560B17A9834B90461 /* QuestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22743CB424F35F57C69342F /* QuestionModel.swift */; };
 		C224B7A76DF0DE07811D9305 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C222F448070E93539C4B3F03 /* WordModel.swift */; };
 		C224BB86E44D45C4A0B25366 /* ExplainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2243DA421D2117CEC13F51A /* ExplainModel.swift */; };
 		C22559357A977D3CF425A049 /* WordSentenceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2271C951A1D87464ABC96A5 /* WordSentenceTableViewCell.swift */; };
 		C2265112502B0C95A4A16942 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C220453B026D8AF38BFC20F8 /* String+Extension.swift */; };
 		C226D2BC457B8BFFAFDE6BD3 /* WordTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22CC81C0F1317BE812A05F5 /* WordTitleTableViewCell.swift */; };
+		C227232EB3C65537E595E900 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22BE2138C27DBD4323B7DCE /* UIViewController+Extension.swift */; };
 		C22772467F1F55966320F47F /* SpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B2C0504070406B222EE33 /* SpeechViewController.swift */; };
+		C2277656F0813A08D94AC442 /* LearnTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22142E77F662354D2C37FF8 /* LearnTestViewController.swift */; };
 		C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */; };
+		C2292F89128AC39DDA710D70 /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C220DC1B5B66562737A2F7B3 /* Consts.swift */; };
+		C2296269AC00F8AC98C84DC8 /* LearnRecordWordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2233EBABBF24EA7D9EA91F4 /* LearnRecordWordModel.swift */; };
+		C22A5B215B4BECC1B1EEF533 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C221590D741825FF89945CCE /* QuestionViewController.swift */; };
 		C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */; };
 		C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */; };
 		C22D6E134D969ECC7E6CB9AA /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2201CD3DE6FB98613F6F018 /* BookModel.swift */; };
 		C22E72A496E622CE14DB3CBC /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AEE5BCAFE2EC81953D16D /* WordViewController.swift */; };
 		C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2207FE837BC256E49304E3E /* DictionaryApi.swift */; };
+		C22EEFD0473B65677C5227AC /* LearnRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224763652327DFDD632D367 /* LearnRecordModel.swift */; };
 		C22F27E5D716D916EB554F48 /* UserBookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */; };
 		C22FCCAB57EAA0D181D17112 /* PublicBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2288C8026F0506633977DB2 /* PublicBookViewController.swift */; };
 		DF04E1ECB14B6330EE25E6D7 /* libPods-AVA-Swift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD0F3D406D02057875D46AD5 /* libPods-AVA-Swift.a */; };
@@ -254,19 +261,26 @@
 		C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookListTableViewCell.swift; sourceTree = "<group>"; };
 		C220453B026D8AF38BFC20F8 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C2207FE837BC256E49304E3E /* DictionaryApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryApi.swift; sourceTree = "<group>"; };
+		C220DC1B5B66562737A2F7B3 /* Consts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
+		C22142E77F662354D2C37FF8 /* LearnTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestViewController.swift; sourceTree = "<group>"; };
+		C221590D741825FF89945CCE /* QuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		C222F448070E93539C4B3F03 /* WordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordModel.swift; sourceTree = "<group>"; };
+		C2233EBABBF24EA7D9EA91F4 /* LearnRecordWordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnRecordWordModel.swift; sourceTree = "<group>"; };
 		C2243DA421D2117CEC13F51A /* ExplainModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplainModel.swift; sourceTree = "<group>"; };
+		C224763652327DFDD632D367 /* LearnRecordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnRecordModel.swift; sourceTree = "<group>"; };
 		C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutViewController.swift; sourceTree = "<group>"; };
 		C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		C225833574CBA028B300E23A /* WordScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordScanViewController.swift; sourceTree = "<group>"; };
 		C2271C951A1D87464ABC96A5 /* WordSentenceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordSentenceTableViewCell.swift; sourceTree = "<group>"; };
+		C22743CB424F35F57C69342F /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		C2288C8026F0506633977DB2 /* PublicBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookViewController.swift; sourceTree = "<group>"; };
 		C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookViewController.swift; sourceTree = "<group>"; };
 		C22AEE5BCAFE2EC81953D16D /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		C22B2C0504070406B222EE33 /* SpeechViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
 		C22B4CA62193A800C2B0758F /* SentenceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SentenceModel.swift; sourceTree = "<group>"; };
 		C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookListTableViewCell.swift; sourceTree = "<group>"; };
+		C22BE2138C27DBD4323B7DCE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		C22CC81C0F1317BE812A05F5 /* WordTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTitleTableViewCell.swift; sourceTree = "<group>"; };
 		C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reactive+Extension.swift"; sourceTree = "<group>"; };
 		E02BB9E4AF9F5BC0AE459911 /* Pods-AVA-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVA-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift.release.xcconfig"; sourceTree = "<group>"; };
@@ -341,6 +355,7 @@
 				C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */,
 				C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */,
 				C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */,
+				C22BE2138C27DBD4323B7DCE /* UIViewController+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -443,6 +458,8 @@
 				C22B2C0504070406B222EE33 /* SpeechViewController.swift */,
 				C225833574CBA028B300E23A /* WordScanViewController.swift */,
 				C22AEE5BCAFE2EC81953D16D /* WordViewController.swift */,
+				C22142E77F662354D2C37FF8 /* LearnTestViewController.swift */,
+				C221590D741825FF89945CCE /* QuestionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -465,6 +482,10 @@
 				C222F448070E93539C4B3F03 /* WordModel.swift */,
 				C2243DA421D2117CEC13F51A /* ExplainModel.swift */,
 				C22B4CA62193A800C2B0758F /* SentenceModel.swift */,
+				C224763652327DFDD632D367 /* LearnRecordModel.swift */,
+				C220DC1B5B66562737A2F7B3 /* Consts.swift */,
+				C2233EBABBF24EA7D9EA91F4 /* LearnRecordWordModel.swift */,
+				C22743CB424F35F57C69342F /* QuestionModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -853,6 +874,13 @@
 				C22559357A977D3CF425A049 /* WordSentenceTableViewCell.swift in Sources */,
 				C226D2BC457B8BFFAFDE6BD3 /* WordTitleTableViewCell.swift in Sources */,
 				C223B8CA22BAD683312E2D07 /* UILabel+Extension.swift in Sources */,
+				C2277656F0813A08D94AC442 /* LearnTestViewController.swift in Sources */,
+				C22A5B215B4BECC1B1EEF533 /* QuestionViewController.swift in Sources */,
+				C22EEFD0473B65677C5227AC /* LearnRecordModel.swift in Sources */,
+				C2292F89128AC39DDA710D70 /* Consts.swift in Sources */,
+				C2296269AC00F8AC98C84DC8 /* LearnRecordWordModel.swift in Sources */,
+				C227232EB3C65537E595E900 /* UIViewController+Extension.swift in Sources */,
+				C22469D560B17A9834B90461 /* QuestionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

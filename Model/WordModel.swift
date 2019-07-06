@@ -19,6 +19,8 @@ class WordModel: BaseJsonModel {
     var pronounce:String?
     var meaning:String?
     var explains:[ExplainModel]?
+    var sentences = [SentenceModel]()
+    var questions:[QuestionModel]?
 
     let df : DateFormatter = {
         let formatter = DateFormatter()
@@ -37,5 +39,30 @@ class WordModel: BaseJsonModel {
         if(explains == nil){
             explains = []
         }
+        else{
+            for(idx,expl) in explains!.enumerated(){
+                if expl.sentences != nil {
+                    sentences.append(contentsOf: expl.sentences!)
+                }
+            }
+        }
+
+    }
+
+    func createQuestions(types:[QuestionType])->[QuestionModel]{
+        var qs = [QuestionModel]()
+
+        for (idx,qt) in types.enumerated(){
+            if qt == QuestionType.Fill && self.sentences.count == 0{
+                continue
+            }
+
+            let sts = self.sentences.randomElement()
+
+            let nq = QuestionModel(word:self,type:qt,sentence:sts)
+            qs.append(nq)
+        }
+
+        return qs
     }
 }
