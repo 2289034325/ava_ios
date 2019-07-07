@@ -19,13 +19,15 @@ def pods
     pod 'CXSwipeGestureRecognizer'
     pod '1PasswordExtension'
     pod 'Shimmer'
-
+    pod 'RxCocoa', '~> 4.0'
+    pod 'RxBlocking', '~> 4.0'
     pod 'Moya/RxSwift'
     pod 'SwiftyJSON', '~> 3.1.4'
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'DeviceKit'
     pod 'JWTDecode', '~> 2.3'
+    pod 'TinderSwipeView', '~> 1.1.8'
 end
 
 target 'AVA-Swift' do

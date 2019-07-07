@@ -32,7 +32,6 @@ class LearnTestViewController: UIPageViewController {
 
         self.edgesForExtendedLayout = []
 
-        self.navigationItem.title = "1/\(self.words!.count)"
 
         self.hideKeyboardWhenTappedAround()
 
@@ -49,6 +48,8 @@ class LearnTestViewController: UIPageViewController {
         for(idx,w) in self.words!.enumerated(){
             self.questions.append(contentsOf: w.createQuestions(types:qts))
         }
+
+        self.navigationItem.title = "1/\(self.questions.count)"
 
         delegate=self
         dataSource=self
@@ -96,7 +97,7 @@ extension LearnTestViewController: UIPageViewControllerDelegate,UIPageViewContro
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         //如果是第0页，返回nil
         let ctr = viewController as! QuestionViewController
-        self.navigationItem.title = "\(ctr.index!+1)/\(self.words!.count)"
+        self.navigationItem.title = "\(ctr.index!+1)/\(self.questions.count)"
         if ctr.index == 0 {
             return nil
         }
@@ -111,8 +112,8 @@ extension LearnTestViewController: UIPageViewControllerDelegate,UIPageViewContro
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let ctr = viewController as! QuestionViewController
-        self.navigationItem.title = "\(ctr.index!+1)/\(self.words!.count)"
-        if ctr.index == words!.count-1 {
+        self.navigationItem.title = "\(ctr.index!+1)/\(self.questions.count)"
+        if ctr.index == questions.count-1 {
             return nil
         }
 

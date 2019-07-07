@@ -34,11 +34,18 @@ PODS:
     - RxSwift (~> 4.0)
   - ObjectMapper (3.3.0)
   - Result (3.2.4)
+  - RxAtomic (4.4.2)
+  - RxBlocking (4.4.1):
+    - RxAtomic (~> 4.4)
+    - RxSwift (~> 4.0)
+  - RxCocoa (4.4.1):
+    - RxSwift (~> 4.0)
   - RxSwift (4.3.1)
   - Shimmer (1.0.2)
   - SnapKit (4.2.0)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (3.1.4)
+  - TinderSwipeView (1.1.8)
   - YYText (1.0.7)
 
 DEPENDENCIES:
@@ -59,10 +66,13 @@ DEPENDENCIES:
   - MJRefresh
   - Moya/RxSwift
   - ObjectMapper
+  - RxBlocking (~> 4.0)
+  - RxCocoa (~> 4.0)
   - Shimmer
   - SnapKit
   - SVProgressHUD
   - SwiftyJSON (~> 3.1.4)
+  - TinderSwipeView (~> 1.1.8)
   - YYText
 
 SPEC REPOS:
@@ -85,11 +95,15 @@ SPEC REPOS:
     - Moya
     - ObjectMapper
     - Result
+    - RxAtomic
+    - RxBlocking
+    - RxCocoa
     - RxSwift
     - Shimmer
     - SnapKit
     - SVProgressHUD
     - SwiftyJSON
+    - TinderSwipeView
     - YYText
 
 SPEC CHECKSUMS:
@@ -111,13 +125,17 @@ SPEC CHECKSUMS:
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
+  RxBlocking: 5508e90d36ca2304632dc9378ece4e9b5d4bf656
+  RxCocoa: 2f35a76bf8887872e28a1914112395b11b8e0e64
   RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  TinderSwipeView: 13e7de167edb6b9883b398878a0e36e3633e01a0
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 686a61e4b65b0759d33249baec2f61516dfe8c8c
+PODFILE CHECKSUM: 9fc33c94944de8e529ddcfc71a2c6c2bf0fca909
 
 COCOAPODS: 1.6.1

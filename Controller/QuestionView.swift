@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 
-class QuestionViewController: UIViewController {
+class QuestionView: UIView {
     var question:QuestionModel?
     var index:Int?
 
@@ -60,16 +60,25 @@ class QuestionViewController: UIViewController {
         return label;
     }()
 
+    init(frame: CGRect,question: QuestionModel) {
+        super.init(frame: frame)
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        self.question = question
+        commonInit()
+    }
 
-        self.view.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    func commonInit() {
+
+        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
         self.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
 
-        self.view .addSubview(contentPanel);
+        self.addSubview(contentPanel);
         contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.top.bottom.left.right.equalTo(self.view)
+            make.top.bottom.left.right.equalTo(self)
         }
 
         switch question!.type{
@@ -81,8 +90,8 @@ class QuestionViewController: UIViewController {
             setUpSentence()
         }
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(QuestionViewController.viewTap(_:)))
-        self.view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(QuestionView.viewTap(_:)))
+        self.addGestureRecognizer(tap)
     }
 
     @objc func viewTap(_ sender:UITapGestureRecognizer) {
