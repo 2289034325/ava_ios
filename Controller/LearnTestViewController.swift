@@ -94,6 +94,10 @@ extension LearnTestViewController: UIPageViewControllerDelegate,UIPageViewContro
         return self.words!.count
     }
 
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
+        print(finished,completed,previousViewControllers.count)
+    }
+
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         //如果是第0页，返回nil
         let ctr = viewController as! QuestionViewController
@@ -102,6 +106,7 @@ extension LearnTestViewController: UIPageViewControllerDelegate,UIPageViewContro
             return nil
         }
 
+        print("before")
 
         let wv = QuestionViewController()
         wv.question = questions[ctr.index!-1]
@@ -117,6 +122,7 @@ extension LearnTestViewController: UIPageViewControllerDelegate,UIPageViewContro
             return nil
         }
 
+        print("after")
 
         let wv = QuestionViewController()
         wv.question = questions[ctr.index!+1]

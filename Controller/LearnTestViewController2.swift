@@ -53,6 +53,8 @@ class LearnTestViewController2: UIViewController {
 //            return self.programticViewForOverlay(frame: frame, userModel: userModel)
         }
 
+
+
         let swipeView = TinderSwipeView<QuestionModel>(frame: viewContainer!.bounds, contentView: contentView)
         viewContainer!.addSubview(swipeView)
 //        swipeView.snp.makeConstraints{ (make) -> Void in
