@@ -159,7 +159,7 @@ class PublicBookViewController: UIViewController {
 
     func getDescriptionHeight(_ model:BookModel)->CGFloat{
         //计算描述label的高度
-        let attributedString = NSMutableAttributedString(string: model.description!,
+        let attributedString = NSMutableAttributedString(string: model.description,
                 attributes: [
                     NSAttributedStringKey.font:v2Font(18)
                 ])
@@ -264,7 +264,7 @@ extension PublicBookViewController: UIActionSheetDelegate {
 
         //加入用户词书
         _ = DictionaryApi.provider
-                .requestAPI(.addUserBook(book_id:item.id!))
+                .requestAPI(.addUserBook(book_id:item.id))
                 .subscribe(onNext: { (response) in
                     V2Success("添加成功")
                 }, onError: { (error) in

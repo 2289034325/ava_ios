@@ -293,22 +293,15 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
             let pi = self.pickerView.selectedRow(inComponent: 0)
             let wc = self.pickerNums[pi]
 
-//            SVProgressHUD.showError(withStatus:String(wc))
-
-
-            //获取用户词书列表
             _ = DictionaryApi.provider
-                    .requestAPI(.getNewWords(book_id:item.id!,word_count:wc))
+                    .requestAPI(.getNewWords(book_id:item.id,word_count:wc))
                     .mapResponseToObjArray(WordModel.self)
                     .subscribe(onNext: { (response) in
 
-//                        let wordController = WordScanViewController(words:response)
                         let wordController = WordScanViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
                         wordController.book = item
                         wordController.words=response
                         wordController.hidesBottomBarWhenPushed = true
-
-//                        let wordController = PublicBookViewController()
 
                         self.navigationController?.pushViewController(wordController, animated: true)
 
@@ -316,17 +309,6 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
                         SVProgressHUD.showError(withStatus: error.rawString())
 
                     })
-
-            //学习新词
-//            _ = DictionaryApi.provider
-//                    .requestAPI(.getNewWords(book_id:item.id!,word_count:wc))
-//                    .subscribe(onNext: { (response) in
-//
-//
-//                    }, onError: { (error) in
-//                        SVProgressHUD.showError(withStatus: error.rawString())
-//                        self.tableView.mj_header.endRefreshing()
-//                    })
         }
         controller.addAction(okAction)
 
@@ -337,16 +319,39 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
     @objc func reviewOld(_ row:Int){
         let item = self.bookList![row]
 
-        //复习
-        _ = DictionaryApi.provider
-                .requestAPI(.addUserBook(book_id:item.id!))
-                .subscribe(onNext: { (response) in
+        let controller = UIAlertController(title: "学习", message: "选择个数", preferredStyle: .alert)
+        controller.setValue(pickerViewVc, forKey: "contentViewController")
 
+        let okAction = UIAlertAction(title: "确定", style: .default) { (_) in
 
-                }, onError: { (error) in
-                    SVProgressHUD.showError(withStatus: error.rawString())
-                    self.tableView.mj_header.endRefreshing()
-                })
+            let pi = self.pickerView.selectedRow(inComponent: 0)
+            let wc = self.pickerNums[pi]
+
+            _ = DictionaryApi.provider
+                    .requestAPI(.reviewOldWords(book_id: item.id, word_count: wc))
+                    .mapResponseToObjArray(WordModel.self)
+                    .subscribe(onNext: { (response) in
+
+//                    let wordController = WordScanViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
+//                    wordController.book = item
+//                    wordController.words=response
+
+                        let wordController = LearnTestViewController4(book: item, words: response)
+                        wordController.hidesBottomBarWhenPushed = true
+
+                        self.navigationController?.pushViewController(wordController, animated: true)
+
+                    }, onError: { (error) in
+                        SVProgressHUD.showError(withStatus: error.rawString())
+
+                    })
+        }
+
+        controller.addAction(okAction)
+
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
 
     }
 }

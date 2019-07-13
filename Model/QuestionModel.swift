@@ -21,12 +21,16 @@ class QuestionModel {
     var wrong_times:Int
     var pass:Bool
 
-    init(word:WordModel,type:QuestionType,sentence:SentenceModel?){
+    //对应的单词测试记录
+    var learn_record_word_model: LearnRecordWordModel
+
+    init(word:WordModel,type:QuestionType,sentence:SentenceModel?,recordModel:LearnRecordWordModel){
         self.word = word
         self.type=type
         self.answer_times = 0
         self.wrong_times = 0
         self.pass = false
         self.sentence = sentence
+        self.learn_record_word_model = recordModel
     }
 }

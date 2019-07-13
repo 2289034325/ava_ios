@@ -35,18 +35,12 @@ class LearnTestViewController: UIPageViewController {
 
         self.hideKeyboardWhenTappedAround()
 
-        self.record = LearnRecordModel()
-        record!.book_id = self.book!.id
-        record!.word_count = self.words!.count
-        record!.start_time = Date()
-        record!.answer_times = 0
-        record!.wrong_times = 0
-        record!.detail = []
+        self.record = LearnRecordModel(book_id:self.book!.id,word_count:self.words!.count)
 
         //生成question
         let qts = [QuestionType.MF,QuestionType.FM,QuestionType.Fill]
         for(idx,w) in self.words!.enumerated(){
-            self.questions.append(contentsOf: w.createQuestions(types:qts))
+//            self.questions.append(contentsOf: w.createQuestions(types:qts))
         }
 
         self.navigationItem.title = "1/\(self.questions.count)"

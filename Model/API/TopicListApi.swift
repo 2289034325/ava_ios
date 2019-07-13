@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Moya
 
 enum TopicListApi {
     //获取首页列表
@@ -18,6 +19,7 @@ enum TopicListApi {
 }
 
 extension TopicListApi: V2EXTargetType {
+
     var parameters: [String : Any]? {
         switch self {
         case let .topicList(tab, page):
@@ -50,6 +52,27 @@ extension TopicListApi: V2EXTargetType {
 //            return ""
         }
     }
-    
+
+    var method: Moya.Method {
+        return .get
+    }
+
+    var task: Task {
+        return requestTaskWithParameters
+    }
+
+    var requestTaskWithParameters: Task {
+        get {
+            //默认参数
+            var defaultParameters:[String:Any] = [:]
+            //协议参数
+            if let parameters = self.parameters {
+                for (key, value) in parameters {
+                    defaultParameters[key] = value
+                }
+            }
+            return Task.requestParameters(parameters: defaultParameters, encoding: parameterEncoding)
+        }
+    }
     
 }

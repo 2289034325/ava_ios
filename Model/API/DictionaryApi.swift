@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Moya
 
 enum DictionaryApi {
     //获取首页列表
@@ -26,9 +27,22 @@ enum DictionaryApi {
 
     //学习新词
     case getNewWords(book_id: Int,word_count: Int)
+    //复习旧词
+    case reviewOldWords(book_id: Int,word_count: Int)
+    //提交测试记录
+    case submitResult(_ record:LearnRecordModel)
 }
 
 extension DictionaryApi: V2EXTargetType {
+    var method: Moya.Method {
+        switch self {
+        case .submitResult:
+            return .post
+        default:
+            return .get
+        }
+    }
+
     var parameters: [String : Any]? {
         switch self {
         case let .topicList(tab, page):
@@ -49,8 +63,10 @@ extension DictionaryApi: V2EXTargetType {
             return ["book_id":book_id]
         case let .getNewWords(book_id,word_count):
             return ["book_id":book_id,"word_count":word_count]
-//        default:
-//            return nil
+        case let .reviewOldWords(book_id,word_count):
+            return ["book_id":book_id,"word_count":word_count]
+        default:
+            return nil
         }
     }
     
@@ -73,10 +89,43 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/adduserbook/\(book_id)"
         case let .getNewWords(book_id,word_count):
             return "/dictionary/book/\(book_id)/learn_new/\(word_count)"
+        case let .reviewOldWords(book_id,word_count):
+            return "/dictionary/book/\(book_id)/review_old/\(word_count)"
+        case let .submitResult(result):
+            return "/dictionary/learn/record/save"
 //        default:
 //            return ""
         }
     }
-    
-    
+
+    var task: Task {
+        switch self {
+        case let .submitResult(result):
+//            let formatter = DateFormatter()
+//            formatter.dateStyle = .full
+//            formatter.timeStyle = .full
+//            encoder.dateEncodingStrategy = .formatted(formatter)
+
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            return Task.requestCustomJSONEncodable(result,encoder:encoder)
+        default:
+            return requestTaskWithParameters
+        }
+
+    }
+
+    var requestTaskWithParameters: Task {
+        get {
+            //默认参数
+            var defaultParameters:[String:Any] = [:]
+            //协议参数
+            if let parameters = self.parameters {
+                for (key, value) in parameters {
+                    defaultParameters[key] = value
+                }
+            }
+            return Task.requestParameters(parameters: defaultParameters, encoding: parameterEncoding)
+        }
+    }
 }

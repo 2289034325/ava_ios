@@ -13,20 +13,20 @@ import ObjectMapper
 import Foundation
 
 class BookModel: BaseJsonModel {
-    var id:Int?
-    var lang:Int?
-    var name:String?
-    var description:String?
-    var word_count:Int?
-    var user_count:Int?
-    var finished_count:Int?
-    var learning_count:Int?
-    var notstart_count:Int?
+    var id:Int = 0
+    var lang:Int = 0
+    var name:String = ""
+    var description:String = ""
+    var word_count:Int = 0
+    var user_count:Int = 0
+    var finished_count:Int = 0
+    var learning_count:Int = 0
+    var notstart_count:Int = 0
     var last_learn_time:Date?
     var last_learn_count:Int?
-    var answer_times:Int?
-    var wrong_times:Int?
-    var today_need_review_count:Int?
+    var answer_times:Int = 0
+    var wrong_times:Int = 0
+    var today_need_review_count:Int = 0
 
     let df : DateFormatter = {
         let formatter = DateFormatter()
@@ -52,5 +52,7 @@ class BookModel: BaseJsonModel {
         wrong_times <- map["wrong_times"]
 
         today_need_review_count <- map["today_need_review_count"]
+
+
     }
 }

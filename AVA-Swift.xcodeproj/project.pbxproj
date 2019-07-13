@@ -137,6 +137,7 @@
 		C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */; };
 		C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */; };
 		C22D6E134D969ECC7E6CB9AA /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2201CD3DE6FB98613F6F018 /* BookModel.swift */; };
+		C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22FA7C65BC94D791EE8DFD6 /* JSONEncoder+Extension.swift */; };
 		C22E72A496E622CE14DB3CBC /* WordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AEE5BCAFE2EC81953D16D /* WordViewController.swift */; };
 		C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2207FE837BC256E49304E3E /* DictionaryApi.swift */; };
 		C22EEFD0473B65677C5227AC /* LearnRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224763652327DFDD632D367 /* LearnRecordModel.swift */; };
@@ -293,6 +294,7 @@
 		C22CC81C0F1317BE812A05F5 /* WordTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordTitleTableViewCell.swift; sourceTree = "<group>"; };
 		C22CCFBE76B908C7E7F54A7F /* LearnTestViewController4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestViewController4.swift; sourceTree = "<group>"; };
 		C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reactive+Extension.swift"; sourceTree = "<group>"; };
+		C22FA7C65BC94D791EE8DFD6 /* JSONEncoder+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSONEncoder+Extension.swift"; sourceTree = "<group>"; };
 		E02BB9E4AF9F5BC0AE459911 /* Pods-AVA-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVA-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift.release.xcconfig"; sourceTree = "<group>"; };
 		FD0F3D406D02057875D46AD5 /* libPods-AVA-Swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AVA-Swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -366,6 +368,7 @@
 				C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */,
 				C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */,
 				C22BE2138C27DBD4323B7DCE /* UIViewController+Extension.swift */,
+				C22FA7C65BC94D791EE8DFD6 /* JSONEncoder+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -919,6 +922,7 @@
 				C222398755CEF23B9024B265 /* LearnTestViewController3.swift in Sources */,
 				C2290808B8CCE0BEB6784614 /* QuestionView2.swift in Sources */,
 				C2289A9F3AB7FA1DC9DDEF25 /* LearnTestViewController4.swift in Sources */,
+				C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

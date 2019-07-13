@@ -163,13 +163,13 @@ class PublicBookListTableViewCell: UITableViewCell {
 
     func superBind(_ model:BookModel){
         self.bookNameLabel.text = model.name;
-        self.wordCountLabel.text = String(model.word_count!);
-        self.avatarImageView.image = UIImage.getLangFlag(model.lang!)
-        self.userCountLabel.text = String(model.user_count!)
+        self.wordCountLabel.text = String(model.word_count);
+        self.avatarImageView.image = UIImage.getLangFlag(model.lang)
+        self.userCountLabel.text = String(model.user_count)
         self.descriptionLabel.text = model.description
 
         //计算描述label的高度
-        let attributedString = NSMutableAttributedString(string: model.description!,
+        let attributedString = NSMutableAttributedString(string: model.description,
                 attributes: [
                     NSAttributedStringKey.font:v2Font(18)
                 ])

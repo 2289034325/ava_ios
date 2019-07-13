@@ -42,7 +42,7 @@ class LearnTestViewController2: UIViewController {
         //生成question
         let qts = [QuestionType.MF,QuestionType.FM,QuestionType.Fill]
         for(idx,w) in self.words!.enumerated(){
-            self.questions.append(contentsOf: w.createQuestions(types:qts))
+//            self.questions.append(contentsOf: w.createQuestions(types:qts))
         }
 
         // Dynamically create view for each tinder card

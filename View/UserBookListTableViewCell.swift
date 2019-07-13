@@ -172,11 +172,11 @@ class UserBookListTableViewCell: UITableViewCell {
     
     func superBind(_ model:BookModel){
         self.bookNameLabel.text = model.name;
-        self.wordCountLabel.text = String(model.word_count!);
-        self.avatarImageView.image = UIImage.getLangFlag(model.lang!)
-        self.todayNeedReviewCountLabel.text = String(model.today_need_review_count!)
+        self.wordCountLabel.text = String(model.word_count);
+        self.avatarImageView.image = UIImage.getLangFlag(model.lang)
+        self.todayNeedReviewCountLabel.text = String(model.today_need_review_count)
         self.dateAndLastLearnedLabel.text = model.last_learn_time!.toRelativeString()+" · "+String(model.last_learn_count!)
-        self.progressLabel.text = "\(model.finished_count!) \(model.learning_count!) \(model.notstart_count!)"
+        self.progressLabel.text = "\(model.finished_count) \(model.learning_count) \(model.notstart_count)"
         
         self.itemModel = model
     }

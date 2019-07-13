@@ -18,7 +18,7 @@ import SnapKit
 
 class WordScanViewController: UIPageViewController {
     var book:BookModel?
-    var words:[WordModel]?
+    var words = [WordModel]()
     var curr_word_index:Int = 0
     var title_panel:UIView?
 
@@ -46,7 +46,7 @@ class WordScanViewController: UIPageViewController {
         delegate=self
         dataSource=self
 
-        let word = words![0]
+        let word = words[0]
         let wv = WordViewController()
         wv.word = word
         wv.index = 0
@@ -89,7 +89,7 @@ class WordScanViewController: UIPageViewController {
 
 extension WordScanViewController: UIPageViewControllerDelegate,UIPageViewControllerDataSource{
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return self.words!.count
+        return self.words.count
     }
 
 //    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool){
@@ -99,7 +99,7 @@ extension WordScanViewController: UIPageViewControllerDelegate,UIPageViewControl
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         //如果是第0页，返回nil
         let ctr = viewController as! WordViewController
-        self.navigationItem.title = "\(ctr.index!+1)/\(self.words!.count)"
+        self.navigationItem.title = "\(ctr.index!+1)/\(self.words.count)"
         if ctr.index == 0 {
             return nil
         }
@@ -111,7 +111,7 @@ extension WordScanViewController: UIPageViewControllerDelegate,UIPageViewControl
 
 
         let wv = WordViewController()
-        wv.word = words![ctr.index!-1]
+        wv.word = words[ctr.index!-1]
         wv.index = ctr.index!-1
 
         return wv
@@ -119,8 +119,8 @@ extension WordScanViewController: UIPageViewControllerDelegate,UIPageViewControl
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let ctr = viewController as! WordViewController
-        self.navigationItem.title = "\(ctr.index!+1)/\(self.words!.count)"
-        if ctr.index == words!.count-1 {
+        self.navigationItem.title = "\(ctr.index!+1)/\(self.words.count)"
+        if ctr.index == words.count-1 {
             return nil
         }
 
@@ -130,7 +130,7 @@ extension WordScanViewController: UIPageViewControllerDelegate,UIPageViewControl
 
 
         let wv = WordViewController()
-        wv.word = words![ctr.index!+1]
+        wv.word = words[ctr.index!+1]
         wv.index = ctr.index!+1
 
         return wv
@@ -141,10 +141,10 @@ extension WordScanViewController: UIPageViewControllerDelegate,UIPageViewControl
 extension WordScanViewController {
 
     func setupView(){
-        let word = self.words![curr_word_index]
+        let word = self.words[curr_word_index]
 
 //        self.navigationController?.navigationItem.title = "1/20"
-        self.navigationItem.title = "1/\(self.words!.count)"
+        self.navigationItem.title = "1/\(self.words.count)"
 //        self.navigationItem.leftItemsSupplementBackButton = true
 
 
@@ -225,10 +225,8 @@ extension WordScanViewController {
     //开始测试
     @objc func rightClick(){
 //        let testController = LearnTestViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
-        let testController = LearnTestViewController4()
+        let testController = LearnTestViewController4(book:self.book!,words:self.words)
         testController.hidesBottomBarWhenPushed = true
-        testController.book = self.book
-        testController.words = self.words
         self.navigationController?.pushViewController(testController, animated: true)
     }
 }

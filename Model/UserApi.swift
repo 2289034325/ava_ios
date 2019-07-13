@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Moya
 
 enum UserApi {
     case getUserInfo(username:String)
@@ -24,6 +25,28 @@ extension UserApi: V2EXTargetType {
         switch self {
         case let .getUserInfo(username):
             return ["username": username]
+        }
+    }
+
+    var method: Moya.Method {
+        return .get
+    }
+
+    var task: Task {
+        return requestTaskWithParameters
+    }
+
+    var requestTaskWithParameters: Task {
+        get {
+            //默认参数
+            var defaultParameters:[String:Any] = [:]
+            //协议参数
+            if let parameters = self.parameters {
+                for (key, value) in parameters {
+                    defaultParameters[key] = value
+                }
+            }
+            return Task.requestParameters(parameters: defaultParameters, encoding: parameterEncoding)
         }
     }
 }

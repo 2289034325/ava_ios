@@ -29,9 +29,9 @@ extension V2EXTargetType {
         return URL(string: API_BASE_URL)!
     }
     
-    var method: Moya.Method {
-        return .get
-    }
+//    var method: Moya.Method {
+//        return .get
+//    }
     
     var parameterEncoding: ParameterEncoding {
         return URLEncoding.default
@@ -41,23 +41,7 @@ extension V2EXTargetType {
         return Data()
     }
     
-    var task: Task {
-        return requestTaskWithParameters
-    }
-    
-    var requestTaskWithParameters: Task {
-        get {
-            //默认参数
-            var defaultParameters:[String:Any] = [:]
-            //协议参数
-            if let parameters = self.parameters {
-                for (key, value) in parameters {
-                    defaultParameters[key] = value
-                }
-            }
-            return Task.requestParameters(parameters: defaultParameters, encoding: parameterEncoding)
-        }
-    }
+
     
     static var networkActivityPlugin: PluginType {
         return NetworkActivityPlugin { (change, type) in

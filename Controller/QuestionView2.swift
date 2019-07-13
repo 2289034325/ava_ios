@@ -13,8 +13,8 @@ import RxCocoa
 
 
 class QuestionView2: UIView {
-    var question:QuestionModel?
-    var index:Int?
+    var question:QuestionModel
+    var index:Int = 0
 
     var spellLabel: UILabel = {
         let label = UILabel()
@@ -58,21 +58,23 @@ class QuestionView2: UIView {
     }()
 
     init(frame: CGRect,question: QuestionModel) {
-        super.init(frame: frame)
 
         self.question = question
+
+        super.init(frame: frame)
+
         commonInit()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     func commonInit() {
 
         self.backgroundColor=V2EXColor.colors.v2_CellWhiteBackgroundColor;
 
-        switch question!.type{
+        switch question.type{
         case .MF:
             setUpMF()
         case .FM:
@@ -97,7 +99,7 @@ class QuestionView2: UIView {
 //    }
 
     func showAnswer(){
-        switch self.question!.type{
+        switch self.question.type{
         case .MF:
             showAnwserOfMF()
         case .FM:
@@ -109,9 +111,9 @@ class QuestionView2: UIView {
 
     func setUpBasic(){
 
-        spellLabel.text = self.question?.word.spell
-        pronLabel.text = "[\(self.question!.word.pronounce!)]"
-        meaningLabel.text = self.question?.word.meaning
+        spellLabel.text = self.question.word.spell
+        pronLabel.text = "[\(self.question.word.pronounce!)]"
+        meaningLabel.text = self.question.word.meaning
 
         self.addSubview(spellLabel);
         spellLabel.snp.makeConstraints{ (make) -> Void in
@@ -195,10 +197,10 @@ class QuestionView2: UIView {
             make.right.equalTo(self).offset(-5)
         }
 
-        let wordT = self.question!.sentence!.word!
+        let wordT = self.question.sentence!.word!
         let pl = "".leftPadding(toLength: wordT.count, withPad: "_")
-        sentenceLabel.text = self.question?.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
-        translationLabel.text = self.question?.sentence?.translation
+        sentenceLabel.text = self.question.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
+        translationLabel.text = self.question.sentence?.translation
 
         translationLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
@@ -208,7 +210,7 @@ class QuestionView2: UIView {
         pronLabel.textColor = UIColor.black
         pronImage.tintColor = UIColor.blue
         meaningLabel.textColor = UIColor.black
-        sentenceLabel.text = self.question?.sentence?.sentence
+        sentenceLabel.text = self.question.sentence?.sentence
         translationLabel.textColor = UIColor.black
     }
 }

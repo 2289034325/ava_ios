@@ -48,7 +48,7 @@ class LearnTestViewController3: UIViewController {
         //生成question
         let qts = [QuestionType.MF,QuestionType.FM,QuestionType.Fill]
         for(idx,w) in self.words!.enumerated(){
-            self.questions.append(contentsOf: w.createQuestions(types:qts))
+//            self.questions.append(contentsOf: w.createQuestions(types:qts))
         }
 
 //        for (idx,q) in self.questions.enumerated(){

@@ -6,13 +6,10 @@
 //  Copyright © 2016 Fin. All rights reserved.
 //
 
-import UIKit
-import Alamofire
-import Ji
 import ObjectMapper
 import Foundation
 
-class WordModel: BaseJsonModel {
+class WordModel: Mappable {
     var id:Int?
     var lang:Int?
     var spell:String?
@@ -22,19 +19,29 @@ class WordModel: BaseJsonModel {
     var sentences = [SentenceModel]()
     var questions:[QuestionModel]?
 
+    // 记忆的第几阶段（同一个词如果在不同的词书，可能有不同的phase）
+    var learn_phase:Int?
+
     let df : DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         return formatter
     }()
 
-    override func mapping(map: Map) {
+    init(){
+    }
+
+    required init?(map: Map) {
+    }
+
+    func mapping(map: Map) {
         id <- map["id"]
         lang <- map["lang"]
         spell <- map["spell"]
         pronounce <- map["pronounce"]
         meaning <- map["meaning"]
         explains <- map["explains"]
+        learn_phase <- map["learn_phase"]
 
         if(explains == nil){
             explains = []
@@ -49,7 +56,7 @@ class WordModel: BaseJsonModel {
 
     }
 
-    func createQuestions(types:[QuestionType])->[QuestionModel]{
+    func createQuestions(types:[QuestionType],recordModel:LearnRecordWordModel)->[QuestionModel]{
         var qs = [QuestionModel]()
 
         for (idx,qt) in types.enumerated(){
@@ -59,7 +66,7 @@ class WordModel: BaseJsonModel {
 
             let sts = self.sentences.randomElement()
 
-            let nq = QuestionModel(word:self,type:qt,sentence:sts)
+            let nq = QuestionModel(word:self,type:qt,sentence:sts,recordModel: recordModel)
             qs.append(nq)
         }
 
