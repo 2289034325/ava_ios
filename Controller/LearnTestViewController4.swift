@@ -18,7 +18,7 @@ import TinderSwipeView
 
 class LearnTestViewController4: UIViewController {
 
-    var book:BookModel
+    var book:UserBookModel
     var words:[WordModel]
     var questions:[QuestionModel]
 
@@ -30,6 +30,8 @@ class LearnTestViewController4: UIViewController {
     var animating:Bool = false
 
     var startLocation = CGPoint()
+    
+    var refrenceView = ""
 
 //    var leftFinishPoint = CGPoint.zero
 //    var rightFinishPoint = CGPoint.zero
@@ -38,7 +40,7 @@ class LearnTestViewController4: UIViewController {
 //        self.init(book:book,words:words)
 //    }
 
-    init(book:BookModel,words:[WordModel]) {
+    init(book:UserBookModel,words:[WordModel]) {
 
         self.book = book
         self.words = words
@@ -47,7 +49,7 @@ class LearnTestViewController4: UIViewController {
             fatalError("need at least one word!")
         }
 
-        learnRecord = LearnRecordModel(book_id:self.book.id,word_count:self.words.count)
+        learnRecord = LearnRecordModel(user_book:self.book,word_count:self.words.count)
 
         //生成question
         self.questions = [QuestionModel]()
@@ -61,16 +63,16 @@ class LearnTestViewController4: UIViewController {
             let qs = w.createQuestions(types:qts,recordModel:rd)
             self.questions.append(contentsOf: qs)
         }
-
-
-
-//        super.init(nibName: nil, bundle: nil)
-
-        self.questionView = QuestionView2(frame:CGRect.zero,question:questions[0])
-        if self.words.count >= 1 {
-            self.questionViewNext = QuestionView2(frame: CGRect.zero, question: questions[1])
+        
+        
+        //第一个和第二个问题初始化view
+        let qst = LearnTestViewController4.getRandomQuestion(self.questions,except: nil)
+        self.questionView = QuestionView2(frame:CGRect.zero,question:qst!)
+        qst?.plusAnswerTimes()
+        if self.questions.count > 1 {
+            let qst2 = LearnTestViewController4.getRandomQuestion(self.questions,except: qst)
+            self.questionViewNext = QuestionView2(frame: CGRect.zero, question: qst2!)
         }
-//        self.questionView = QuestionView2(frame:CGRect.zero,question:questions[0])
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -120,13 +122,10 @@ class LearnTestViewController4: UIViewController {
         }
     }
 
-    func getRandomQuestion()->QuestionModel?{
-        let qs = self.questions.filter { (qm: QuestionModel) -> Bool in
-            return !qm.pass
-        }
-
-        if qs.count == 0{
-            return nil
+    class func getRandomQuestion(_ questions:[QuestionModel],except:QuestionModel?)->QuestionModel?{
+        
+        let qs = questions.filter { (qm: QuestionModel) -> Bool in
+            return !qm.pass && ((except == nil) ? true : (qm.word.id != except!.word.id || qm.type != except?.type))
         }
 
         //回答次数少的优先出现
@@ -162,8 +161,6 @@ class LearnTestViewController4: UIViewController {
             let dy = stopLocation.y - startLocation.y
             let distance = sqrt(dx * dx + dy * dy)
 
-            print(distance)
-
             if distance > 110 {
                 let leftFinishPoint = CGPoint(x: -self.questionView.center.x*2, y: self.questionView.center.y)
                 let rightFinishPoint = CGPoint(x: self.questionView.center.x*3, y: self.questionView.center.y)
@@ -171,6 +168,7 @@ class LearnTestViewController4: UIViewController {
 
                 self.questionView.backgroundColor = UIColor.gray
 
+                
                 if dx<0{
                     finishPoint = leftFinishPoint
                     self.questionView.question.pass = true
@@ -179,7 +177,7 @@ class LearnTestViewController4: UIViewController {
                     finishPoint = rightFinishPoint
                     self.questionView.question.pass = false
                     //回答错误次数+1
-                    self.questionView.question.learn_record_word_model.wrong_times += 1
+                    self.questionView.question.plusWrongTimes()
                 }
 
                 let nq = self.questions.filter { (qm: QuestionModel) -> Bool in
@@ -187,17 +185,15 @@ class LearnTestViewController4: UIViewController {
                 }
                 self.navigationItem.title = "\(nq.count)/\(self.questions.count)"
 
-                guard let qst = self.getRandomQuestion() else {
+                if self.questionViewNext == nil {
                     self.learnRecord.end_time = Date()
-
+                    
                     //提交
-                    submitTestResult()
-
-                    //返回
-                    self.navigationController?.popViewController(animated: true)
-
+                    self.submitTestResult()
+                    
                     return
                 }
+                
 
                 self.animating = true
                 UIView.animate(withDuration: 0.3, animations: {
@@ -205,14 +201,20 @@ class LearnTestViewController4: UIViewController {
                 }, completion: {(_) in
                     self.questionView.removeFromSuperview()
                     self.questionView = self.questionViewNext!
-                    self.questionViewNext = QuestionView2(frame: self.view.frame, question: qst)
-                    self.view.insertSubview(self.questionViewNext!, belowSubview: self.questionView)
-                    self.questionViewNext!.snp.makeConstraints { (make) -> Void in
-                        make.left.top.right.bottom.equalTo(self.view)
-                    }
-
                     //被展示后，认定为开始回答，回答次数+1
-                    self.questionView.question.learn_record_word_model.answer_times += 1
+                    self.questionView.question.plusAnswerTimes()
+                    
+                    if let qst = LearnTestViewController4.getRandomQuestion(self.questions,except: self.questionView.question)
+                    {
+                        self.questionViewNext = QuestionView2(frame: self.view.frame, question: qst)
+                        self.view.insertSubview(self.questionViewNext!, belowSubview: self.questionView)
+                        self.questionViewNext!.snp.makeConstraints { (make) -> Void in
+                            make.left.top.right.bottom.equalTo(self.view)
+                        }
+                    }
+                    else{
+                        self.questionViewNext = nil
+                    }
 
                     self.animating = false
                 })
@@ -231,23 +233,42 @@ class LearnTestViewController4: UIViewController {
 
     func submitTestResult(){
 
-        do {
-//            let jsonEncoder = JSONEncoder()
-//            let jsonData = try jsonEncoder.encode(self.learnRecord)
-//            let json = String(data: jsonData, encoding: String.Encoding.utf8)
-
+        SVProgressHUD.setDefaultMaskType(.clear)
+        SVProgressHUD.show(withStatus: "测试完成，正在提交")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+            // Put your code which should be executed with a delay here
             _ = DictionaryApi.provider
-                    .requestAPI(.submitResult(self.learnRecord))
-                    .subscribe(onNext: { (response) in
+                .requestAPI(.submitResult(self.learnRecord))
+                .subscribe(onNext: { (response) in
+                    SVProgressHUD.setStatus("提交成功，正在返回")
+                    SVProgressHUD.dismiss(withDelay: 1, completion: {
                         //返回
-                        self.navigationController?.popViewController(animated: true)
-
-                    }, onError: { (error) in
-                        SVProgressHUD.showError(withStatus: error.rawString())
-
+                        if self.refrenceView == "wordscan"{
+                            let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+                            self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+                        }
+                        else{
+                            self.navigationController?.popViewController(animated: true)
+                        }
                     })
-        }catch {
-            SVProgressHUD.showError(withStatus: "提交失败")
-        }
+                }, onError: { (error) in
+                    SVProgressHUD.dismiss()
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                })
+        })
+        
+//        _ = DictionaryApi.provider
+//                .requestAPI(.submitResult(self.learnRecord))
+//                .subscribe(onNext: { (response) in
+//                    SVProgressHUD.showSuccess(withStatus: "提交成功，正在返回")
+//                    SVProgressHUD.dismiss(withDelay: 2, completion: {
+//                        //返回
+//                        self.navigationController?.popViewController(animated: true)
+//                    })
+//                }, onError: { (error) in
+//                    SVProgressHUD.dismiss()
+//                    SVProgressHUD.showError(withStatus: error.rawString())
+//                })
     }
 }

@@ -8,28 +8,28 @@
 
 import Foundation
 
-struct LearnRecordWordModel:Codable {
+class LearnRecordWordModel:Codable {
     var word:WordModel
+    var word_id:Int
     var answer_times:Int
     var wrong_times:Int
-    var learn_time:Date
     var learn_phase:Int
     var finished:Bool
 
     enum CodingKeys: String, CodingKey {
+        case word_id
         case answer_times
         case wrong_times
-        case learn_time
         case learn_phase
         case finished
     }
 
-    init(from decoder: Decoder) {
+    required init(from decoder: Decoder) {
         self.word = WordModel()
 
+        word_id = 0
         answer_times = 0
         wrong_times = 0
-        learn_time = Date()
         learn_phase = 0
         finished = false
     }
@@ -37,9 +37,9 @@ struct LearnRecordWordModel:Codable {
     init(word:WordModel){
         self.word = word
 
+        word_id = word.id!
         answer_times = 0
         wrong_times = 0
-        learn_time = Date()
         learn_phase = word.learn_phase!
         finished = false
     }

@@ -20,7 +20,7 @@ import YYText
 
 
 class PublicBookViewController: UIViewController {
-    var bookList:Array<BookModel>?
+    var bookList:Array<PublicBookModel>?
     var currentPage = 0
 
     fileprivate lazy var tableView: UITableView  = {
@@ -111,7 +111,7 @@ class PublicBookViewController: UIViewController {
         //获取公共词书列表
         _ = DictionaryApi.provider
                 .requestAPI(.getPublicBooks())
-                .mapResponseToObjArray(BookModel.self)
+                .mapResponseToObjArray(PublicBookModel.self)
                 .subscribe(onNext: { (response) in
                     self.bookList = response
                     self.tableView.reloadData()
@@ -157,7 +157,7 @@ class PublicBookViewController: UIViewController {
         PublicBookViewController.lastLeaveTime = Date()
     }
 
-    func getDescriptionHeight(_ model:BookModel)->CGFloat{
+    func getDescriptionHeight(_ model:PublicBookModel)->CGFloat{
         //计算描述label的高度
         let attributedString = NSMutableAttributedString(string: model.description,
                 attributes: [

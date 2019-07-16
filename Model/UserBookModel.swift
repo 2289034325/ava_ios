@@ -12,13 +12,14 @@ import Ji
 import ObjectMapper
 import Foundation
 
-class BookModel: BaseJsonModel {
+class UserBookModel: BaseJsonModel {
     var id:Int = 0
+    var user_id:Int = 0
+    var book_id:Int = 0
     var lang:Int = 0
     var name:String = ""
     var description:String = ""
     var word_count:Int = 0
-    var user_count:Int = 0
     var finished_count:Int = 0
     var learning_count:Int = 0
     var notstart_count:Int = 0
@@ -36,11 +37,12 @@ class BookModel: BaseJsonModel {
 
     override func mapping(map: Map) {
         id <- map["id"]
+        user_id <- map["user_id"]
+        book_id <- map["book_id"]
         lang <- map["lang"]
         name <- map["name"]
         description <- map["description"]
         word_count <- map["word_count"]
-        user_count <- map["user_count"]
         finished_count <- map["finished_count"]
         learning_count <- map["learning_count"]
         notstart_count <- map["notstart_count"]

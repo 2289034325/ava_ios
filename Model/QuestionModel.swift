@@ -33,4 +33,14 @@ class QuestionModel {
         self.sentence = sentence
         self.learn_record_word_model = recordModel
     }
+
+    func plusAnswerTimes(){
+        self.answer_times += 1
+        self.learn_record_word_model.answer_times += 1
+    }
+
+    func plusWrongTimes(){
+        self.wrong_times += 1
+        self.learn_record_word_model.wrong_times += 1
+    }
 }

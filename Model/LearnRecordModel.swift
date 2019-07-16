@@ -8,9 +8,11 @@
 
 import Foundation
 
-struct LearnRecordModel:Codable {
+class LearnRecordModel:Codable {
     var id:String
+    var user_id:Int
     var book_id:Int
+    var user_book_id:Int
     var word_count:Int
     var answer_times:Int
     var wrong_times:Int
@@ -20,9 +22,11 @@ struct LearnRecordModel:Codable {
 
 
 
-    init(book_id:Int,word_count:Int){
+    init(user_book:UserBookModel,word_count:Int){
         self.id = UUID().uuidString
-        self.book_id = book_id
+        self.user_id = user_book.user_id
+        self.book_id = user_book.book_id
+        self.user_book_id = user_book.id
         self.word_count = word_count
         answer_times = 0
         wrong_times = 0

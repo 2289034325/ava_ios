@@ -19,7 +19,7 @@ import SVProgressHUD
 
 
 class UserBookViewController: UIViewController {
-    var bookList:Array<BookModel>?
+    var bookList:Array<UserBookModel>?
     var currentPage = 0
     var pickerViewVc:UIViewController!
     var pickerView:UIPickerView!
@@ -139,7 +139,7 @@ class UserBookViewController: UIViewController {
         //获取用户词书列表
         _ = DictionaryApi.provider
                 .requestAPI(.getMyBooks())
-                .mapResponseToObjArray(BookModel.self)
+                .mapResponseToObjArray(UserBookModel.self)
                 .subscribe(onNext: { (response) in
                     self.bookList = response
                     self.tableView.reloadData()
@@ -294,16 +294,21 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
             let wc = self.pickerNums[pi]
 
             _ = DictionaryApi.provider
-                    .requestAPI(.getNewWords(book_id:item.id,word_count:wc))
+                    .requestAPI(.getNewWords(user_book_id:item.id,word_count:wc))
                     .mapResponseToObjArray(WordModel.self)
                     .subscribe(onNext: { (response) in
 
+                        if(response.count == 0){
+                            SVProgressHUD.showError(withStatus: "没有未学习的新词")
+                        }
+                        else{
                         let wordController = WordScanViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
                         wordController.book = item
                         wordController.words=response
                         wordController.hidesBottomBarWhenPushed = true
 
                         self.navigationController?.pushViewController(wordController, animated: true)
+                        }
 
                     }, onError: { (error) in
                         SVProgressHUD.showError(withStatus: error.rawString())
@@ -328,22 +333,22 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
             let wc = self.pickerNums[pi]
 
             _ = DictionaryApi.provider
-                    .requestAPI(.reviewOldWords(book_id: item.id, word_count: wc))
+                    .requestAPI(.reviewOldWords(user_book_id: item.id, word_count: wc))
                     .mapResponseToObjArray(WordModel.self)
                     .subscribe(onNext: { (response) in
-
-//                    let wordController = WordScanViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
-//                    wordController.book = item
-//                    wordController.words=response
-
+                        
+                        if(response.count == 0){
+                            SVProgressHUD.showError(withStatus: "没有需要复习的词")
+                        }
+                        else{
                         let wordController = LearnTestViewController4(book: item, words: response)
                         wordController.hidesBottomBarWhenPushed = true
 
                         self.navigationController?.pushViewController(wordController, animated: true)
+                        }
 
                     }, onError: { (error) in
                         SVProgressHUD.showError(withStatus: error.rawString())
-
                     })
         }
 

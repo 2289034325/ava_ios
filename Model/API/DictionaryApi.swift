@@ -26,9 +26,9 @@ enum DictionaryApi {
     case addUserBook(book_id: Int)
 
     //学习新词
-    case getNewWords(book_id: Int,word_count: Int)
+    case getNewWords(user_book_id: Int,word_count: Int)
     //复习旧词
-    case reviewOldWords(book_id: Int,word_count: Int)
+    case reviewOldWords(user_book_id: Int,word_count: Int)
     //提交测试记录
     case submitResult(_ record:LearnRecordModel)
 }
@@ -60,11 +60,11 @@ extension DictionaryApi: V2EXTargetType {
         case let .getPublicBooks():
             return nil
         case let .addUserBook(book_id):
-            return ["book_id":book_id]
-        case let .getNewWords(book_id,word_count):
-            return ["book_id":book_id,"word_count":word_count]
-        case let .reviewOldWords(book_id,word_count):
-            return ["book_id":book_id,"word_count":word_count]
+            return ["user_book_id":book_id]
+        case let .getNewWords(user_book_id,word_count):
+            return ["user_book_id":user_book_id,"word_count":word_count]
+        case let .reviewOldWords(user_book_id,word_count):
+            return ["user_book_id":user_book_id,"word_count":word_count]
         default:
             return nil
         }
@@ -87,10 +87,10 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/publicbooks"
         case let .addUserBook(book_id):
             return "/dictionary/book/adduserbook/\(book_id)"
-        case let .getNewWords(book_id,word_count):
-            return "/dictionary/book/\(book_id)/learn_new/\(word_count)"
-        case let .reviewOldWords(book_id,word_count):
-            return "/dictionary/book/\(book_id)/review_old/\(word_count)"
+        case let .getNewWords(user_book_id,word_count):
+            return "/dictionary/book/\(user_book_id)/learn_new/\(word_count)"
+        case let .reviewOldWords(user_book_id,word_count):
+            return "/dictionary/book/\(user_book_id)/review_old/\(word_count)"
         case let .submitResult(result):
             return "/dictionary/learn/record/save"
 //        default:

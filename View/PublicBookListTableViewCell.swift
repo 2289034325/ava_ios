@@ -77,7 +77,7 @@ class PublicBookListTableViewCell: UITableViewCell {
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView = UIView()
 
-    var itemModel:BookModel?
+    var itemModel:PublicBookModel?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -161,7 +161,7 @@ class PublicBookListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func superBind(_ model:BookModel){
+    func superBind(_ model:PublicBookModel){
         self.bookNameLabel.text = model.name;
         self.wordCountLabel.text = String(model.word_count);
         self.avatarImageView.image = UIImage.getLangFlag(model.lang)
@@ -179,13 +179,13 @@ class PublicBookListTableViewCell: UITableViewCell {
         self.itemModel = model
     }
 
-    func bind(_ model:BookModel){
+    func bind(_ model:PublicBookModel){
         self.superBind(model)
 //        self.dateAndLastPostUserLabel.text = model.date
 //        self.nodeNameLabel.text = model.nodeName
     }
 
-    func bindNodeModel(_ model:BookModel){
+    func bindNodeModel(_ model:PublicBookModel){
         self.superBind(model)
 //        self.dateAndLastPostUserLabel.text = model.hits
 //        self.nodeBackgroundImageView.isHidden = true

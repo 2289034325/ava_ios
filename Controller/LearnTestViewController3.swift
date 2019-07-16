@@ -18,7 +18,7 @@ import TinderSwipeView
 
 class LearnTestViewController3: UIViewController {
 
-    var book:BookModel?
+    var book:UserBookModel?
     var words:[WordModel]?
     var questions=[QuestionModel]()
 

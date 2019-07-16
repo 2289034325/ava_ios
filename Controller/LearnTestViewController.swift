@@ -17,7 +17,7 @@ import SnapKit
 
 
 class LearnTestViewController: UIPageViewController {
-    var book:BookModel?
+    var book:UserBookModel?
     var words:[WordModel]?
     var record:LearnRecordModel?
     var questions=[QuestionModel]()
@@ -35,7 +35,7 @@ class LearnTestViewController: UIPageViewController {
 
         self.hideKeyboardWhenTappedAround()
 
-        self.record = LearnRecordModel(book_id:self.book!.id,word_count:self.words!.count)
+        self.record = LearnRecordModel(user_book:self.book!,word_count:self.words!.count)
 
         //生成question
         let qts = [QuestionType.MF,QuestionType.FM,QuestionType.Fill]
