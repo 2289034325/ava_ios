@@ -71,7 +71,7 @@ extension V2EXTargetType {
         #if DEBUG
         plugins.append(LogPlugin())
         #endif
-        let provider = MoyaProvider<Self>(plugins:plugins)
+        let provider = MoyaProvider<Self>(manager: DefaultAlamofireManager.sharedManager, plugins:plugins)
         return provider.rx
     }
 }

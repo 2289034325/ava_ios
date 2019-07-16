@@ -108,6 +108,17 @@ class QuestionView2: UIView {
             showAnswerOfSentence()
         }
     }
+    
+    func closeAnswer(){
+        switch self.question.type{
+        case .MF:
+            closeAnwserOfMF()
+        case .FM:
+            closeAnserOfFM()
+        case .Fill:
+            closeAnswerOfSentence()
+        }
+    }
 
     func setUpBasic(){
 
@@ -157,6 +168,11 @@ class QuestionView2: UIView {
         pronImage.tintColor = UIColor.blue
         meaningLabel.textColor = UIColor.black
     }
+    func closeAnwserOfMF(){
+        pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+    }
 
     func setUpFM(){
         setUpBasic()
@@ -169,10 +185,14 @@ class QuestionView2: UIView {
     }
 
     func showAnserOfFM(){
-
         spellLabel.textColor = UIColor.black
         pronLabel.textColor = UIColor.black
         pronImage.tintColor = UIColor.blue
+    }
+    func closeAnserOfFM(){
+        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     func setUpSentence(){
@@ -212,5 +232,15 @@ class QuestionView2: UIView {
         meaningLabel.textColor = UIColor.black
         sentenceLabel.text = self.question.sentence?.sentence
         translationLabel.textColor = UIColor.black
+    }
+    func closeAnswerOfSentence(){
+        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        let wordT = self.question.sentence!.word!
+        let pl = "".leftPadding(toLength: wordT.count, withPad: "_")
+        sentenceLabel.text = self.question.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
+        translationLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 }

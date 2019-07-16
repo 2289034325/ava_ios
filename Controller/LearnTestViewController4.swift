@@ -45,8 +45,8 @@ class LearnTestViewController4: UIViewController {
         self.book = book
         self.words = words
 
-        if words.count == 0{
-            fatalError("need at least one word!")
+        if words.count == 0 {
+            fatalError("need at least one words!")
         }
 
         learnRecord = LearnRecordModel(user_book:self.book,word_count:self.words.count)
@@ -165,9 +165,6 @@ class LearnTestViewController4: UIViewController {
                 let leftFinishPoint = CGPoint(x: -self.questionView.center.x*2, y: self.questionView.center.y)
                 let rightFinishPoint = CGPoint(x: self.questionView.center.x*3, y: self.questionView.center.y)
                 var finishPoint = CGPoint.zero
-
-                self.questionView.backgroundColor = UIColor.gray
-
                 
                 if dx<0{
                     finishPoint = leftFinishPoint
@@ -179,12 +176,40 @@ class LearnTestViewController4: UIViewController {
                     //回答错误次数+1
                     self.questionView.question.plusWrongTimes()
                 }
+                
+                //最后一题回答错误，特殊处理，
+                if self.questionViewNext == nil && self.questionView.question.pass == false{
+                    self.animating = true
+                    //冻结页面，提示10秒后重新回答
+                    SVProgressHUD.setDefaultMaskType(.black)
+                    SVProgressHUD.show(withStatus: "最后一题回答错误，请在10秒后重新回答")
+                    
+                    self.questionView.closeAnswer()
+                    
+                    var tc = 10
+                    let timer = Timer.init(timeInterval: 1, repeats:true) { (kTimer) in
+                        SVProgressHUD.setStatus("最后一题回答错误，请在\(tc)秒后重新回答")
+                        tc -= 1
+                        if tc == -1{
+                            SVProgressHUD.dismiss(completion: {
+                                kTimer.invalidate()
+                                self.animating = false
+                            })
+                        }
+                    }
+                    RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
+                    // TODO : 启动定时器
+                    timer.fire()
+                    return
+                }
 
+                //更新导航栏
                 let nq = self.questions.filter { (qm: QuestionModel) -> Bool in
                     return !qm.pass
                 }
                 self.navigationItem.title = "\(nq.count)/\(self.questions.count)"
-
+                
+                //测试结束，提交
                 if self.questionViewNext == nil {
                     self.learnRecord.end_time = Date()
                     
@@ -193,9 +218,10 @@ class LearnTestViewController4: UIViewController {
                     
                     return
                 }
-                
 
+                //不是最后一题，动画切换到下一题
                 self.animating = true
+                self.questionView.backgroundColor = UIColor.gray
                 UIView.animate(withDuration: 0.3, animations: {
                     self.questionView.center = finishPoint
                 }, completion: {(_) in
@@ -204,6 +230,7 @@ class LearnTestViewController4: UIViewController {
                     //被展示后，认定为开始回答，回答次数+1
                     self.questionView.question.plusAnswerTimes()
                     
+                    //判断是否是最后一题了
                     if let qst = LearnTestViewController4.getRandomQuestion(self.questions,except: self.questionView.question)
                     {
                         self.questionViewNext = QuestionView2(frame: self.view.frame, question: qst)

@@ -136,6 +136,7 @@
 		C22A0A8E6110705DFD7BE7C2 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22105F73469A9D86C1ED0F6 /* QuestionView.swift */; };
 		C22A5B215B4BECC1B1EEF533 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C221590D741825FF89945CCE /* QuestionViewController.swift */; };
 		C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */; };
+		C22B110B647A524BBDC8EC5A /* AlamofireSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C226B550015F75E295072F20 /* AlamofireSessionManager.swift */; };
 		C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */; };
 		C22D6E134D969ECC7E6CB9AA /* PublicBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2201CD3DE6FB98613F6F018 /* PublicBookModel.swift */; };
 		C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22FA7C65BC94D791EE8DFD6 /* JSONEncoder+Extension.swift */; };
@@ -283,6 +284,7 @@
 		C225833574CBA028B300E23A /* WordScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordScanViewController.swift; sourceTree = "<group>"; };
 		C225FB8E88BBBB2EC56FDD7A /* LearnTestViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestViewController3.swift; sourceTree = "<group>"; };
 		C226138A0FDB2CFA3AB3FEE9 /* QuestionView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView2.swift; sourceTree = "<group>"; };
+		C226B550015F75E295072F20 /* AlamofireSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireSessionManager.swift; sourceTree = "<group>"; };
 		C2271C951A1D87464ABC96A5 /* WordSentenceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordSentenceTableViewCell.swift; sourceTree = "<group>"; };
 		C22743CB424F35F57C69342F /* QuestionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionModel.swift; sourceTree = "<group>"; };
 		C2288C8026F0506633977DB2 /* PublicBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookViewController.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 			children = (
 				064F03B11ED5700C0094683D /* V2EXTargetType.swift */,
 				0678F47020CE388E0048A64B /* Observable+Extension.swift */,
+				C226B550015F75E295072F20 /* AlamofireSessionManager.swift */,
 			);
 			path = Moya;
 			sourceTree = "<group>";
@@ -927,6 +930,7 @@
 				C2289A9F3AB7FA1DC9DDEF25 /* LearnTestViewController4.swift in Sources */,
 				C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */,
 				C22234C5A259CDD0E716B93D /* UserBookModel.swift in Sources */,
+				C22B110B647A524BBDC8EC5A /* AlamofireSessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
