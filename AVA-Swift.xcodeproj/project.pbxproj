@@ -111,6 +111,21 @@
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
 		2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */; };
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
+		4043E76822DDE5F100BFCA7B /* TypIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75922DDE5EF00BFCA7B /* TypIcons.ttf */; };
+		4043E76922DDE5F100BFCA7B /* Linearicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75A22DDE5EF00BFCA7B /* Linearicons.ttf */; };
+		4043E76A22DDE5F100BFCA7B /* FontAwesomeRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75B22DDE5F000BFCA7B /* FontAwesomeRegular.ttf */; };
+		4043E76B22DDE5F100BFCA7B /* Emoji.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75C22DDE5F000BFCA7B /* Emoji.ttf */; };
+		4043E76C22DDE5F100BFCA7B /* WeatherIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75D22DDE5F000BFCA7B /* WeatherIcons.ttf */; };
+		4043E76D22DDE5F100BFCA7B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75E22DDE5F000BFCA7B /* Ionicons.ttf */; };
+		4043E76E22DDE5F100BFCA7B /* FontAwesomeSolid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75F22DDE5F000BFCA7B /* FontAwesomeSolid.ttf */; };
+		4043E76F22DDE5F100BFCA7B /* Icofont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76022DDE5F000BFCA7B /* Icofont.ttf */; };
+		4043E77022DDE5F100BFCA7B /* MapIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76122DDE5F000BFCA7B /* MapIcons.ttf */; };
+		4043E77122DDE5F100BFCA7B /* FontAwesomeBrands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76222DDE5F000BFCA7B /* FontAwesomeBrands.ttf */; };
+		4043E77222DDE5F100BFCA7B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76322DDE5F000BFCA7B /* MaterialIcons.ttf */; };
+		4043E77322DDE5F100BFCA7B /* Dripicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76422DDE5F000BFCA7B /* Dripicons.ttf */; };
+		4043E77422DDE5F100BFCA7B /* Stateface.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76522DDE5F000BFCA7B /* Stateface.ttf */; };
+		4043E77522DDE5F100BFCA7B /* OpenIconic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76622DDE5F100BFCA7B /* OpenIconic.ttf */; };
+		4043E77622DDE5F100BFCA7B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76722DDE5F100BFCA7B /* FontAwesome.ttf */; };
 		C2218B49B684C78B24DCC7CB /* SentenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B4CA62193A800C2B0758F /* SentenceModel.swift */; };
 		C22234C5A259CDD0E716B93D /* UserBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22917FFECB49F9DBE49B604 /* UserBookModel.swift */; };
 		C222398755CEF23B9024B265 /* LearnTestViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225FB8E88BBBB2EC56FDD7A /* LearnTestViewController3.swift */; };
@@ -260,6 +275,21 @@
 		40370EF122B3385E00766293 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		40370EF222B3385E00766293 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		40370EF322B3389C00766293 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4043E75922DDE5EF00BFCA7B /* TypIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = TypIcons.ttf; sourceTree = "<group>"; };
+		4043E75A22DDE5EF00BFCA7B /* Linearicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Linearicons.ttf; sourceTree = "<group>"; };
+		4043E75B22DDE5F000BFCA7B /* FontAwesomeRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesomeRegular.ttf; sourceTree = "<group>"; };
+		4043E75C22DDE5F000BFCA7B /* Emoji.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Emoji.ttf; sourceTree = "<group>"; };
+		4043E75D22DDE5F000BFCA7B /* WeatherIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = WeatherIcons.ttf; sourceTree = "<group>"; };
+		4043E75E22DDE5F000BFCA7B /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		4043E75F22DDE5F000BFCA7B /* FontAwesomeSolid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesomeSolid.ttf; sourceTree = "<group>"; };
+		4043E76022DDE5F000BFCA7B /* Icofont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Icofont.ttf; sourceTree = "<group>"; };
+		4043E76122DDE5F000BFCA7B /* MapIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MapIcons.ttf; sourceTree = "<group>"; };
+		4043E76222DDE5F000BFCA7B /* FontAwesomeBrands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesomeBrands.ttf; sourceTree = "<group>"; };
+		4043E76322DDE5F000BFCA7B /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		4043E76422DDE5F000BFCA7B /* Dripicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dripicons.ttf; sourceTree = "<group>"; };
+		4043E76522DDE5F000BFCA7B /* Stateface.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Stateface.ttf; sourceTree = "<group>"; };
+		4043E76622DDE5F100BFCA7B /* OpenIconic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenIconic.ttf; sourceTree = "<group>"; };
+		4043E76722DDE5F100BFCA7B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		44B6C123CE7CA62B5B4450D9 /* Pods-AVA-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVA-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		4B0F4B166DB726F4DA349A16 /* libPods-V2ex-Swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-V2ex-Swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52700928D2B67AA24FBCC006 /* Pods-V2ex-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -540,6 +570,7 @@
 		0698397A1C47763800FF7163 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4043E75822DDE59D00BFCA7B /* Fonts */,
 				06D0EE241C916566003095FF /* CSS */,
 				0618768C1C7C5F8C002E9C33 /* 12.jpg */,
 				06098B421C5232D800848159 /* 32.jpg */,
@@ -613,6 +644,28 @@
 				06E1BA361C70280D00867454 /* V2WebViewProgressView.swift */,
 			);
 			path = V2WebViewProgress;
+			sourceTree = "<group>";
+		};
+		4043E75822DDE59D00BFCA7B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				4043E76422DDE5F000BFCA7B /* Dripicons.ttf */,
+				4043E75C22DDE5F000BFCA7B /* Emoji.ttf */,
+				4043E76722DDE5F100BFCA7B /* FontAwesome.ttf */,
+				4043E76222DDE5F000BFCA7B /* FontAwesomeBrands.ttf */,
+				4043E75B22DDE5F000BFCA7B /* FontAwesomeRegular.ttf */,
+				4043E75F22DDE5F000BFCA7B /* FontAwesomeSolid.ttf */,
+				4043E76022DDE5F000BFCA7B /* Icofont.ttf */,
+				4043E75E22DDE5F000BFCA7B /* Ionicons.ttf */,
+				4043E75A22DDE5EF00BFCA7B /* Linearicons.ttf */,
+				4043E76122DDE5F000BFCA7B /* MapIcons.ttf */,
+				4043E76322DDE5F000BFCA7B /* MaterialIcons.ttf */,
+				4043E76622DDE5F100BFCA7B /* OpenIconic.ttf */,
+				4043E76522DDE5F000BFCA7B /* Stateface.ttf */,
+				4043E75922DDE5EF00BFCA7B /* TypIcons.ttf */,
+				4043E75D22DDE5F000BFCA7B /* WeatherIcons.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		8DF88EA187BC60D6EAF15888 /* Pods */ = {
@@ -704,15 +757,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4043E76A22DDE5F100BFCA7B /* FontAwesomeRegular.ttf in Resources */,
+				4043E77622DDE5F100BFCA7B /* FontAwesome.ttf in Resources */,
+				4043E77422DDE5F100BFCA7B /* Stateface.ttf in Resources */,
+				4043E77122DDE5F100BFCA7B /* FontAwesomeBrands.ttf in Resources */,
+				4043E76F22DDE5F100BFCA7B /* Icofont.ttf in Resources */,
+				4043E77322DDE5F100BFCA7B /* Dripicons.ttf in Resources */,
+				4043E77022DDE5F100BFCA7B /* MapIcons.ttf in Resources */,
 				06098B431C5232D800848159 /* 32.jpg in Resources */,
+				4043E77522DDE5F100BFCA7B /* OpenIconic.ttf in Resources */,
 				06D0EE291C9165C3003095FF /* baseStyle.css in Resources */,
+				4043E77222DDE5F100BFCA7B /* MaterialIcons.ttf in Resources */,
 				06D0EE2B1C9165C3003095FF /* font.css in Resources */,
+				4043E76D22DDE5F100BFCA7B /* Ionicons.ttf in Resources */,
 				069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */,
 				06D0EE2C1C9165C3003095FF /* lightStyle.css in Resources */,
 				06E52F7A1E01326900E69084 /* JSTools.js in Resources */,
+				4043E76922DDE5F100BFCA7B /* Linearicons.ttf in Resources */,
+				4043E76E22DDE5F100BFCA7B /* FontAwesomeSolid.ttf in Resources */,
+				4043E76C22DDE5F100BFCA7B /* WeatherIcons.ttf in Resources */,
 				0618768D1C7C5F8C002E9C33 /* 12.jpg in Resources */,
 				069839761C4773D600FF7163 /* Localizable.strings in Resources */,
 				069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */,
+				4043E76822DDE5F100BFCA7B /* TypIcons.ttf in Resources */,
+				4043E76B22DDE5F100BFCA7B /* Emoji.ttf in Resources */,
 				06A4907C1C67058800F6A063 /* Media.xcassets in Resources */,
 				06D0EE2A1C9165C3003095FF /* darkStyle.css in Resources */,
 			);
@@ -765,6 +833,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/1PasswordExtension/OnePasswordExtensionResources.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SwiftIcons/SwiftIcons.bundle",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@2x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@3x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_skip@2x.png",
@@ -782,6 +851,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/OnePasswordExtensionResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwiftIcons.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@2x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@3x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_skip@2x.png",
@@ -1059,7 +1129,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GG7ZXR79LK;
 				INFOPLIST_FILE = "V2ex-Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = freedom.ava;
@@ -1078,7 +1148,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = GG7ZXR79LK;
 				INFOPLIST_FILE = "V2ex-Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = freedom.ava;
 				PRODUCT_NAME = "$(TARGET_NAME)";

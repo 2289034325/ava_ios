@@ -1,4 +1,4 @@
-platform:ios,'9.0'
+platform:ios,'11.0'
 inhibit_all_warnings!
 use_modular_headers!
 
@@ -28,6 +28,7 @@ def pods
     pod 'DeviceKit'
     pod 'JWTDecode', '~> 2.3'
     pod 'TinderSwipeView', '~> 1.1.8'
+    pod 'SwiftIcons', '~> 2.3.2'
 end
 
 target 'AVA-Swift' do
