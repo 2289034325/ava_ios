@@ -18,10 +18,10 @@ import MJRefresh
 import SVProgressHUD
 
 
-class SpeechViewController: UIViewController {
+class ReadingViewController: UIViewController {
     override func viewDidLoad() {
 //        self.navigationItem.title = "我的演讲"
-        self.navigationController!.navigationBar.topItem?.title = "演讲"
+        self.navigationController!.navigationBar.topItem?.title = "阅读"
 
 //        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
 //        rightButton.contentMode = .center

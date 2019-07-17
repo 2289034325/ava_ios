@@ -28,7 +28,7 @@ def pods
     pod 'DeviceKit'
     pod 'JWTDecode', '~> 2.3'
     pod 'TinderSwipeView', '~> 1.1.8'
-    pod 'SwiftIcons', '~> 2.3.2'
+    pod 'SwiftIconFont'
 end
 
 target 'AVA-Swift' do

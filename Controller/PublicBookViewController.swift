@@ -37,14 +37,9 @@ class PublicBookViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Public Books"
-        self.setupNavigationItem()
-
-//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-
-        //监听程序即将进入前台运行、进入后台休眠 事件
-//        NotificationCenter.default.addObserver(self, selector: #selector(PublicBookViewController.applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(PublicBookViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        self.title = "公共词书"        
+        
+        customNavBackButton(backAction: nil)
 
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
@@ -70,21 +65,6 @@ class PublicBookViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
 //        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
-    }
-    func setupNavigationItem(){
-//        let leftButton = NotificationMenuButton()
-//        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-//        leftButton.addTarget(self, action: #selector(PublicBookViewController.leftClick), for: .touchUpInside)
-//
-//
-//        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-//        rightButton.contentMode = .center
-//        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-//        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-//        rightButton.addTarget(self, action: #selector(PublicBookViewController.rightClick), for: .touchUpInside)
-
     }
     @objc func leftClick(){
         V2Client.sharedInstance.drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)

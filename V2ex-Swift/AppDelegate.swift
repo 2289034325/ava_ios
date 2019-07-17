@@ -30,22 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.frame=UIScreen.main.bounds;
         self.window?.makeKeyAndVisible();
 
-//        let centerNav = V2EXNavigationController(rootViewController: UserBookViewController());
-//        let leftViewController = LeftViewController();
-//        let rightViewController = RightViewController();
-//        let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
-//
-//
-//        self.window?.themeChangedHandler = {[weak self] (style) -> Void in
-//            self?.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
-//            drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
-//        }
-//
-//        drawerController.maximumLeftDrawerWidth=230;
-//        drawerController.maximumRightDrawerWidth = rightViewController.maximumRightDrawerWidth()
-//        drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.panningCenterView
-//        drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.all;
-
         //判断是否登陆，token是否过期
         let loginController = LoginViewController();
         if let token = V2EXSettings.sharedInstance[kUserToken] {
@@ -77,18 +61,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = loginController;
         }
 
-
-
-//        V2Client.sharedInstance.drawerController = drawerController
-//        V2Client.sharedInstance.centerViewController = centerNav.viewControllers[0] as? UserBookViewController
-//        V2Client.sharedInstance.centerNavigation = centerNav
-
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
         SVProgressHUD.setDefaultMaskType(.none)
         SVProgressHUD.setMinimumDismissTimeInterval(1.5)
         SVProgressHUD.setContainerView(self.window!)
-
+        
+        //只有放这里才起作用，放其他controller里面，不起作用，fuck
+        UITabBar.appearance().tintColor = #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1)
+ 
         return true
     }
     

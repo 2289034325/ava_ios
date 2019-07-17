@@ -14,7 +14,6 @@ import Alamofire
 import ObjectMapper
 import SnapKit
 import TinderSwipeView
-import SwiftIcons
 
 
 class LearnTestViewController4: UIViewController {
@@ -97,16 +96,14 @@ class LearnTestViewController4: UIViewController {
 
         self.navigationItem.title = "\(self.questions.count)/\(self.questions.count)"
 
-        let menuButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backAction))
-//        menuButton.setIcon(icon: .ionicons(.chevronLeft), iconSize: 22,color: self.view.tintColor)
-        menuButton.image = UIImage.init(icon: .ionicons(.chevronLeft), size: CGSize(width: 30, height: 30))
-        menuButton.imageInsets = UIEdgeInsetsMake(0, -16, 0, 0)
-        //可以用来设置图标的颜色
-//        menuButton.tintColor = .red
-//        menuButton.setIcon(icon: .ionicons(.chevronLeft), iconSize: 22, color: .red, cgRect: CGRect(x: -20, y: 0, width: 30, height: 30), target: self, action: #selector(backAction))
-
-        self.navigationItem.leftBarButtonItem = menuButton
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "<Back", style: .plain, target: self, action: #selector(backAction))
+//        let menuButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backAction))
+//        let bimg = UIImage(from: .segoeMDL2, code: "ChevronLeft", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+//        menuButton.image = bimg
+//        menuButton.tintColor = .black
+//        menuButton.imageInsets = UIEdgeInsetsMake(0, -12, 0, 0)
+//        self.navigationItem.leftBarButtonItem = menuButton
+        
+        customNavBackButton(backAction: #selector(backAction))        
 
         self.view.addSubview(questionView)
         questionView.snp.makeConstraints{(make)->Void in

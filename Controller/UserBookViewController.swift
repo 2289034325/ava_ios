@@ -97,7 +97,7 @@ class UserBookViewController: UIViewController {
 //        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil;
     }
     func setupNavigationItem(){
-        self.navigationController!.navigationBar.topItem?.title = "我的词书"
+        self.navigationController!.navigationBar.topItem?.title = "词书"
 
 //        let leftButton = NotificationMenuButton()
 //        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -107,8 +107,11 @@ class UserBookViewController: UIViewController {
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
+        rightButton.tintColor = .black
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage.imageUsedTemplateMode("plus")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        let bimg = UIImage(from: .segoeMDL2, code: "DictionaryAdd", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        rightButton.setImage(bimg.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+        
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(UserBookViewController.rightClick), for: .touchUpInside)
 

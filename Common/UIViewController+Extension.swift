@@ -14,4 +14,24 @@ extension UIViewController{
 
         present(controller, animated: true, completion: nil)
     }
+    
+    func customNavBackButton(backAction:Selector?){
+        var menuButton:UIBarButtonItem
+        if backAction != nil{
+            menuButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: backAction)
+        }
+        else{
+            menuButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(defaultBack))
+        }
+        let bimg = UIImage(from: .segoeMDL2, code: "ChevronLeft", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        menuButton.image = bimg
+        menuButton.tintColor = .black
+        menuButton.imageInsets = UIEdgeInsetsMake(0, -12, 0, 0)
+        
+        self.navigationItem.leftBarButtonItem = menuButton
+    }
+    
+    func defaultBack(){
+        self.navigationController?.popViewController(animated: true)
+    }
 }

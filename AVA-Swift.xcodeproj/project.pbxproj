@@ -126,6 +126,7 @@
 		4043E77422DDE5F100BFCA7B /* Stateface.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76522DDE5F000BFCA7B /* Stateface.ttf */; };
 		4043E77522DDE5F100BFCA7B /* OpenIconic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76622DDE5F100BFCA7B /* OpenIconic.ttf */; };
 		4043E77622DDE5F100BFCA7B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76722DDE5F100BFCA7B /* FontAwesome.ttf */; };
+		C221092DC4F2BF6C34A42945 /* ReadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22139B81026470D3B418227 /* ReadingViewController.swift */; };
 		C2218B49B684C78B24DCC7CB /* SentenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B4CA62193A800C2B0758F /* SentenceModel.swift */; };
 		C22234C5A259CDD0E716B93D /* UserBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22917FFECB49F9DBE49B604 /* UserBookModel.swift */; };
 		C222398755CEF23B9024B265 /* LearnTestViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225FB8E88BBBB2EC56FDD7A /* LearnTestViewController3.swift */; };
@@ -152,6 +153,7 @@
 		C22A5B215B4BECC1B1EEF533 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C221590D741825FF89945CCE /* QuestionViewController.swift */; };
 		C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */; };
 		C22B110B647A524BBDC8EC5A /* AlamofireSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C226B550015F75E295072F20 /* AlamofireSessionManager.swift */; };
+		C22BA643965A2A78AA669F2D /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C221B046F8360B69D24F83C4 /* MeViewController.swift */; };
 		C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */; };
 		C22D6E134D969ECC7E6CB9AA /* PublicBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2201CD3DE6FB98613F6F018 /* PublicBookModel.swift */; };
 		C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22FA7C65BC94D791EE8DFD6 /* JSONEncoder+Extension.swift */; };
@@ -302,9 +304,11 @@
 		C2208B4486A769F3713E9802 /* LearnTestViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestViewController2.swift; sourceTree = "<group>"; };
 		C220DC1B5B66562737A2F7B3 /* Consts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		C22105F73469A9D86C1ED0F6 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		C22139B81026470D3B418227 /* ReadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingViewController.swift; sourceTree = "<group>"; };
 		C22142E77F662354D2C37FF8 /* LearnTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestViewController.swift; sourceTree = "<group>"; };
 		C221590D741825FF89945CCE /* QuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		C221B046F8360B69D24F83C4 /* MeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		C222F448070E93539C4B3F03 /* WordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordModel.swift; sourceTree = "<group>"; };
 		C2233EBABBF24EA7D9EA91F4 /* LearnRecordWordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnRecordWordModel.swift; sourceTree = "<group>"; };
 		C2243DA421D2117CEC13F51A /* ExplainModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExplainModel.swift; sourceTree = "<group>"; };
@@ -513,6 +517,8 @@
 				C225FB8E88BBBB2EC56FDD7A /* LearnTestViewController3.swift */,
 				C226138A0FDB2CFA3AB3FEE9 /* QuestionView2.swift */,
 				C22CCFBE76B908C7E7F54A7F /* LearnTestViewController4.swift */,
+				C221B046F8360B69D24F83C4 /* MeViewController.swift */,
+				C22139B81026470D3B418227 /* ReadingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -833,7 +839,14 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/1PasswordExtension/OnePasswordExtensionResources.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/SwiftIcons/SwiftIcons.bundle",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/FontAwesome.ttf",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/Ionicons.ttf",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/map-icons.ttf",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/MaterialIcons-Regular.ttf",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/octicons.ttf",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/open-iconic.ttf",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/Segoe mdl2 assets.ttf",
+				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/themify.ttf",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@2x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@3x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_skip@2x.png",
@@ -851,7 +864,14 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/OnePasswordExtensionResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwiftIcons.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/map-icons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons-Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/open-iconic.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Segoe mdl2 assets.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/themify.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@2x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@3x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_skip@2x.png",
@@ -1001,6 +1021,8 @@
 				C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */,
 				C22234C5A259CDD0E716B93D /* UserBookModel.swift in Sources */,
 				C22B110B647A524BBDC8EC5A /* AlamofireSessionManager.swift in Sources */,
+				C22BA643965A2A78AA669F2D /* MeViewController.swift in Sources */,
+				C221092DC4F2BF6C34A42945 /* ReadingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
