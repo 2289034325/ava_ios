@@ -70,7 +70,7 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     
     var v2_backgroundColor : UIColor{
         get{
-            return colorWith255RGB(242, g: 243, b: 245);
+            return colorWith255RGB(230, g: 230, b: 230);
         }
     }
     var v2_navigationBarTintColor : UIColor{

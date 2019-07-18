@@ -34,23 +34,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let loginController = LoginViewController();
         if let token = V2EXSettings.sharedInstance[kUserToken] {
             do {
-                let jwt = try decode(jwt: token)
-                let username = jwt.body["username"] as! String
-                let exp = jwt.body["exp"] as! Int
-                let now = Int(Date().timeIntervalSince1970)
-                if(exp < now){
+                if token.isEmpty{
                     self.window?.rootViewController = loginController;
                 }
-                else {
-                    let su = V2UsersKeychain.sharedInstance.users[username]
-                    var map = [String:String]()
-                    map["username"] =  username
-                    map["password"] = su?.password
-                    map["avatar_large"] = su?.avatar
-                    map["avatar_normal"] = su?.avatar
-                    V2User.sharedInstance.user = Mapper<UserModel>().map(JSON: map)
-                    let rootNav = LayoutViewController()
-                    self.window?.rootViewController = rootNav;
+                else{
+                    let jwt = try decode(jwt: token)
+                    let username = jwt.body["username"] as! String
+                    let exp = jwt.body["exp"] as! Int
+                    let now = Int(Date().timeIntervalSince1970)
+                    if(exp < now){
+                        self.window?.rootViewController = loginController;
+                    }
+                    else {
+                        let su = V2UsersKeychain.sharedInstance.users[username]
+                        var map = [String:String]()
+                        map["username"] =  username
+                        map["password"] = su?.password
+                        map["avatar_large"] = su?.avatar
+                        map["avatar_normal"] = su?.avatar
+                        V2User.sharedInstance.user = Mapper<UserModel>().map(JSON: map)
+                        let rootNav = LayoutViewController()
+                        self.window?.rootViewController = rootNav;
+                    }
                 }
             }
             catch let exp{

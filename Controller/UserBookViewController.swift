@@ -39,33 +39,15 @@ class UserBookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.title = "My Books"
-//        self.navigationItem.title = "我的词书"
         self.setupNavigationItem()
-
-        //监听程序即将进入前台运行、进入后台休眠 事件
-//        NotificationCenter.default.addObserver(self, selector: #selector(UserBookViewController.applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(UserBookViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-
-//        var pickerFrame: CGRect = CGRect(x: 17, y: 52, width: 270, height: 100);
-//        pickerView = UIPickerView(frame: pickerFrame)
-
-//        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
 
         let vc = UIViewController()
         vc.preferredContentSize = CGSize(width: 250,height: 100)
-//        vc.view.backgroundColor = UIColor.red
         pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 100))
         pickerView.delegate = self
         pickerView.dataSource = self
         vc.view.addSubview(pickerView)
         pickerViewVc = vc
-
-//        //将dataSource设置成自己
-//        pickerView.dataSource = self
-//        //将delegate设置成自己
-//        pickerView.delegate = self
-//        //设置选择框的默认值
 
         pickerView.selectRow(3,inComponent:0,animated:true)
 
@@ -87,23 +69,41 @@ class UserBookViewController: UIViewController {
         self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         }
+        
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
+        self.tableView.addGestureRecognizer(longPressRecognizer)
     }
-    override func viewWillAppear(_ animated: Bool) {
-//        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
+    
+    @objc func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        
+        if longPressGestureRecognizer.state == UIGestureRecognizerState.began {
+            
+            let touchPoint = longPressGestureRecognizer.location(in: self.tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                let controller = UIAlertController(title: "对词书操作", message: "", preferredStyle: .actionSheet)
+                let names = ["删除词书", "重新开始"]
+                for name in names {
+                    let action = UIAlertAction(title: name, style: .default) { (action) in
+                        
+                        if name == "删除词书" {
+                            self.deleteBook(indexPath.row)
+                        }
+                        else {
+                            self.restartBook(indexPath.row)
+                        }
+                    }
+                    controller.addAction(action)
+                }
+                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                controller.addAction(cancelAction)
+                
+                present(controller, animated: true, completion: nil)
+            }
+        }
     }
-    override func viewWillDisappear(_ animated: Bool) {
-//        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
-//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-//        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil;
-    }
+    
     func setupNavigationItem(){
         self.navigationController!.navigationBar.topItem?.title = "词书"
-
-//        let leftButton = NotificationMenuButton()
-//        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-//        leftButton.addTarget(self, action: #selector(UserBookViewController.leftClick), for: .touchUpInside)
-        
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
@@ -116,9 +116,7 @@ class UserBookViewController: UIViewController {
         rightButton.addTarget(self, action: #selector(UserBookViewController.rightClick), for: .touchUpInside)
 
     }
-    @objc func leftClick(){
-        V2Client.sharedInstance.drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
-    }
+    
     //打开公共词书页面，选择词书
     @objc func rightClick(){
         let publicBookController = PublicBookViewController()
@@ -128,12 +126,8 @@ class UserBookViewController: UIViewController {
     
     func refreshPage(){
         self.tableView.mj_header.beginRefreshing();
-
-//        V2EXSettings.sharedInstance[kHomeTab] = tab
-//        self.tableView.mj_header.endRefreshing();
     }
     func refresh(){
-        
         //如果有上拉加载更多 正在执行，则取消它
         if self.tableView.mj_footer.isRefreshing {
             self.tableView.mj_footer.endRefreshing()
@@ -216,16 +210,6 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = self.bookList![indexPath.row]
-        
-//        if let id = item.id {
-//            let topicDetailController = TopicDetailViewController();
-//            topicDetailController.topicId = id ;
-//            topicDetailController.ignoreTopicHandler = {[weak self] (topicId) in
-//                self?.perform(#selector(UserBookViewController.ignoreTopicHandler(_:)), with: topicId, afterDelay: 0.6)
-//            }
-//            self.navigationController?.pushViewController(topicDetailController, animated: true)
-//            tableView .deselectRow(at: indexPath, animated: true);
-//        }
 
         self.selectedRowWithActionSheet(indexPath)
     }
@@ -259,11 +243,6 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
 
     func selectedRowWithActionSheet(_ indexPath:IndexPath){
         self.tableView.deselectRow(at: indexPath, animated: true);
-
-        //这段代码在iOS8.3中弃用，但是现在还可以使用，先用着吧
-//        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "学习","复习")
-//        actionSheet.tag = indexPath.row
-//        actionSheet.show(in: self.view)
 
         let controller = UIAlertController(title: "请选择", message: "", preferredStyle: .actionSheet)
         let names = ["学习", "复习"]
@@ -361,6 +340,60 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
         controller.addAction(cancelAction)
         present(controller, animated: true, completion: nil)
 
+    }
+    
+    @objc func restartBook(_ row:Int){
+        let item = self.bookList![row]
+        
+        let controller = UIAlertController(title: "确认", message: "是否确定要重新开始", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "确定", style: .default) { (_) in
+            
+            let pi = self.pickerView.selectedRow(inComponent: 0)
+            let wc = self.pickerNums[pi]
+            
+            _ = DictionaryApi.provider
+                .requestAPI(.restartUserBook(user_book_id: item.id))
+                .subscribe(onNext: { (response) in
+                    SVProgressHUD.showInfo(withStatus: "已重新开始")
+                    self.refresh()
+                }, onError: { (error) in
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                    
+                })
+        }
+        controller.addAction(okAction)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
+    }
+    
+    @objc func deleteBook(_ row:Int){
+        let item = self.bookList![row]
+        
+        let controller = UIAlertController(title: "确认", message: "是否确定要删除", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "确定", style: .default) { (_) in
+            
+            let pi = self.pickerView.selectedRow(inComponent: 0)
+            let wc = self.pickerNums[pi]
+            
+            _ = DictionaryApi.provider
+                .requestAPI(.deleteUserBook(user_book_id: item.id))
+                .subscribe(onNext: { (response) in
+                    SVProgressHUD.showInfo(withStatus: "删除成功")
+                    self.refresh()
+                }, onError: { (error) in
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                    
+                })
+        }
+        controller.addAction(okAction)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
     }
 }
 

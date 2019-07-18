@@ -26,9 +26,18 @@ extension Date {
         if days < 30 {
             return "\(days)天前"
         }
+        let months = Int(reduceTime / 3600 / 24 / 30)
+        if months < 12 {
+            return "\(months)个月前"
+        }
+        else{
+        let years = Int(reduceTime / 3600 / 24 / 30 / 12)
+            return "\(years)年前"
+        }
+        
         //不满足上述条件---或者是未来日期-----直接返回日期
-        let dfmatter = DateFormatter()
-        dfmatter.dateFormat="yyyy/MM/dd HH:mm:ss"
-        return dfmatter.string(from: self)
+//        let dfmatter = DateFormatter()
+//        dfmatter.dateFormat="yyyy/MM/dd HH:mm:ss"
+//        return dfmatter.string(from: self)
     }
 }

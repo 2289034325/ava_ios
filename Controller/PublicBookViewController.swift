@@ -37,9 +37,11 @@ class PublicBookViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "公共词书"        
+        self.title = "公共词书"
         
         customNavBackButton(backAction: nil)
+        //弥补leftBarButtonItem造成的无法swipe响应
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate;
 
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in

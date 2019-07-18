@@ -11,19 +11,6 @@ import Kingfisher
 import YYText
 
 class UserBookListTableViewCell: UITableViewCell {
-    //? 为什么用这个圆角图片，而不用layer.cornerRadius
-    // 因为 设置 layer.cornerRadius 太耗系统资源，每次滑动 都需要渲染很多次，所以滑动掉帧
-    // iOS中可以缓存渲染，但效果还是不如直接 用圆角图片
-    
-    /// 节点信息label的圆角背景图
-//    fileprivate static var nodeBackgroundImage_Default =
-//        createImageWithColor( V2EXDefaultColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSize(width: 10, height: 20))
-//            .roundedCornerImageWithCornerRadius(2)
-//            .stretchableImage(withLeftCapWidth: 3, topCapHeight: 3)
-//    fileprivate static var nodeBackgroundImage_Dark =
-//        createImageWithColor( V2EXDarkColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSize(width: 10, height: 20))
-//            .roundedCornerImageWithCornerRadius(2)
-//            .stretchableImage(withLeftCapWidth: 3, topCapHeight: 3)
     
     /// 语言国旗
     var avatarImageView: UIImageView = {
@@ -51,7 +38,8 @@ class UserBookListTableViewCell: UITableViewCell {
         return label
     }()
     var wordCountIconImageView: UIImageView = {
-        let imageview = UIImageView(image: UIImage(named: "book"))
+        let img = UIImage(from: .segoeMDL2, code: "Dictionary", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        let imageview = UIImageView(image: img)
         imageview.contentMode = .scaleAspectFit
         return imageview
     }()
@@ -63,7 +51,8 @@ class UserBookListTableViewCell: UITableViewCell {
         return label
     }()
     var todayNeedReviewCountImageView: UIImageView = {
-        let imageview = UIImageView(image: UIImage(named: "time"))
+        let img = UIImage(from: .segoeMDL2, code: "History", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        let imageview = UIImageView(image: img)
         imageview.contentMode = .scaleAspectFit
         return imageview
     }()
@@ -136,14 +125,14 @@ class UserBookListTableViewCell: UITableViewCell {
             make.width.height.equalTo(18);
             make.right.equalTo(self.todayNeedReviewCountLabel.snp.left).offset(-2);
         }
-        self.wordCountLabel.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.bookNameLabel);
-            make.right.equalTo(self.todayNeedReviewCountImageView.snp.left).offset(-5);
-        }
         self.wordCountIconImageView.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.wordCountLabel);
             make.width.height.equalTo(18);
-            make.right.equalTo(self.wordCountLabel.snp.left).offset(-2);
+            make.left.equalTo(self.todayNeedReviewCountImageView.snp.left).offset(-50);
+        }
+        self.wordCountLabel.snp.makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.bookNameLabel);
+            make.left.equalTo(self.wordCountIconImageView.snp.right).offset(-2);
         }
         self.progressLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
@@ -172,10 +161,17 @@ class UserBookListTableViewCell: UITableViewCell {
     
     func superBind(_ model:UserBookModel){
         self.bookNameLabel.text = model.name;
-        self.wordCountLabel.text = String(model.word_count);
+        self.wordCountLabel.text = model.word_count>9999 ? "(model.word_count)+" : String(model.word_count);
         self.avatarImageView.image = UIImage.getLangFlag(model.lang)
-        self.todayNeedReviewCountLabel.text = String(model.today_need_review_count)
+        self.todayNeedReviewCountLabel.text = model.today_need_review_count>99 ? "\(model.today_need_review_count)+" : String(model.today_need_review_count)
+        
+        if model.last_learn_time == nil{
+            self.dateAndLastLearnedLabel.text = "New Book!"
+        }
+        else{
         self.dateAndLastLearnedLabel.text = model.last_learn_time!.toRelativeString()+" · "+String(model.last_learn_count!)
+        }
+        
         self.progressLabel.text = "\(model.finished_count) \(model.learning_count) \(model.notstart_count)"
         
         self.itemModel = model

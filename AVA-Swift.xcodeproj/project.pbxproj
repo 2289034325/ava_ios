@@ -131,6 +131,7 @@
 		C22234C5A259CDD0E716B93D /* UserBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22917FFECB49F9DBE49B604 /* UserBookModel.swift */; };
 		C222398755CEF23B9024B265 /* LearnTestViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225FB8E88BBBB2EC56FDD7A /* LearnTestViewController3.swift */; };
 		C2226BFCCAF7D63DEEF2C7DB /* PublicBookListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */; };
+		C22371D6702E568750E09F6D /* MeLogoutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22AB017743E97CEC5E90306 /* MeLogoutTableViewCell.swift */; };
 		C2239D71F7635AA9B09D4F1C /* Reactive+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */; };
 		C223B8CA22BAD683312E2D07 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */; };
 		C2245100A4C1899EB0B8AFEA /* WordScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225833574CBA028B300E23A /* WordScanViewController.swift */; };
@@ -324,6 +325,7 @@
 		C2288C8026F0506633977DB2 /* PublicBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicBookViewController.swift; sourceTree = "<group>"; };
 		C22917FFECB49F9DBE49B604 /* UserBookModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookModel.swift; sourceTree = "<group>"; };
 		C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBookViewController.swift; sourceTree = "<group>"; };
+		C22AB017743E97CEC5E90306 /* MeLogoutTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeLogoutTableViewCell.swift; sourceTree = "<group>"; };
 		C22AEE5BCAFE2EC81953D16D /* WordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordViewController.swift; sourceTree = "<group>"; };
 		C22B2C0504070406B222EE33 /* SpeechViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
 		C22B4CA62193A800C2B0758F /* SentenceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SentenceModel.swift; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				C220330B6323F7AC92080E66 /* UserBookListTableViewCell.swift */,
 				C22BBE2E70DFB0EA680294DF /* PublicBookListTableViewCell.swift */,
 				C2271C951A1D87464ABC96A5 /* WordSentenceTableViewCell.swift */,
+				C22AB017743E97CEC5E90306 /* MeLogoutTableViewCell.swift */,
 				C22CC81C0F1317BE812A05F5 /* WordTitleTableViewCell.swift */,
 			);
 			path = View;
@@ -1023,6 +1026,7 @@
 				C22B110B647A524BBDC8EC5A /* AlamofireSessionManager.swift in Sources */,
 				C22BA643965A2A78AA669F2D /* MeViewController.swift in Sources */,
 				C221092DC4F2BF6C34A42945 /* ReadingViewController.swift in Sources */,
+				C22371D6702E568750E09F6D /* MeLogoutTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

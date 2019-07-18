@@ -24,6 +24,10 @@ enum DictionaryApi {
 
     //将公共词书加入用户词书
     case addUserBook(book_id: Int)
+    //重新开始学习词书
+    case restartUserBook(user_book_id: Int)
+    //删除词书
+    case deleteUserBook(user_book_id: Int)
 
     //学习新词
     case getNewWords(user_book_id: Int,word_count: Int)
@@ -60,7 +64,11 @@ extension DictionaryApi: V2EXTargetType {
         case let .getPublicBooks():
             return nil
         case let .addUserBook(book_id):
-            return ["user_book_id":book_id]
+            return nil
+        case let .restartUserBook(user_book_id):
+            return nil
+        case let .deleteUserBook(user_book_id):
+            return nil
         case let .getNewWords(user_book_id,word_count):
             return ["user_book_id":user_book_id,"word_count":word_count]
         case let .reviewOldWords(user_book_id,word_count):
@@ -87,6 +95,10 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/publicbooks"
         case let .addUserBook(book_id):
             return "/dictionary/book/adduserbook/\(book_id)"
+        case let .restartUserBook(user_book_id):
+            return "/dictionary/book/restartuserbook/\(user_book_id)"
+        case let .deleteUserBook(user_book_id):
+            return "/dictionary/book/deleteuserbook/\(user_book_id)"
         case let .getNewWords(user_book_id,word_count):
             return "/dictionary/book/\(user_book_id)/learn_new/\(word_count)"
         case let .reviewOldWords(user_book_id,word_count):

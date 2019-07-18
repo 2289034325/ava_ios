@@ -18,6 +18,34 @@ import MJRefresh
 import SVProgressHUD
 
 
-class MeViewController: UIViewController {
-
+class MeViewController: UITableViewController {
+    override func viewDidLoad() {
+        regClass(tableView, cell: MeLogoutTableViewCell.self)
+        
+        tableView.tableFooterView = UIView(frame: .zero)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        V2EXSettings.sharedInstance[kUserToken] = ""
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.window!.rootViewController = LoginViewController()
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = getCell(tableView, cell: MeLogoutTableViewCell.self, indexPath: indexPath);
+        return cell
+    }
 }
