@@ -194,12 +194,8 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = self.bookList![indexPath.row]
-//        let titleHeight = item.progressLabel?.textBoundingRect.size.height ?? 0
-        let progressLabelHeight = 15
-        //          上间隔   头像高度  头像下间隔          进度高度        标题下间隔 cell间隔
-        let height = 12    +  35     +  12      + progressLabelHeight   + 12      + 8
 
-        return CGFloat(height)
+        return UserBookListTableViewCell().getHeight(item)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

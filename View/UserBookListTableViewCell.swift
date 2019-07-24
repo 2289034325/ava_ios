@@ -58,11 +58,9 @@ class UserBookListTableViewCell: UITableViewCell {
     }()
 
     /// 已掌握，学习中，未学习
-    var progressLabel: YYLabel = {
-        let label = YYLabel()
-        label.textVerticalAlignment = .top
+    var progressLabel: UILabel = {
+        let label = UILabel()
         label.font=v2Font(18)
-        label.displaysAsynchronously = true
         label.numberOfLines=0
         return label
     }()
@@ -138,7 +136,6 @@ class UserBookListTableViewCell: UITableViewCell {
             make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
             make.right.equalTo(self.contentPanel).offset(-12);
-            make.bottom.equalTo(self.contentView).offset(-8)
         }
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.contentView.snp.bottom).offset(-1);
@@ -187,5 +184,11 @@ class UserBookListTableViewCell: UITableViewCell {
         self.superBind(model)
 //        self.dateAndLastPostUserLabel.text = model.hits
 //        self.nodeBackgroundImageView.isHidden = true
+    }
+    
+    func getHeight(_ model:UserBookModel)->CGFloat{
+        let descriptionHeight = self.progressLabel.actualHeight(SCREEN_WIDTH-24,"\(model.finished_count) \(model.learning_count) \(model.notstart_count)")
+        
+        return 12+35+12+descriptionHeight+12
     }
 }
