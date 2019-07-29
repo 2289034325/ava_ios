@@ -120,7 +120,8 @@ class SpeechListTableViewCell: UITableViewCell {
     }
     
     func getHeight(_ model:ArticleModel)->CGFloat{
-        let descriptionHeight = self.descriptionLabel.actualHeight(SCREEN_WIDTH-24,model.description)
+        self.descriptionLabel.text = model.description
+        let descriptionHeight = self.descriptionLabel.actualHeight(SCREEN_WIDTH-24)
         
         return 12+35+12+descriptionHeight+12
     }

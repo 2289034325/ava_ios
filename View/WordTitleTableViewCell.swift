@@ -108,9 +108,12 @@ class WordTitleTableViewCell: UITableViewCell {
     }
 
     func getHeight(_ word:WordModel)->CGFloat{
-        let spellHeight = self.spellLabel.actualHeight(SCREEN_WIDTH,word.spell!)
-        let pronHeight = self.pronLabel.actualHeight(SCREEN_WIDTH,word.pronounce!)
-        let meaningHeight = self.meaningLabel.actualHeight(SCREEN_WIDTH-10,word.meaning!)
+        self.spellLabel.text = word.spell!
+        let spellHeight = self.spellLabel.actualHeight(SCREEN_WIDTH)
+        self.pronLabel.text = word.pronounce!
+        let pronHeight = self.pronLabel.actualHeight(SCREEN_WIDTH)
+        self.meaningLabel.text = word.meaning!
+        let meaningHeight = self.meaningLabel.actualHeight(SCREEN_WIDTH-10)
 
         return spellHeight+pronHeight+5+meaningHeight+10
     }

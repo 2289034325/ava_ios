@@ -29,7 +29,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+                
         collectionView.register(RecordCell.self, forCellWithReuseIdentifier: "recordcell")
         collectionView.register(PlayCell.self, forCellWithReuseIdentifier: "playcell")
         collectionView.register(StopCell.self, forCellWithReuseIdentifier: "stopcell")
@@ -85,14 +85,14 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             stopCell?.playCell = playCell
         }
         else if(indexPath.row == 3){
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "blankcell", for: indexPath)
+        }
+        else if(indexPath.row == 4){            
             //音频时长
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "timecell", for: indexPath)
             timeCell = cell as? TimeCell
             recordCell?.timeCell = timeCell
             playCell?.timeCell = timeCell
-        }
-        else if(indexPath.row == 4){
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "blankcell", for: indexPath)
         }
         
         return cell
@@ -109,11 +109,13 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         var playCell:PlayCell?
         var isRecording:Bool = false
         
-        let imageView:UIImageView={
+        var img_record = UIImage(from: .segoeMDL2, code: "MicOn", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        
+        lazy var imageView:UIImageView={
             let iv = UIImageView()
             iv.translatesAutoresizingMaskIntoConstraints = false
             
-            iv.image = UIImage(named: "record")?.withRenderingMode(.alwaysTemplate)
+            iv.image = img_record.withRenderingMode(.alwaysTemplate)
             iv.tintColor = UIColor.gray
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
@@ -176,16 +178,17 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                 try recordingSession.setActive(true)
                 recordingSession.requestRecordPermission() {
                     allowed in
-                    //                [unowned self] allowed in
-                    //                DispatchQueue.main.async {
-                    //                    if allowed {
-                    //                        //                        self.loadRecordingUI()
-                    ////                        print("allowed")
-                    //                    } else {
-                    //                        // failed to record!
-                    ////                        print("not allowed")
-                    //                    }
-                    //                }
+                    print(allowed)
+//                                    [unowned self] allowed in
+//                                    DispatchQueue.main.async {
+//                                        if allowed {
+//                                                                    self.loadRecordingUI()
+//                                            print("allowed")
+//                                        } else {
+//                                            // failed to record!
+//                    //                        print("not allowed")
+//                                        }
+//                                    }
                 }
             } catch {
                 print(error)
@@ -224,8 +227,8 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         }
         
         func finishRecording(success: Bool) {
-            updater.invalidate()
-            audioRecorder.stop()
+            updater?.invalidate()
+            audioRecorder?.stop()
             audioRecorder = nil
             
             if success {
@@ -250,16 +253,20 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         private var player:AVAudioPlayer?
         
+        var img_play = UIImage(from: .segoeMDL2, code: "PlayBadge12", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        var img_pause = UIImage(from: .segoeMDL2, code: "PauseBadge12", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        
         var playerStatus:String {
             didSet{
                 if(playerStatus == "play")
                 {
-                    imageView.image = UIImage(named: "pause")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_pause.withRenderingMode(.alwaysTemplate)
                     
                     do {
                         try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
                     } catch _ {}
                     
+                    updater?.invalidate()
                     updater = CADisplayLink(target: self, selector: #selector(PlayCell.updateTimer))
                     updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
                     
@@ -269,19 +276,19 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                 {
                     player?.pause()
                     updater?.invalidate()
-                    imageView.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_play.withRenderingMode(.alwaysTemplate)
                 }
                 else if( playerStatus == "stop")
                 {
                     player?.stop()
                     player?.currentTime = 0
-                    imageView.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
-                    updater?.invalidate()
+                    imageView.image = img_play.withRenderingMode(.alwaysTemplate)
+//                    updater?.invalidate()
                 }
                 else if( playerStatus == "reload")
                 {
                     player?.stop()
-                    imageView.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_play.withRenderingMode(.alwaysTemplate)
                     updater?.invalidate()
                 }
             }
@@ -293,11 +300,11 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         var updater : CADisplayLink! = nil
         
-        let imageView:UIImageView={
+        lazy var imageView:UIImageView={
             let iv = UIImageView()
             iv.translatesAutoresizingMaskIntoConstraints = false
             
-            iv.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+            iv.image = img_play.withRenderingMode(.alwaysTemplate)
             iv.tintColor = UIColor.gray
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
@@ -370,11 +377,13 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         var playCell:PlayCell?
         
-        let imageView:UIImageView={
+        var img_stop = UIImage(from: .segoeMDL2, code: "Stop", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        
+        lazy var imageView:UIImageView={
             let iv = UIImageView()
             iv.translatesAutoresizingMaskIntoConstraints = false
             
-            iv.image = UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate)
+            iv.image = img_stop.withRenderingMode(.alwaysTemplate)
             iv.tintColor = UIColor.gray
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             

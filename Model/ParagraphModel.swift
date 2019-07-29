@@ -7,10 +7,26 @@
 //
 
 import UIKit
+import ObjectMapper
+import Foundation
 
-class ParagraphModel: Codable {
-    let id:Int
-    let text:String
-    let translation:String
-    let splits:[ParagraphSplitModel]
+class ParagraphModel: BaseJsonModel {
+    var id:Int = 0
+    var text:String = ""
+    var translation:String = ""
+    var performer:String = ""
+    var splits = [ParagraphSplitModel]()
+    
+    override func mapping(map: Map) {
+        id <- map["id"]
+        text <- map["text"]
+        translation <- map["translation"]
+        performer <- map["performer"]
+        splits <- map["splits"]
+        
+        if(splits == nil){
+            splits = []
+        }
+        
+    }
 }

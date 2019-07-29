@@ -85,8 +85,10 @@ class WordSentenceTableViewCell: UITableViewCell {
     }
 
     func getHeight(_ sentence:SentenceModel)->CGFloat{
-        let sentenceHeight = self.sentenceLabel.actualHeight(SCREEN_WIDTH-10,sentence.sentence!)
-        let translationHeight = self.translationLabel.actualHeight(SCREEN_WIDTH-10,sentence.translation!)
+        self.sentenceLabel.text = sentence.sentence!
+        let sentenceHeight = self.sentenceLabel.actualHeight(SCREEN_WIDTH-10)
+        self.translationLabel.text = sentence.translation!
+        let translationHeight = self.translationLabel.actualHeight(SCREEN_WIDTH-10)
 
         return sentenceHeight+translationHeight+1
     }

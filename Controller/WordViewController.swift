@@ -79,7 +79,7 @@ extension WordViewController: UITableViewDelegate,UITableViewDataSource {
         htl.numberOfLines = 0
         htl.lineBreakMode = .byCharWrapping
         htl.text = word!.explains![section-1].explain!
-        return htl.actualHeight(SCREEN_WIDTH, htl.text!)
+        return htl.actualHeight(SCREEN_WIDTH)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?{

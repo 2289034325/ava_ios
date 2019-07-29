@@ -17,8 +17,8 @@ class ArticleModel: BaseJsonModel {
     var performer:String = ""
     var description:String = ""
     
-    var audioUrl:String = ""
-    var audioName:String = ""
+    var media_url:String = ""
+    var media_name:String = ""
     var paragraphs = [ParagraphModel]()
 
     override func mapping(map: Map) {
@@ -28,9 +28,12 @@ class ArticleModel: BaseJsonModel {
         performer <- map["performer"]
         description <- map["description"]
         paragraphs <- map["paragraphs"]
+        media_url <- map["media_url"]
+        media_name <- map["media_name"]
         
         if(paragraphs == nil){
             paragraphs = []
         }
+        
     }
 }

@@ -10,8 +10,11 @@ import UIKit
 import Moya
 
 enum SpeechApi {
-    //获取首页列表
+    //获取列表
     case getSpeechList()
+    
+    //获取完整的脚本信息
+    case getArticle(article_id: Int)
 }
 
 extension SpeechApi: V2EXTargetType {
@@ -30,6 +33,8 @@ extension SpeechApi: V2EXTargetType {
         switch self {
         case .getSpeechList():
             return nil
+        case let .getArticle(article_id):
+            return nil
         }
     }
     
@@ -37,6 +42,8 @@ extension SpeechApi: V2EXTargetType {
         switch self {
         case .getSpeechList():
             return "/speech/article/list"
+        case let .getArticle(article_id):
+            return "/speech/article/\(article_id)"
         }
     }
 

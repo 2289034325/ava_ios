@@ -7,13 +7,13 @@ import UIKit
 import Foundation
 
 extension UILabel{
-    func actualHeight(_ labelWidth:CGFloat,_ labelText:String) -> CGFloat {
+    func actualHeight(_ labelWidth:CGFloat) -> CGFloat {
 
         let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: labelWidth, height: .greatestFiniteMagnitude))
         label.numberOfLines = self.numberOfLines
         label.lineBreakMode = self.lineBreakMode
         label.font = self.font
-        label.text = labelText
+        label.text = self.text
         label.sizeToFit()
 
         return label.frame.height

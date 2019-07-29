@@ -187,7 +187,8 @@ class UserBookListTableViewCell: UITableViewCell {
     }
     
     func getHeight(_ model:UserBookModel)->CGFloat{
-        let descriptionHeight = self.progressLabel.actualHeight(SCREEN_WIDTH-24,"\(model.finished_count) \(model.learning_count) \(model.notstart_count)")
+        self.progressLabel.text = "\(model.finished_count) \(model.learning_count) \(model.notstart_count)"
+        let descriptionHeight = self.progressLabel.actualHeight(SCREEN_WIDTH-24)
         
         return 12+35+12+descriptionHeight+12
     }

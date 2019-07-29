@@ -7,11 +7,21 @@
 //
 
 import UIKit
+import ObjectMapper
+import Foundation
 
-class ParagraphSplitModel: Codable {
-    let id:Int
-    let startIndex:Int
-    let endIndex:Int
-    let startTime:Float
-    let endTime:Float
+class ParagraphSplitModel: BaseJsonModel {
+    var id:Int = 0
+    var start_index:Int = 0
+    var end_index:Int = 0
+    var start_time:Float = 0
+    var end_time:Float = 0
+    
+    override func mapping(map: Map) {
+        id <- map["id"]
+        start_index <- map["start_index"]
+        end_index <- map["end_index"]
+        start_time <- map["start_time"]
+        end_time <- map["end_time"]        
+    }
 }

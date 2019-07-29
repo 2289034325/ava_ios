@@ -125,5 +125,11 @@ extension SpeechListController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = self.speechList![indexPath.row]
+        
+        let speechController = SpeechController()
+        speechController.article = item
+        speechController.hidesBottomBarWhenPushed = true
+        
+        self.navigationController?.pushViewController(speechController, animated: true)
     }
 }

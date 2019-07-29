@@ -141,15 +141,21 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
     
     class PlayCell:UICollectionViewCell,AVAudioPlayerDelegate{
         
-        private var player:AVAudioPlayer?
+//        private var player:AVAudioPlayer?
+        
+        var player:AVPlayer?
         
         //time bound of split
-        var startTime:Float = 0
-        var endTime:Float = 0
+        var start_time:Float = 0
+        var end_time:Float = 0
         
         //ab play mode
         var A:Float? = nil
         var B:Float? = nil
+        
+        var img_play = UIImage(from: .segoeMDL2, code: "PlayBadge12", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        var img_pause = UIImage(from: .segoeMDL2, code: "PauseBadge12", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+
         
         //track player's time
         var playerTimer:Timer!
@@ -160,7 +166,7 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                     //ab mode first
                     if(A != nil && B != nil)
                     {
-                        if((player?.currentTime)! >= TimeInterval(B!))
+                        if(Double(CMTimeGetSeconds(player!.currentTime())) >= TimeInterval(B!))
                         {
                             playerStatus = "finished"
                         }
@@ -168,7 +174,7 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                     }
                     
                     //if not in ab mode,play special split
-                    if((player?.currentTime)! >= TimeInterval(endTime))
+                    if(Double(CMTimeGetSeconds(player!.currentTime())) >= TimeInterval(end_time))
                     {
                         playerStatus = "finished"
                     }
@@ -198,20 +204,23 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             didSet{
                 if(playerStatus == "play")
                 {
-                    imageView.image = UIImage(named: "pause")?.withRenderingMode(.alwaysTemplate)
                     
-                    do {
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-                    } catch _ {}
+                    imageView.image = img_pause.withRenderingMode(.alwaysTemplate)
+                    
+//                    do {
+//                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+//                    } catch _ {}
                     
                     updater = CADisplayLink(target: self, selector: #selector(PlayCell.updateTimer))
                     updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
                     
                     if(A != nil && B != nil){
-                        player!.currentTime = TimeInterval(A!)
+//                        player!.currentTime = TimeInterval(A!)
+                        player!.seek(to: CMTimeMakeWithSeconds(TimeInterval(A!), 60000))
                     }
                     else{
-                        player?.currentTime = TimeInterval(startTime)
+//                        player?.currentTime = TimeInterval(start_time)
+                        player!.seek(to: CMTimeMakeWithSeconds(TimeInterval(start_time), 60000))
                     }
                     player!.play()
                     
@@ -222,30 +231,31 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                     updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
                     
                     player!.play()
-                    imageView.image = UIImage(named: "pause")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_pause.withRenderingMode(.alwaysTemplate)
                 }
                 else if(playerStatus == "finished" )
                 {
                     player!.pause()
                     updater?.invalidate()
-                    imageView.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_play.withRenderingMode(.alwaysTemplate)
                 }
                 else if(playerStatus == "pause" )
                 {
                     player?.pause()
                     updater?.invalidate()
-                    imageView.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_play.withRenderingMode(.alwaysTemplate)
                 }
                 else if( playerStatus == "stop")
                 {
-                    player?.stop()
-                    player?.currentTime = TimeInterval(startTime)
-                    imageView.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+                    player?.pause()
+//                    player?.currentTime = TimeInterval(start_time)
+                    player!.seek(to: CMTimeMakeWithSeconds(TimeInterval(start_time), 60000))
+                    imageView.image = img_play.withRenderingMode(.alwaysTemplate)
                     updater?.invalidate()
                 }
                 else if( playerStatus == "reload")
                 {
-                    imageView.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_play.withRenderingMode(.alwaysTemplate)
                     updater?.invalidate()
                 }
             }
@@ -257,49 +267,49 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         var updater : CADisplayLink! = nil
         
-        let imageView:UIImageView={
+        lazy var imageView:UIImageView={
             let iv = UIImageView()
             iv.translatesAutoresizingMaskIntoConstraints = false
             
-            iv.image = UIImage(named: "play")?.withRenderingMode(.alwaysTemplate)
+            iv.image = img_play.withRenderingMode(.alwaysTemplate)
             iv.tintColor = UIColor.gray
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
             return iv
         }()
         
-        func initAudio(_ audiofilePath:String){
-            do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            } catch _ {}
-            
-            do {
-                player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: audiofilePath))
-                player!.prepareToPlay()
-                
-            } catch let error as NSError {
-                print(error)
-            }
-        }
-        
-        func loadAudio(audioUrl:String,audioName:String){
-            let fileManager = FileManager.default
-            var paths: [String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as [String]
-            
-            let audiofilePath = paths[0].appending("/\(audioName)")
-            if !fileManager.fileExists(atPath: audiofilePath)
-            {
-                let url = URL(string:audioUrl)
-                downloadAudio(url!,audioName)
-            }
-            else{
-                initAudio(audiofilePath)
-            }
-        }
-        
-        func downloadAudio(_ downloadUrl:URL,_ fileName:String){
-            Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initAudio(filePath!) })
-        }
+//        func initAudio(_ audiofilePath:String){
+//            do {
+//                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+//            } catch _ {}
+//
+//            do {
+//                player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: audiofilePath))
+//                player!.prepareToPlay()
+//
+//            } catch let error as NSError {
+//                print(error)
+//            }
+//        }
+//
+//        func loadMedia(media_url:String,media_name:String){
+//            let fileManager = FileManager.default
+//            var paths: [String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as [String]
+//
+//            let audiofilePath = paths[0].appending("/\(media_name)")
+//            if !fileManager.fileExists(atPath: audiofilePath)
+//            {
+//                let url = URL(string:media_url)
+//                downloadMedia(url!,media_name)
+//            }
+//            else{
+//                initAudio(audiofilePath)
+//            }
+//        }
+//
+//        func downloadMedia(_ downloadUrl:URL,_ fileName:String){
+//            Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initAudio(filePath!) })
+//        }
         
         func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
             playerStatus = "finished"
@@ -308,13 +318,13 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         func setAB()->String{
             if(A == nil)
             {
-                A = Float((player?.currentTime)!)
+                A = Float(CMTimeGetSeconds(player!.currentTime()))
                 return "A"
             }
             
             if(B == nil)
             {
-                B = Float((player?.currentTime)!)
+                B = Float(CMTimeGetSeconds(player!.currentTime()))
                 return "AB"
             }
             
@@ -330,7 +340,7 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         
         @objc func updateTimer(){
-            timeCell?.textView.text = DateTimeUtil.stringFromTimeInterval(interval: (player?.currentTime)!)+"\n"+DateTimeUtil.stringFromTimeInterval(interval: (player?.duration)!)
+            timeCell?.textView.text = DateTimeUtil.stringFromTimeInterval(interval: CMTimeGetSeconds(player!.currentTime()))+"\n"+DateTimeUtil.stringFromTimeInterval(interval: (player?.currentItem?.duration.seconds)!)
         }
         
         override init(frame:CGRect){
@@ -348,17 +358,17 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             self.playerTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(PlayCell.trackPlayer), userInfo: nil, repeats: true)
         }
         
-        func initAudioByURL(_ audiofilePath:URL){
-            
-            do {
-                player = try AVAudioPlayer(contentsOf: audiofilePath)
-                player?.delegate = self
-                player!.prepareToPlay()
-                
-            } catch let error as NSError {
-                print(error)
-            }
-        }
+//        func initAudioByURL(_ audiofilePath:URL){
+//
+//            do {
+//                player = try AVAudioPlayer(contentsOf: audiofilePath)
+//                player?.delegate = self
+//                player!.prepareToPlay()
+//
+//            } catch let error as NSError {
+//                print(error)
+//            }
+//        }
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -369,12 +379,14 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
     class ABCell:UICollectionViewCell, AVAudioRecorderDelegate{
         
         var playCell:PlayCell?
-        
-        let imageView:UIImageView={
+        var img_ab = UIImage(from: .segoeMDL2, code: "HorizontalTabKey", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        var img_ab_a = UIImage(from: .segoeMDL2, code: "Import", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+
+        lazy var imageView:UIImageView={
             let iv = UIImageView()
             iv.translatesAutoresizingMaskIntoConstraints = false
             
-            iv.image = UIImage(named: "ab")?.withRenderingMode(.alwaysTemplate)
+            iv.image = img_ab.withRenderingMode(.alwaysTemplate)
             iv.tintColor = UIColor.gray
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
@@ -395,12 +407,12 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                 
                 if(ret == "")
                 {
-                    imageView.image = UIImage(named: "ab")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_ab.withRenderingMode(.alwaysTemplate)
                     imageView.tintColor = UIColor.gray
                 }
                 else if(ret == "A")
                 {
-                    imageView.image = UIImage(named: "ab_a")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_ab_a.withRenderingMode(.alwaysTemplate)
                     imageView.tintColor = UIColor.blue
                     if(playCell?.playerStatus != "play" && playCell?.playerStatus != "continue"){
                         if(playCell?.playerStatus == "finished"){
@@ -413,14 +425,14 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                 }
                 else if(ret == "AB")
                 {
-                    imageView.image = UIImage(named: "ab")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = img_ab.withRenderingMode(.alwaysTemplate)
                     imageView.tintColor = UIColor.blue
                 }
             }
         }
         
         func cancelAB(){
-            imageView.image = UIImage(named: "ab")?.withRenderingMode(.alwaysTemplate)
+            imageView.image = img_ab.withRenderingMode(.alwaysTemplate)
             imageView.tintColor = UIColor.gray
         }
         
@@ -448,11 +460,13 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         var playCell:PlayCell?
         var abCell:ABCell?
         
-        let imageView:UIImageView={
+        var img_stop = UIImage(from: .segoeMDL2, code: "Stop", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+       
+        lazy var imageView:UIImageView={
             let iv = UIImageView()
             iv.translatesAutoresizingMaskIntoConstraints = false
             
-            iv.image = UIImage(named: "stop")?.withRenderingMode(.alwaysTemplate)
+            iv.image = img_stop.withRenderingMode(.alwaysTemplate)
             iv.tintColor = UIColor.gray
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
@@ -487,11 +501,14 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
     class ExpandCell:UICollectionViewCell{
         var parent:PlayerMenuView?
         
-        let imageView:UIImageView={
+        var img_up = UIImage(from: .segoeMDL2, code: "ChevronUpMed", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        var img_down = UIImage(from: .segoeMDL2, code: "ChevronDownMed", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        
+        lazy var imageView:UIImageView={
             let iv = UIImageView()
             iv.translatesAutoresizingMaskIntoConstraints = false
             
-            iv.image = UIImage(named: "down")?.withRenderingMode(.alwaysTemplate)
+            iv.image = img_up.withRenderingMode(.alwaysTemplate)
             iv.tintColor = UIColor.gray
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
@@ -502,13 +519,13 @@ class PlayerMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             didSet{
                 if(isSelected)
                 {
-                    parent?.delegate?.expandMenu(expand: false)
-                    imageView.image = UIImage(named: "up")?.withRenderingMode(.alwaysTemplate)
+                    parent?.delegate?.expandMenu(expand: true)
+                    imageView.image = img_down.withRenderingMode(.alwaysTemplate)                    
                 }
                 else
                 {
-                    parent?.delegate?.expandMenu(expand: true)
-                    imageView.image = UIImage(named: "down")?.withRenderingMode(.alwaysTemplate)
+                    parent?.delegate?.expandMenu(expand: false)
+                    imageView.image = img_up.withRenderingMode(.alwaysTemplate)
                 }
             }
         }
