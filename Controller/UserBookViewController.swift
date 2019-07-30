@@ -103,7 +103,7 @@ class UserBookViewController: UIViewController {
     }
     
     func setupNavigationItem(){
-        self.navigationController!.navigationBar.topItem?.title = "词书"
+        self.navigationController!.navigationBar.topItem?.title = "词汇"
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center

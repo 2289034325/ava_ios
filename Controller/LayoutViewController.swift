@@ -14,16 +14,16 @@ class LayoutViewController: UITabBarController {
 
         let dicNav = UINavigationController(rootViewController:UserBookViewController())
         let speechNav = UINavigationController(rootViewController:SpeechListController())
-        let readNav = UINavigationController(rootViewController:ReadingViewController())
+        let readNav = UINavigationController(rootViewController:BookMarkListController())
         let myNav = UINavigationController(rootViewController:MeViewController())
 
 //        let dicNav = UserBookViewController()
 //        let speechNav = SpeechViewController()
 //        let myNav = LeftViewController()
 
-        dicNav.tabBarItem.title = "词典"
-        speechNav.tabBarItem.title = "演讲"
-        readNav.tabBarItem.title = "阅读"
+        dicNav.tabBarItem.title = "词汇"
+        speechNav.tabBarItem.title = "会话"
+        readNav.tabBarItem.title = "书签"
         myNav.tabBarItem.title = "我"
 
 //        dicNav.tabBarItem.image = UIImage(named: "word")
@@ -39,10 +39,40 @@ class LayoutViewController: UITabBarController {
         tabBar.unselectedItemTintColor = .black
         
 //        dicNav.tabBarItem.tintColor = UIColor.red
-        dicNav.tabBarItem.icon(from: .segoeMDL2, code: "Dictionary", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
-        speechNav.tabBarItem.icon(from: .segoeMDL2, code: "SubtitlesAudio", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
-        readNav.tabBarItem.icon(from: .segoeMDL2, code: "AlignCenter", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
-        myNav.tabBarItem.icon(from: .segoeMDL2, code: "Contact", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
+        let dic_img = UIImage(from: .fontAwesome, code: "paperplaneo", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 28, height: 28))
+        let dic_img_sel = UIImage(from: .fontAwesome, code: "paperplane", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 28, height: 28))
+        
+        let speech_img = UIImage(from: .fontAwesome, code: "commentingo", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        let speech_img_sel = UIImage(from: .fontAwesome, code: "commenting", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        
+        
+        let read_img = UIImage(from: .fontAwesome, code: "bookmarko", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        let read_img_sel = UIImage(from: .fontAwesome, code: "bookmark", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        
+        let me_img = UIImage(from: .segoeMDL2, code: "Contact", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        let me_img_sel = UIImage(from: .segoeMDL2, code: "ContactSolid", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        
+        self.tabBar.unselectedItemTintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
+        
+        dicNav.tabBarItem.image = dic_img.withRenderingMode(.alwaysTemplate)
+        dicNav.tabBarItem.selectedImage = dic_img_sel.withRenderingMode(.alwaysTemplate)
+        
+        speechNav.tabBarItem.image = speech_img.withRenderingMode(.alwaysTemplate)
+        speechNav.tabBarItem.selectedImage = speech_img_sel.withRenderingMode(.alwaysTemplate)
+        
+        readNav.tabBarItem.image = read_img.withRenderingMode(.alwaysTemplate)
+        readNav.tabBarItem.selectedImage = read_img_sel.withRenderingMode(.alwaysTemplate)
+        
+        myNav.tabBarItem.image = me_img.withRenderingMode(.alwaysTemplate)
+        myNav.tabBarItem.selectedImage = me_img_sel.withRenderingMode(.alwaysTemplate)
+        
+        
+        
+        
+//        dicNav.tabBarItem.icon(from: .fontAwesome, code: "book", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
+//        speechNav.tabBarItem.icon(from: .fontAwesome, code: "comment", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
+//        readNav.tabBarItem.icon(from: .fontAwesome, code: "tags", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
+//        myNav.tabBarItem.icon(from: .fontAwesome, code: "user", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
 
 
         self.viewControllers = [dicNav, speechNav, readNav, myNav]

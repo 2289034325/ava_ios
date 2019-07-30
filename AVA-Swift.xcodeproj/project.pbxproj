@@ -74,8 +74,11 @@
 		4081017F22EAC45E00C6DA1B /* V2LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081017C22EAC45E00C6DA1B /* V2LoadingView.swift */; };
 		4081018022EAC45E00C6DA1B /* V2RefreshFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081017D22EAC45E00C6DA1B /* V2RefreshFooter.swift */; };
 		4081018222EACB1300C6DA1B /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018122EACB1300C6DA1B /* UserModel.swift */; };
+		4081018422EFE4D600C6DA1B /* ReadingBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018322EFE4D600C6DA1B /* ReadingBrowserController.swift */; };
+		4081018622F0292300C6DA1B /* BookMarkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018522F0292300C6DA1B /* BookMarkModel.swift */; };
+		4081018822F084CB00C6DA1B /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018722F084CB00C6DA1B /* UITextField+Extension.swift */; };
 		409FBC0C22E7119E00B1AA26 /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */; };
-		C221092DC4F2BF6C34A42945 /* ReadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22139B81026470D3B418227 /* ReadingViewController.swift */; };
+		C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22139B81026470D3B418227 /* BookMarkListController.swift */; };
 		C2218B49B684C78B24DCC7CB /* SentenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B4CA62193A800C2B0758F /* SentenceModel.swift */; };
 		C22234C5A259CDD0E716B93D /* UserBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22917FFECB49F9DBE49B604 /* UserBookModel.swift */; };
 		C222398755CEF23B9024B265 /* LearnTestViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225FB8E88BBBB2EC56FDD7A /* LearnTestViewController3.swift */; };
@@ -191,6 +194,9 @@
 		4081017C22EAC45E00C6DA1B /* V2LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2LoadingView.swift; sourceTree = "<group>"; };
 		4081017D22EAC45E00C6DA1B /* V2RefreshFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2RefreshFooter.swift; sourceTree = "<group>"; };
 		4081018122EACB1300C6DA1B /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		4081018322EFE4D600C6DA1B /* ReadingBrowserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingBrowserController.swift; sourceTree = "<group>"; };
+		4081018522F0292300C6DA1B /* BookMarkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkModel.swift; sourceTree = "<group>"; };
+		4081018722F084CB00C6DA1B /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleModel.swift; sourceTree = "<group>"; };
 		44B6C123CE7CA62B5B4450D9 /* Pods-AVA-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVA-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		4B0F4B166DB726F4DA349A16 /* libPods-V2ex-Swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-V2ex-Swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,7 +210,7 @@
 		C2208B4486A769F3713E9802 /* LearnTestViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestViewController2.swift; sourceTree = "<group>"; };
 		C220DC1B5B66562737A2F7B3 /* Consts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		C22105F73469A9D86C1ED0F6 /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
-		C22139B81026470D3B418227 /* ReadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingViewController.swift; sourceTree = "<group>"; };
+		C22139B81026470D3B418227 /* BookMarkListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkListController.swift; sourceTree = "<group>"; };
 		C22142E77F662354D2C37FF8 /* LearnTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestViewController.swift; sourceTree = "<group>"; };
 		C221590D741825FF89945CCE /* QuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		C221A05B3AAE1A9A7A2CBE6B /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
@@ -278,6 +284,7 @@
 				06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */,
 				06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */,
 				06E52F771E012A8000E69084 /* UIView+Extension.swift */,
+				4081018722F084CB00C6DA1B /* UITextField+Extension.swift */,
 				C220453B026D8AF38BFC20F8 /* String+Extension.swift */,
 				C224D1B137C5D3F8C7A64F6A /* Date+Extension.swift */,
 				C22D6AFA3A3337F32ECF82F2 /* Reactive+Extension.swift */,
@@ -379,7 +386,8 @@
 				C226138A0FDB2CFA3AB3FEE9 /* QuestionView2.swift */,
 				C22CCFBE76B908C7E7F54A7F /* LearnTestViewController4.swift */,
 				C221B046F8360B69D24F83C4 /* MeViewController.swift */,
-				C22139B81026470D3B418227 /* ReadingViewController.swift */,
+				C22139B81026470D3B418227 /* BookMarkListController.swift */,
+				4081018322EFE4D600C6DA1B /* ReadingBrowserController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -396,6 +404,7 @@
 				409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */,
 				4081017122E859BF00C6DA1B /* ParagraphModel.swift */,
 				4081017222E859BF00C6DA1B /* ParagraphSplitModel.swift */,
+				4081018522F0292300C6DA1B /* BookMarkModel.swift */,
 				C222F448070E93539C4B3F03 /* WordModel.swift */,
 				C2243DA421D2117CEC13F51A /* ExplainModel.swift */,
 				C22B4CA62193A800C2B0758F /* SentenceModel.swift */,
@@ -644,6 +653,8 @@
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/open-iconic.ttf",
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/Segoe mdl2 assets.ttf",
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/themify.ttf",
+				"${PODS_ROOT}/SwiftWebVC/SwiftWebVC/Resources/Media.xcassets",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SwiftWebVC/SwiftWebVCResources.bundle",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@2x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@3x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_skip@2x.png",
@@ -669,6 +680,8 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/open-iconic.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Segoe mdl2 assets.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/themify.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Assets.car",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwiftWebVCResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@2x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@3x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_skip@2x.png",
@@ -718,10 +731,12 @@
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
 				0666E0F01DBF49C0009A1F71 /* WebViewImageProtocol.swift in Sources */,
 				06BB48EE1C56096000A4A909 /* V2EXMentionedBindingParser.swift in Sources */,
+				4081018622F0292300C6DA1B /* BookMarkModel.swift in Sources */,
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */,
 				4081017322E859BF00C6DA1B /* ParagraphModel.swift in Sources */,
+				4081018422EFE4D600C6DA1B /* ReadingBrowserController.swift in Sources */,
 				2D6B1BB01CA93F970050121D /* V2User.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
 				4081017422E859BF00C6DA1B /* ParagraphSplitModel.swift in Sources */,
@@ -761,6 +776,7 @@
 				C22469D560B17A9834B90461 /* QuestionModel.swift in Sources */,
 				C224C68819E9119AC39B2AC6 /* LearnTestViewController2.swift in Sources */,
 				C22A0A8E6110705DFD7BE7C2 /* QuestionView.swift in Sources */,
+				4081018822F084CB00C6DA1B /* UITextField+Extension.swift in Sources */,
 				C222398755CEF23B9024B265 /* LearnTestViewController3.swift in Sources */,
 				C2290808B8CCE0BEB6784614 /* QuestionView2.swift in Sources */,
 				C2289A9F3AB7FA1DC9DDEF25 /* LearnTestViewController4.swift in Sources */,
@@ -768,7 +784,7 @@
 				C22234C5A259CDD0E716B93D /* UserBookModel.swift in Sources */,
 				C22B110B647A524BBDC8EC5A /* AlamofireSessionManager.swift in Sources */,
 				C22BA643965A2A78AA669F2D /* MeViewController.swift in Sources */,
-				C221092DC4F2BF6C34A42945 /* ReadingViewController.swift in Sources */,
+				C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */,
 				C22371D6702E568750E09F6D /* MeLogoutTableViewCell.swift in Sources */,
 				C229B6C87CEDCE8EE93A7FFC /* SpeechListTableViewCell.swift in Sources */,
 			);

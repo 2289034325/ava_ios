@@ -275,7 +275,14 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     func setNavigationBar(){
         navigationItem.hidesBackButton=false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     func loadArticle()

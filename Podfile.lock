@@ -45,6 +45,7 @@ PODS:
   - SnapKit (4.2.0)
   - SVProgressHUD (2.2.5)
   - SwiftIconFont (3.0.0)
+  - SwiftWebVC (0.4.2)
   - SwiftyJSON (3.1.4)
   - TinderSwipeView (1.1.8)
   - YYText (1.0.7)
@@ -73,6 +74,7 @@ DEPENDENCIES:
   - SnapKit
   - SVProgressHUD
   - SwiftIconFont
+  - SwiftWebVC
   - SwiftyJSON (~> 3.1.4)
   - TinderSwipeView (~> 1.1.8)
   - YYText
@@ -105,6 +107,7 @@ SPEC REPOS:
     - SnapKit
     - SVProgressHUD
     - SwiftIconFont
+    - SwiftWebVC
     - SwiftyJSON
     - TinderSwipeView
     - YYText
@@ -136,10 +139,11 @@ SPEC CHECKSUMS:
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftIconFont: 2ba18554a77c44948dc35b561b344e3c23834a84
+  SwiftWebVC: ecc4feaabe5a3f75e059a0a345d3386bb0d16c44
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   TinderSwipeView: 13e7de167edb6b9883b398878a0e36e3633e01a0
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 92f509fc8789bc8d34ea45ad673dcab20543dfa9
+PODFILE CHECKSUM: 7301026a75b8b5d22ace106c3369c0a41e3fe8c6
 
 COCOAPODS: 1.6.1
