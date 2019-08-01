@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Foundation
 
-class BookMarkModel {
+class BookMarkModel:Codable{
     var id:Int = 0
     var lang:Int = 0
     var title:String = ""
     var url:String = ""
-    var time:Date?
+    var time:Date = Date()
+    
 }

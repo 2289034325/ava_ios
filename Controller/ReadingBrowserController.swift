@@ -21,7 +21,17 @@ import MobileCoreServices
 //    }
 //}
 
-class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFieldDelegate {
+protocol SaveBookMarkDelegate
+{
+    func editBookMark(bookMark:BookMarkModel)
+    func addBookMark(bookMark:BookMarkModel)
+}
+
+class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFieldDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+    
+    var initBookMark:BookMarkModel?
+    
+    var delegate: SaveBookMarkDelegate?
     
     var webView: WKWebView = {
         let v = WKWebView()
@@ -46,9 +56,19 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         return btn
     }()
     
-    var statusView: UIView = {
-        let v = UIView()
-        return v
+//    var statusViewContainer: UIView = {
+//        let c = UIView()
+//        return c
+//    }()
+    
+    lazy var statusView:UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        cv.dataSource = self
+        cv.delegate = self
+        
+        return cv
     }()
     
     let generalPasteboard = UIPasteboard.general
@@ -81,13 +101,21 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             make.left.equalTo(addTxb.snp.right).offset(10)
         }
         
+//        statusView.layer.backgroundColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
+//        statusViewContainer.addSubview(statusView)
+//        statusView.snp.removeConstraints()
+//        statusView.snp.makeConstraints { (make) in
+//            make.height.equalTo(50)
+//        }
+        
+        //即使是UICollectionViewCell，也必须注册，不注册就会出异常!!!
+        statusView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        statusView.backgroundColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
         self.view.addSubview(statusView)
-        statusView.layer.backgroundColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
         statusView.snp.makeConstraints { (make) in
             make.left.bottom.right.equalTo(self.view)
             make.height.equalTo(50)
         }
-        
         
         webView.navigationDelegate = self
         self.view.addSubview(webView)
@@ -101,9 +129,13 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
 
         NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
         
-        let url = URL(string: "https://www.economist.com/")!
-        webView.load(URLRequest(url: url))
-        webView.allowsBackForwardNavigationGestures = true
+        if let initUrl = self.initBookMark?.url{
+            if !initUrl.isEmpty{
+            addTxb.text = initUrl
+            let url = URL(string: initUrl)!
+            webView.load(URLRequest(url: url))
+            }
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -175,4 +207,102 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         self.navigationController?.navigationBar.isHidden = false
     }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width:collectionView.frame.width/4,height:collectionView.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        
+        if indexPath.row == 0 {
+            let btn = UIButton()
+            btn.tintColor = .white
+            let img = UIImage(from: .segoeMDL2, code: "ChevronLeft", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+            btn.setImage(img.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+            
+            btn.addTarget(self, action: #selector(ReadingBrowserController.browserBack(_:)), for: .touchUpInside)
+
+            cell.addSubview(btn)
+            btn.snp.makeConstraints { (make) in
+                make.left.top.right.bottom.equalTo(cell)
+            }
+        }
+        else if indexPath.row == 1 {
+            let btn = UIButton()
+            btn.tintColor = .white
+            let img = UIImage(from: .segoeMDL2, code: "ChevronRight", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+            btn.setImage(img.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+            
+            btn.addTarget(self, action: #selector(ReadingBrowserController.browserForward(_:)), for: .touchUpInside)
+
+            cell.addSubview(btn)
+            btn.snp.makeConstraints { (make) in
+                make.left.top.right.bottom.equalTo(cell)
+            }
+        }
+        else if indexPath.row == 2 {
+            let btn = UIButton()
+            btn.tintColor = .white
+            let img = UIImage(from: .segoeMDL2, code: "Sync", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+            btn.setImage(img.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+
+            btn.addTarget(self, action: #selector(ReadingBrowserController.browserRefresh(_:)), for: .touchUpInside)
+            
+            cell.addSubview(btn)
+            btn.snp.makeConstraints { (make) in
+                make.left.top.right.bottom.equalTo(cell)
+            }
+        }
+        else if indexPath.row == 3 {
+            let btn = UIButton()
+            btn.tintColor = .white
+            let img = UIImage(from: .segoeMDL2, code: "Pinned", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+            btn.setImage(img.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+
+            btn.addTarget(self, action: #selector(ReadingBrowserController.browserSave(_:)), for: .touchUpInside)
+            
+            cell.addSubview(btn)
+            btn.snp.makeConstraints { (make) in
+                make.left.top.right.bottom.equalTo(cell)
+            }
+        }
+        
+        return cell
+    }
+    
+    func browserBack(_ sneder:UIButton){
+        webView.goBack()
+    }
+    func browserForward(_ sneder:UIButton){
+        webView.goForward()
+    }
+    func browserRefresh(_ sneder:UIButton){
+        webView.reload()
+    }
+    func browserSave(_ sneder:UIButton){
+        if let url = webView.url?.absoluteString{
+            var bookMark = initBookMark
+            if bookMark == nil{
+                bookMark = BookMarkModel()
+                bookMark!.url = url
+                delegate?.addBookMark(bookMark: bookMark!)
+            }
+            else{
+                bookMark!.url = url
+                delegate?.editBookMark(bookMark: bookMark!)
+            }
+        }
+    }    
 }

@@ -77,6 +77,7 @@
 		4081018422EFE4D600C6DA1B /* ReadingBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018322EFE4D600C6DA1B /* ReadingBrowserController.swift */; };
 		4081018622F0292300C6DA1B /* BookMarkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018522F0292300C6DA1B /* BookMarkModel.swift */; };
 		4081018822F084CB00C6DA1B /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018722F084CB00C6DA1B /* UITextField+Extension.swift */; };
+		4081018A22F2B50A00C6DA1B /* ReadingApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018922F2B50A00C6DA1B /* ReadingApi.swift */; };
 		409FBC0C22E7119E00B1AA26 /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */; };
 		C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22139B81026470D3B418227 /* BookMarkListController.swift */; };
 		C2218B49B684C78B24DCC7CB /* SentenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B4CA62193A800C2B0758F /* SentenceModel.swift */; };
@@ -197,6 +198,7 @@
 		4081018322EFE4D600C6DA1B /* ReadingBrowserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingBrowserController.swift; sourceTree = "<group>"; };
 		4081018522F0292300C6DA1B /* BookMarkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkModel.swift; sourceTree = "<group>"; };
 		4081018722F084CB00C6DA1B /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		4081018922F2B50A00C6DA1B /* ReadingApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingApi.swift; sourceTree = "<group>"; };
 		409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleModel.swift; sourceTree = "<group>"; };
 		44B6C123CE7CA62B5B4450D9 /* Pods-AVA-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVA-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		4B0F4B166DB726F4DA349A16 /* libPods-V2ex-Swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-V2ex-Swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -262,6 +264,7 @@
 			children = (
 				0620DA02214F56FC00761FBB /* TopicListApi.swift */,
 				C2207FE837BC256E49304E3E /* DictionaryApi.swift */,
+				4081018922F2B50A00C6DA1B /* ReadingApi.swift */,
 				402B07C822E84B59007DC5D2 /* SpeechApi.swift */,
 			);
 			path = API;
@@ -719,6 +722,7 @@
 				0678D2051C61B423007FFCFD /* UIImage+Extension.swift in Sources */,
 				06D0EE1F1C915CAD003095FF /* V2Style.swift in Sources */,
 				2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */,
+				4081018A22F2B50A00C6DA1B /* ReadingApi.swift in Sources */,
 				4081017F22EAC45E00C6DA1B /* V2LoadingView.swift in Sources */,
 				4081018222EACB1300C6DA1B /* UserModel.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
