@@ -14,6 +14,7 @@ PODS:
   - DrawerController/Core (4.0.0)
   - DrawerController/DrawerVisualStates (4.0.0):
     - DrawerController/Core
+  - DropDown (2.3.13)
   - Fabric (1.8.0)
   - FXBlurView (1.6.4)
   - Ji (2.1.0):
@@ -45,7 +46,6 @@ PODS:
   - SnapKit (4.2.0)
   - SVProgressHUD (2.2.5)
   - SwiftIconFont (3.0.0)
-  - SwiftWebVC (0.4.2)
   - SwiftyJSON (3.1.4)
   - TinderSwipeView (1.1.8)
   - YYText (1.0.7)
@@ -58,6 +58,7 @@ DEPENDENCIES:
   - CXSwipeGestureRecognizer
   - DeviceKit
   - DrawerController
+  - DropDown
   - Fabric
   - FXBlurView
   - Ji
@@ -74,7 +75,6 @@ DEPENDENCIES:
   - SnapKit
   - SVProgressHUD
   - SwiftIconFont
-  - SwiftWebVC
   - SwiftyJSON (~> 3.1.4)
   - TinderSwipeView (~> 1.1.8)
   - YYText
@@ -88,6 +88,7 @@ SPEC REPOS:
     - CXSwipeGestureRecognizer
     - DeviceKit
     - DrawerController
+    - DropDown
     - Fabric
     - FXBlurView
     - Ji
@@ -107,7 +108,6 @@ SPEC REPOS:
     - SnapKit
     - SVProgressHUD
     - SwiftIconFont
-    - SwiftWebVC
     - SwiftyJSON
     - TinderSwipeView
     - YYText
@@ -120,6 +120,7 @@ SPEC CHECKSUMS:
   CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
   DeviceKit: a376cb3d0dda0c27c81dcc0d2b7b8600b6802065
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: 21946da4e13425485ddd424edfaeeced0d80ad28
@@ -139,11 +140,10 @@ SPEC CHECKSUMS:
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftIconFont: 2ba18554a77c44948dc35b561b344e3c23834a84
-  SwiftWebVC: ecc4feaabe5a3f75e059a0a345d3386bb0d16c44
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   TinderSwipeView: 13e7de167edb6b9883b398878a0e36e3633e01a0
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 7301026a75b8b5d22ace106c3369c0a41e3fe8c6
+PODFILE CHECKSUM: fff0b4e7edcc22d3b82cf76b1b46ce411a5d3dca
 
 COCOAPODS: 1.6.1

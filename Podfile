@@ -29,7 +29,7 @@ def pods
     pod 'JWTDecode', '~> 2.3'
     pod 'TinderSwipeView', '~> 1.1.8'
     pod 'SwiftIconFont'
-    pod 'SwiftWebVC'
+    pod 'DropDown'
 end
 
 target 'AVA-Swift' do

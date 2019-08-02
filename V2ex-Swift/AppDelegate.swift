@@ -16,6 +16,8 @@ import SVProgressHUD
 import JWTDecode
 import ObjectMapper
 
+import DropDown
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -74,6 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //只有放这里才起作用，放其他controller里面，不起作用，fuck
         UITabBar.appearance().tintColor = #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1)
+        
+        DropDown.startListeningToKeyboard()
  
         return true
     }

@@ -62,6 +62,7 @@
 		4043E77422DDE5F100BFCA7B /* Stateface.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76522DDE5F000BFCA7B /* Stateface.ttf */; };
 		4043E77522DDE5F100BFCA7B /* OpenIconic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76622DDE5F100BFCA7B /* OpenIconic.ttf */; };
 		4043E77622DDE5F100BFCA7B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E76722DDE5F100BFCA7B /* FontAwesome.ttf */; };
+		4065EC9022F407B5008F463D /* CreateUserBookController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4065EC8F22F407B5008F463D /* CreateUserBookController.swift */; };
 		4081016822E8585900C6DA1B /* SpeechController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081016722E8585900C6DA1B /* SpeechController.swift */; };
 		4081016F22E858B000C6DA1B /* PlayerMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081016D22E858AF00C6DA1B /* PlayerMenuView.swift */; };
 		4081017022E858B000C6DA1B /* RecordMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081016E22E858AF00C6DA1B /* RecordMenuView.swift */; };
@@ -78,6 +79,7 @@
 		4081018622F0292300C6DA1B /* BookMarkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018522F0292300C6DA1B /* BookMarkModel.swift */; };
 		4081018822F084CB00C6DA1B /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018722F084CB00C6DA1B /* UITextField+Extension.swift */; };
 		4081018A22F2B50A00C6DA1B /* ReadingApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018922F2B50A00C6DA1B /* ReadingApi.swift */; };
+		4081018C22F3D5F200C6DA1B /* TSMessageActionFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018B22F3D5F200C6DA1B /* TSMessageActionFloatView.swift */; };
 		409FBC0C22E7119E00B1AA26 /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */; };
 		C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22139B81026470D3B418227 /* BookMarkListController.swift */; };
 		C2218B49B684C78B24DCC7CB /* SentenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22B4CA62193A800C2B0758F /* SentenceModel.swift */; };
@@ -183,6 +185,7 @@
 		4043E76522DDE5F000BFCA7B /* Stateface.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Stateface.ttf; sourceTree = "<group>"; };
 		4043E76622DDE5F100BFCA7B /* OpenIconic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OpenIconic.ttf; sourceTree = "<group>"; };
 		4043E76722DDE5F100BFCA7B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		4065EC8F22F407B5008F463D /* CreateUserBookController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserBookController.swift; sourceTree = "<group>"; };
 		4081016722E8585900C6DA1B /* SpeechController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechController.swift; sourceTree = "<group>"; };
 		4081016D22E858AF00C6DA1B /* PlayerMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerMenuView.swift; sourceTree = "<group>"; };
 		4081016E22E858AF00C6DA1B /* RecordMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordMenuView.swift; sourceTree = "<group>"; };
@@ -199,6 +202,7 @@
 		4081018522F0292300C6DA1B /* BookMarkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkModel.swift; sourceTree = "<group>"; };
 		4081018722F084CB00C6DA1B /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		4081018922F2B50A00C6DA1B /* ReadingApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingApi.swift; sourceTree = "<group>"; };
+		4081018B22F3D5F200C6DA1B /* TSMessageActionFloatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSMessageActionFloatView.swift; sourceTree = "<group>"; };
 		409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleModel.swift; sourceTree = "<group>"; };
 		44B6C123CE7CA62B5B4450D9 /* Pods-AVA-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVA-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		4B0F4B166DB726F4DA349A16 /* libPods-V2ex-Swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-V2ex-Swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -375,6 +379,7 @@
 			children = (
 				06098B3E1C52171D00848159 /* LoginViewController.swift */,
 				C22A5130ACA999CFFB341AE4 /* UserBookViewController.swift */,
+				4065EC8F22F407B5008F463D /* CreateUserBookController.swift */,
 				C2288C8026F0506633977DB2 /* PublicBookViewController.swift */,
 				C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */,
 				C22B2C0504070406B222EE33 /* SpeechListController.swift */,
@@ -434,6 +439,7 @@
 				C22C8BA8B05A3E99BB513CFC /* SpeechListTableViewCell.swift */,
 				4081016D22E858AF00C6DA1B /* PlayerMenuView.swift */,
 				4081016E22E858AF00C6DA1B /* RecordMenuView.swift */,
+				4081018B22F3D5F200C6DA1B /* TSMessageActionFloatView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/1PasswordExtension/OnePasswordExtensionResources.bundle",
+				"${PODS_ROOT}/DropDown/DropDown/resources/DropDownCell.xib",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/FontAwesome.ttf",
@@ -656,8 +663,6 @@
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/open-iconic.ttf",
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/Segoe mdl2 assets.ttf",
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/themify.ttf",
-				"${PODS_ROOT}/SwiftWebVC/SwiftWebVC/Resources/Media.xcassets",
-				"${PODS_CONFIGURATION_BUILD_DIR}/SwiftWebVC/SwiftWebVCResources.bundle",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@2x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@3x.png",
 				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_skip@2x.png",
@@ -673,6 +678,7 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/OnePasswordExtensionResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DropDownCell.nib",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
@@ -683,8 +689,6 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/open-iconic.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Segoe mdl2 assets.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/themify.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Assets.car",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SwiftWebVCResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@2x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@3x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_skip@2x.png",
@@ -750,10 +754,12 @@
 				06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */,
 				C2265112502B0C95A4A16942 /* String+Extension.swift in Sources */,
 				4081017022E858B000C6DA1B /* RecordMenuView.swift in Sources */,
+				4065EC9022F407B5008F463D /* CreateUserBookController.swift in Sources */,
 				C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */,
 				C22D6E134D969ECC7E6CB9AA /* PublicBookModel.swift in Sources */,
 				C22F27E5D716D916EB554F48 /* UserBookListTableViewCell.swift in Sources */,
 				C2226BFCCAF7D63DEEF2C7DB /* PublicBookListTableViewCell.swift in Sources */,
+				4081018C22F3D5F200C6DA1B /* TSMessageActionFloatView.swift in Sources */,
 				C22FCCAB57EAA0D181D17112 /* PublicBookViewController.swift in Sources */,
 				C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */,
 				C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */,

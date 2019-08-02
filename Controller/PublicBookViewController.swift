@@ -92,7 +92,7 @@ class PublicBookViewController: UIViewController {
 
         //获取公共词书列表
         _ = DictionaryApi.provider
-                .requestAPI(.getPublicBooks())
+                .requestAPI(.getPublicBooks)
                 .mapResponseToObjArray(PublicBookModel.self)
                 .subscribe(onNext: { (response) in
                     self.bookList = response

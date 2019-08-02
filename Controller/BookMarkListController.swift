@@ -14,7 +14,6 @@ import MJRefresh
 import SVProgressHUD
 import YYText
 import SafariServices
-import SwiftWebVC
 
 
 class BookMarkListController: UIViewController,SaveBookMarkDelegate {

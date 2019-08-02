@@ -25,6 +25,8 @@ class UserBookViewController: UIViewController {
     var pickerView:UIPickerView!
     var pickerNums:[Int] = [5,10,15,20,25,30,35,40,45,50]
     
+    var actionFloatView: TSMessageActionFloatView!
+    
     fileprivate lazy var tableView: UITableView  = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
@@ -48,13 +50,21 @@ class UserBookViewController: UIViewController {
         pickerView.dataSource = self
         vc.view.addSubview(pickerView)
         pickerViewVc = vc
-
         pickerView.selectRow(3,inComponent:0,animated:true)
 
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
+        
+        //Init ActionFloatView
+        self.actionFloatView = TSMessageActionFloatView()
+        self.actionFloatView.delegate = self
+        self.view.addSubview(self.actionFloatView)
+        self.actionFloatView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalTo(UIEdgeInsetsMake(64, 0, 0, 0))
+        }
+        
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
             self?.refresh()
         })
@@ -65,13 +75,14 @@ class UserBookViewController: UIViewController {
         })
         footer?.centerOffset = -4
         self.tableView.mj_footer = footer
-
-        self.themeChangedHandler = {[weak self] (style) -> Void in
-            self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-        }
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
         self.tableView.addGestureRecognizer(longPressRecognizer)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.actionFloatView.hide(true)
     }
     
     @objc func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
@@ -103,7 +114,7 @@ class UserBookViewController: UIViewController {
     }
     
     func setupNavigationItem(){
-        self.navigationController!.navigationBar.topItem?.title = "词汇"
+        self.navigationController!.navigationBar.topItem?.title = "词书"
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
@@ -114,14 +125,20 @@ class UserBookViewController: UIViewController {
         
         self.navigationController!.navigationBar.topItem!.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(UserBookViewController.rightClick), for: .touchUpInside)
+        
+//        self.navigationItem.rightButtonAction(TSAsset.Barbuttonicon_add.image) { () -> Void in
+//            self.actionFloatView.hide(!self.actionFloatView.isHidden)
+//        }
 
     }
     
     //打开公共词书页面，选择词书
     @objc func rightClick(){
-        let publicBookController = PublicBookViewController()
-        publicBookController.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(publicBookController, animated: true)
+//        let publicBookController = PublicBookViewController()
+//        publicBookController.hidesBottomBarWhenPushed = true
+//        self.navigationController?.pushViewController(publicBookController, animated: true)
+        
+        self.actionFloatView.hide(!self.actionFloatView.isHidden)
     }
     
     func refreshPage(){
@@ -135,7 +152,7 @@ class UserBookViewController: UIViewController {
         
         //获取用户词书列表
         _ = DictionaryApi.provider
-                .requestAPI(.getMyBooks())
+                .requestAPI(.getMyBooks)
                 .mapResponseToObjArray(UserBookModel.self)
                 .subscribe(onNext: { (response) in
                     self.bookList = response
@@ -410,5 +427,22 @@ extension UserBookViewController:UIPickerViewDelegate, UIPickerViewDataSource{
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int,
                     forComponent component: Int) -> String? {
         return String(pickerNums[row])
+    }
+}
+
+extension UserBookViewController: ActionFloatViewDelegate {
+    func floatViewTapItemIndex(_ type: ActionFloatViewItemType) {
+        switch type {
+        case .publicBook:
+            let publicBookController = PublicBookViewController()
+            publicBookController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(publicBookController, animated: true)
+            break
+        case .customDefine:
+            let cController = CreateUserBookController()
+            cController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(cController, animated: true)
+            break
+        }
     }
 }

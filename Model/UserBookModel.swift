@@ -12,7 +12,7 @@ import Ji
 import ObjectMapper
 import Foundation
 
-class UserBookModel: BaseJsonModel {
+class UserBookModel: Mappable,Codable {
     var id:Int = 0
     var user_id:Int = 0
     var book_id:Int = 0
@@ -28,14 +28,27 @@ class UserBookModel: BaseJsonModel {
     var answer_times:Int = 0
     var wrong_times:Int = 0
     var today_need_review_count:Int = 0
-
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case lang
+        case name
+        case description
+    }
+    
+    init(){
+    }
+    
+    required init?(map: Map) {
+    }
+    
     let df : DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         return formatter
     }()
 
-    override func mapping(map: Map) {
+    func mapping(map: Map) {
         id <- map["id"]
         user_id <- map["user_id"]
         book_id <- map["book_id"]

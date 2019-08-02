@@ -10,20 +10,15 @@ import UIKit
 import Moya
 
 enum DictionaryApi {
-    //获取首页列表
-    case topicList(tab: String?, page: Int)
-    //获取我的收藏帖子列表
-    case favoriteList(page: Int)
-    //获取节点主题列表
-    case nodeTopicList(nodeName: String, page:Int)
-
     //获取我的词书
-    case getMyBooks()
+    case getMyBooks
     //获取公共词书
-    case getPublicBooks()
+    case getPublicBooks
 
     //将公共词书加入用户词书
     case addUserBook(book_id: Int)
+    //自定义词书
+    case saveUserBook(book: UserBookModel)
     //重新开始学习词书
     case restartUserBook(user_book_id: Int)
     //删除词书
@@ -42,6 +37,8 @@ extension DictionaryApi: V2EXTargetType {
         switch self {
         case .submitResult:
             return .post
+        case .saveUserBook:
+            return .post
         default:
             return .get
         }
@@ -49,25 +46,17 @@ extension DictionaryApi: V2EXTargetType {
 
     var parameters: [String : Any]? {
         switch self {
-        case let .topicList(tab, page):
-            if tab == "all" && page > 0 {
-                //只有全部分类能翻页
-                return ["p": page]
-            }
-            return ["tab": tab ?? "all"]
-        case let .favoriteList(page):
-            return ["p": page]
-        case let .nodeTopicList(_, page):
-            return ["p": page]
-        case let .getMyBooks():
+        case .getMyBooks:
             return nil
-        case let .getPublicBooks():
+        case .getPublicBooks:
             return nil
-        case let .addUserBook(book_id):
+        case .addUserBook:
             return nil
-        case let .restartUserBook(user_book_id):
+        case .saveUserBook:
             return nil
-        case let .deleteUserBook(user_book_id):
+        case .restartUserBook:
+            return nil
+        case .deleteUserBook:
             return nil
         case let .getNewWords(user_book_id,word_count):
             return ["user_book_id":user_book_id,"word_count":word_count]
@@ -80,21 +69,14 @@ extension DictionaryApi: V2EXTargetType {
     
     var path: String {
         switch self {
-        case let .topicList(tab, page):
-            if tab == "all" && page > 0 {
-                return "/recent"
-            }
-            return "/"
-        case .favoriteList:
-            return "/my/topics"
-        case let .nodeTopicList(nodeName, _):
-            return "/go/\(nodeName)"
-        case let .getMyBooks():
+        case .getMyBooks:
             return "/dictionary/book/mybooks"
-        case let .getPublicBooks():
+        case .getPublicBooks:
             return "/dictionary/book/publicbooks"
         case let .addUserBook(book_id):
             return "/dictionary/book/adduserbook/\(book_id)"
+        case .saveUserBook:
+            return "/dictionary/book/saveuserbook"
         case let .restartUserBook(user_book_id):
             return "/dictionary/book/restartuserbook/\(user_book_id)"
         case let .deleteUserBook(user_book_id):
@@ -103,7 +85,7 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/\(user_book_id)/learn_new/\(word_count)"
         case let .reviewOldWords(user_book_id,word_count):
             return "/dictionary/book/\(user_book_id)/review_old/\(word_count)"
-        case let .submitResult(result):
+        case .submitResult:
             return "/dictionary/learn/record/save"
 //        default:
 //            return ""
@@ -113,14 +95,13 @@ extension DictionaryApi: V2EXTargetType {
     var task: Task {
         switch self {
         case let .submitResult(result):
-//            let formatter = DateFormatter()
-//            formatter.dateStyle = .full
-//            formatter.timeStyle = .full
-//            encoder.dateEncodingStrategy = .formatted(formatter)
-
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .iso8601
             return Task.requestCustomJSONEncodable(result,encoder:encoder)
+        case let .saveUserBook(book):
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            return Task.requestCustomJSONEncodable(book,encoder:encoder)
         default:
             return requestTaskWithParameters
         }
