@@ -33,6 +33,12 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     
     var delegate: SaveBookMarkDelegate?
     
+    var popUpView: SearchPopUpView={
+        let pv = SearchPopUpView()
+        
+        return pv
+    }()
+    
     var webView: WKWebView = {
         let v = WKWebView()
         return v
@@ -175,9 +181,22 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     @objc
     func pasteboardChanged(_ notification: Notification) {
         if let md = UIPasteboard.general.string{
-            let alertView = UIAlertController(title: "Yay!!", message: md, preferredStyle: .alert)
-            alertView.addAction(UIAlertAction(title: "cool", style: .default, handler: nil))
-            present(alertView, animated: true, completion: nil)
+            
+            _ = DictionaryApi.provider
+                .requestAPI(.searchWord(lang: 1, form: md))
+                .mapResponseToObj(WordModel.self)
+                .subscribe(onNext: { (response) in
+                    
+                    self.popUpView.setInfo(word: response)
+                    let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                    alertView.setValue(self.popUpView, forKey: "contentViewController")
+                    
+                    alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alertView, animated: true, completion: nil)
+                    
+                }, onError: { (error) in
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                })
         }
     }
     
@@ -305,4 +324,52 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             }
         }
     }    
+}
+
+class SearchPopUpView:UIViewController{
+    
+    var lbl_spell:UILabel={
+        let lbl = UILabel()
+        lbl.font = v2Font(22)
+        return lbl
+    }()
+    
+    var lbl_pronounce:UILabel={
+        let lbl = UILabel()
+        lbl.font = v2Font(14)
+        return lbl
+    }()
+    
+    var lbl_meaning:UILabel={
+        let lbl = UILabel()
+        lbl.font = v2Font(18)
+        lbl.numberOfLines = 0
+        return lbl
+    }()
+    
+    
+    override func viewDidLoad() {
+        self.view.addSubview(lbl_spell)
+        lbl_spell.snp.makeConstraints { (make) in
+            make.left.top.equalTo(self.view).offset(10)
+        }
+        
+        self.view.addSubview(lbl_pronounce)
+        lbl_pronounce.snp.makeConstraints { (make) in
+            make.left.equalTo(lbl_spell.snp.right).offset(10)
+            make.bottom.equalTo(lbl_spell.snp.bottom)
+        }
+        
+        self.view.addSubview(lbl_meaning)
+        lbl_meaning.snp.makeConstraints { (make) in
+            make.left.equalTo(self.view).offset(10)
+            make.top.equalTo(lbl_spell.snp.bottom).offset(15)
+        }
+    }
+    
+    func setInfo(word:WordModel){
+        lbl_spell.text = word.spell!
+        lbl_pronounce.text = "[\(word.pronounce!)]"
+        lbl_meaning.text = word.meaning!
+    }
 }

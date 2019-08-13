@@ -78,7 +78,7 @@ class BookMarkListController: UIViewController,SaveBookMarkDelegate {
         
         let bm = BookMarkModel()
         bm.title = "HK News"
-        bm.url = "https://www.baidu.com"
+        bm.url = "http://192.168.1.225:8090/display/~caiyongjie/News+Test"
         bookMarks.append(bm)
         
         let bm2 = BookMarkModel()

@@ -30,6 +30,9 @@ enum DictionaryApi {
     case reviewOldWords(user_book_id: Int,word_count: Int)
     //提交测试记录
     case submitResult(_ record:LearnRecordModel)
+    
+    //查询单词
+    case searchWord(lang:Int,form:String)
 }
 
 extension DictionaryApi: V2EXTargetType {
@@ -62,6 +65,8 @@ extension DictionaryApi: V2EXTargetType {
             return ["user_book_id":user_book_id,"word_count":word_count]
         case let .reviewOldWords(user_book_id,word_count):
             return ["user_book_id":user_book_id,"word_count":word_count]
+        case let .searchWord(lang,form):
+            return ["lang":lang,"form":form]
         default:
             return nil
         }
@@ -87,6 +92,8 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/\(user_book_id)/review_old/\(word_count)"
         case .submitResult:
             return "/dictionary/learn/record/save"
+        case .searchWord:
+            return "/dictionary/word/search"
 //        default:
 //            return ""
         }

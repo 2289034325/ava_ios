@@ -10,7 +10,7 @@ import UIKit
 import Moya
 
 enum ReadingApi {
-    case bookMarkList()
+    case bookMarkList
     case editBookMark(_ bookMark:BookMarkModel)
     case addBookMark(_ bookMark:BookMarkModel)
 }
