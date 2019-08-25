@@ -33,6 +33,9 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     
     var delegate: SaveBookMarkDelegate?
     
+    var startLocation = CGPoint()
+    var panDirection = 0
+    
     var popUpView: SearchPopUpView={
         let pv = SearchPopUpView()
         
@@ -48,6 +51,10 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         let v = UIView()
         return v
     }()
+    
+    var avOTrans=CGAffineTransform()
+    var avHTrans=CGAffineTransform()
+    var avShow=true
     
     var addTxb: MyUITextField = {
         let txb = MyUITextField()
@@ -76,6 +83,10 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         
         return cv
     }()
+    
+    var svOTrans=CGAffineTransform()
+    var svHTrans=CGAffineTransform()
+    var svShow=true
     
     let generalPasteboard = UIPasteboard.general
     
@@ -135,12 +146,136 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
 
         NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
         
+        let panRecognizer = UIPanGestureRecognizer(target: self, action:  #selector(panedView))
+        self.view.addGestureRecognizer(panRecognizer)
+        
         if let initUrl = self.initBookMark?.url{
             if !initUrl.isEmpty{
             addTxb.text = initUrl
             let url = URL(string: initUrl)!
             webView.load(URLRequest(url: url))
             }
+        }
+    }
+    
+    // 在viewDidLoad中，获取不到view的frame尺寸!!!
+    override func viewDidLayoutSubviews() {
+        self.avOTrans = addressView.transform
+        self.avHTrans = avOTrans.translatedBy(x: 0, y: -self.addressView.frame.height)
+        
+        self.svOTrans = statusView.transform
+        self.svHTrans = svOTrans.translatedBy(x: 0, y: self.statusView.frame.height)
+    }
+    
+    @objc func panedView(sender:UIPanGestureRecognizer) {
+        
+        if (sender.state == UIGestureRecognizer.State.began) {
+            startLocation = sender.location(in: self.view)
+            self.panDirection = 0
+        }
+        else if(sender.state == UIGestureRecognizer.State.changed){
+//            let currentLocation = sender.location(in: self.view)
+//            let dx = currentLocation.x - startLocation.x
+//            let dy = currentLocation.y - startLocation.y
+//            var distance = sqrt(dx * dx + dy * dy)
+//
+//            //横向移动50像素才能开始动画，否则上下滑动浏览的时候，很可能会经常触发动画
+//            if(distance>50){
+//                distance -= 50
+//                print(self.addressView.frame)
+//                if(dx<0){
+//                    self.panDirection = -1
+//                    if(self.addressView.frame.maxY>0)
+//                    {
+//                        self.addressView.transform = avOTrans.translatedBy(x: 0, y: -distance)
+//                    }
+//                    if(self.statusView.frame.minY<SCREEN_HEIGHT){
+//                        self.statusView.transform = svOTrans.translatedBy(x: 0, y: distance)
+//                    }
+//                }
+//                else{
+//                    self.panDirection = 1
+//                    if(self.addressView.frame.minY<0 && distance<self.addressView.frame.height)
+//                    {
+//                        self.addressView.transform = avHTrans.translatedBy(x: 0, y: distance)
+//                    }
+//                    if(self.statusView.frame.maxY>SCREEN_HEIGHT && distance<self.statusView.frame.height){
+//                        self.statusView.transform = svHTrans.translatedBy(x: 0, y: -distance)
+//                    }
+//                }
+//            }
+            
+        }
+        else if (sender.state == UIGestureRecognizer.State.ended) {
+            let currentLocation = sender.location(in: self.view)
+            let dx = currentLocation.x - startLocation.x
+            let dy = currentLocation.y - startLocation.y
+            let distance = sqrt(dx * dx + dy * dy)
+            if(distance>50){
+                if(dx<0){
+                    self.addressView.snp.removeConstraints()
+                    addressView.snp.makeConstraints { (make) in
+                        make.top.equalTo(self.view).offset(-40)
+                        make.left.right.equalTo(self.view)
+                        make.height.equalTo(40)
+                    }
+                    self.statusView.snp.removeConstraints()
+                    statusView.snp.makeConstraints { (make) in
+                        make.left.right.equalTo(self.view)
+                        make.height.equalTo(50)
+                        make.bottom.equalTo(self.view).offset(50)
+                    }
+                    
+                    self.webView.snp.removeConstraints()
+                    self.webView.snp.makeConstraints { (make) in
+                        make.left.right.equalTo(self.view)
+                        make.top.equalTo(self.addressView.snp.bottom)
+                        make.bottom.equalTo(self.statusView.snp.top)}
+                    
+                    // 跟其他控件位置相关联的动画，必须这么做，不能只做目标控件的动画，然后去手动更改其他相关控件的位置!!!
+                    // 否则会出现奇怪的现象
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.layoutIfNeeded()
+                    })
+                    
+                }
+                else{
+                    self.addressView.snp.removeConstraints()
+                    addressView.snp.makeConstraints { (make) in
+                        make.left.top.right.equalTo(self.view)
+                        make.height.equalTo(40)
+                    }
+                    self.statusView.snp.removeConstraints()
+                    statusView.snp.makeConstraints { (make) in
+                        make.left.bottom.right.equalTo(self.view)
+                        make.height.equalTo(50)
+                    }
+                    
+                    self.webView.snp.removeConstraints()
+                    self.webView.snp.makeConstraints { (make) in
+                        make.left.right.equalTo(self.view)
+                        make.top.equalTo(self.addressView.snp.bottom)
+                        make.bottom.equalTo(self.statusView.snp.top)}
+                    
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.layoutIfNeeded()
+                    })
+                }
+            }
+//            else{
+//                if(avShow && panDirection<0){
+//                    UIView.animate(withDuration: 0.3, animations: {
+//                        self.addressView.transform = self.avOTrans
+//                        self.statusView.transform = self.svOTrans
+//                    })
+//                }
+//                else if(!avShow && panDirection>0){
+//                    UIView.animate(withDuration: 0.3, animations: {
+//                        self.addressView.transform = self.avHTrans
+//                        self.statusView.transform = self.svHTrans
+//                    })
+//                }
+//            }
         }
     }
     

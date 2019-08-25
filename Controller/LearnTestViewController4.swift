@@ -32,13 +32,49 @@ class LearnTestViewController4: UIViewController {
     var startLocation = CGPoint()
     
     var refrenceView = ""
-
-//    var leftFinishPoint = CGPoint.zero
-//    var rightFinishPoint = CGPoint.zero
-
-//    convenience init(book:BookModel,words:[WordModel]) {
-//        self.init(book:book,words:words)
-//    }
+    
+    var rImage:UIImageView =
+    {
+        // SwiftIconFont 做出来的图形无法缩放，放入UIImageView后始终不能填满UIImageView，在图片周围留下几个像素的空白!!!
+        let img = UIImage(from: .segoeMDL2, code: "CalculatorSquareroot", textColor: .white, backgroundColor: .blue, size: CGSize(width: 50, height: 50))
+//        let img = UIImage(named: "flg_fr")!
+        
+        let iv = UIImageView()
+        // 由于SwiftIconFont的图片不能填满，所以这里用背景色填满，看起来没有空白
+        iv.backgroundColor = UIColor.blue
+        iv.frame = CGRect(x: SCREEN_WIDTH/2-25, y: SCREEN_HEIGHT/2-25, width: 50, height: 50)
+        iv.image = img.withRenderingMode(.alwaysOriginal)
+        iv.clipsToBounds = true
+        iv.layer.masksToBounds = true
+        iv.layer.cornerRadius = 25
+        iv.isHidden = true
+        
+        return iv
+    }()
+    
+    lazy var rImageTransform:CGAffineTransform={
+        return self.rImage.transform
+    }()
+    
+    var wImage:UIImageView =
+    {
+        let img = UIImage(from: .segoeMDL2, code: "CalculatorMultiply", textColor: .white, backgroundColor: .red, size: CGSize(width: 50, height: 50))
+        
+        let iv = UIImageView()
+        iv.backgroundColor = UIColor.red
+        iv.frame = CGRect(x: SCREEN_WIDTH/2-25, y: SCREEN_HEIGHT/2-25, width: 50, height: 50)
+        iv.image = img.withRenderingMode(.alwaysOriginal)
+        iv.clipsToBounds = true
+        iv.layer.masksToBounds = true
+        iv.layer.cornerRadius = 25
+        iv.isHidden = true
+        
+        return iv
+    }()
+    
+    lazy var wImageTransform:CGAffineTransform={
+        return self.wImage.transform
+    }()
 
     init(book:UserBookModel,words:[WordModel]) {
 
@@ -87,6 +123,8 @@ class LearnTestViewController4: UIViewController {
         self.edgesForExtendedLayout = []
 
         self.view.backgroundColor = UIColor.gray
+        
+        
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewTap(_:)))
         self.view.addGestureRecognizer(tap)
@@ -116,6 +154,9 @@ class LearnTestViewController4: UIViewController {
                 make.left.top.right.bottom.equalTo(self.view)
             }
         }
+        
+        self.view.addSubview(rImage)
+        self.view.addSubview(wImage)
     }
 
     @objc func backAction(){
@@ -163,99 +204,147 @@ class LearnTestViewController4: UIViewController {
         //UIGestureRecognizerState has been renamed to UIGestureRecognizer.State in Swift 4
         if (sender.state == UIGestureRecognizer.State.began) {
             startLocation = sender.location(in: self.view)
-        } else if (sender.state == UIGestureRecognizer.State.ended) {
+        }
+        else if(sender.state == UIGestureRecognizer.State.changed){
+            let currentLocation = sender.location(in: self.view)
+            let dx = currentLocation.x - startLocation.x
+            let dy = currentLocation.y - startLocation.y
+            let distance = sqrt(dx * dx + dy * dy)
+            let ratio = distance/110
+            
+            
+            if(dx<0){
+                rImage.alpha = ratio
+                rImage.transform = rImageTransform.scaledBy(x: ratio, y: ratio)
+                rImage.isHidden = false
+                
+                wImage.isHidden = true
+            }
+            else{
+                wImage.alpha = ratio
+                wImage.transform = wImageTransform.scaledBy(x: ratio, y: ratio)
+                wImage.isHidden = false
+                
+                rImage.isHidden = true
+            }
+            
+        }
+        else if (sender.state == UIGestureRecognizer.State.ended) {
             let stopLocation = sender.location(in: self.view)
             let dx = stopLocation.x - startLocation.x
             let dy = stopLocation.y - startLocation.y
             let distance = sqrt(dx * dx + dy * dy)
 
             if distance > 110 {
-                let leftFinishPoint = CGPoint(x: -self.questionView.center.x*2, y: self.questionView.center.y)
-                let rightFinishPoint = CGPoint(x: self.questionView.center.x*3, y: self.questionView.center.y)
-                var finishPoint = CGPoint.zero
-                
                 if dx<0{
-                    finishPoint = leftFinishPoint
                     self.questionView.question.pass = true
                 }
                 else{
-                    finishPoint = rightFinishPoint
                     self.questionView.question.pass = false
                     //回答错误次数+1
                     self.questionView.question.plusWrongTimes()
                 }
                 
-                //最后一题回答错误，特殊处理，
-                if self.questionViewNext == nil && self.questionView.question.pass == false{
-                    self.animating = true
-                    //冻结页面，提示10秒后重新回答
-                    SVProgressHUD.setDefaultMaskType(.black)
-                    SVProgressHUD.show(withStatus: "最后一题回答错误，请在10秒后重新回答")
-                    
-                    self.questionView.closeAnswer()
-                    
-                    var tc = 10
-                    let timer = Timer.init(timeInterval: 1, repeats:true) { (kTimer) in
-                        SVProgressHUD.setStatus("最后一题回答错误，请在\(tc)秒后重新回答")
-                        tc -= 1
-                        if tc == -1{
-                            SVProgressHUD.dismiss(completion: {
-                                kTimer.invalidate()
-                                self.animating = false
-                            })
-                        }
-                    }
-                    RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
-                    // TODO : 启动定时器
-                    timer.fire()
-                    return
-                }
-
-                //更新导航栏
-                let nq = self.questions.filter { (qm: QuestionModel) -> Bool in
-                    return !qm.pass
-                }
-                self.navigationItem.title = "\(nq.count)/\(self.questions.count)"
+                self.handleNext(self.questionView.question.pass)
+            }
+            else{
+                let rot = self.rImage.transform
+                let scaleRot = rot.scaledBy(x: 0.0001, y: 0.0001)//如果写0的话，没有动画效果，直接就没了!!!
+                let wot = self.wImage.transform
+                let scaleWot = wot.scaledBy(x: 0.0001, y: 0.0001)
                 
-                //测试结束，提交
-                if self.questionViewNext == nil {
-                    self.learnRecord.end_time = Date()
-                    
-                    //提交
-                    self.submitTestResult()
-                    
-                    return
-                }
-
-                //不是最后一题，动画切换到下一题
-                self.animating = true
-                self.questionView.backgroundColor = UIColor.gray
                 UIView.animate(withDuration: 0.3, animations: {
-                    self.questionView.center = finishPoint
+                    self.rImage.transform = scaleRot
+                    self.wImage.transform = scaleWot
                 }, completion: {(_) in
-                    self.questionView.removeFromSuperview()
-                    self.questionView = self.questionViewNext!
-                    //被展示后，认定为开始回答，回答次数+1
-                    self.questionView.question.plusAnswerTimes()
                     
-                    //判断是否是最后一题了
-                    if let qst = LearnTestViewController4.getRandomQuestion(self.questions,except: self.questionView.question)
-                    {
-                        self.questionViewNext = QuestionView2(frame: self.view.frame, question: qst)
-                        self.view.insertSubview(self.questionViewNext!, belowSubview: self.questionView)
-                        self.questionViewNext!.snp.makeConstraints { (make) -> Void in
-                            make.left.top.right.bottom.equalTo(self.view)
-                        }
-                    }
-                    else{
-                        self.questionViewNext = nil
-                    }
-
-                    self.animating = false
                 })
-
             }
         }
+    }
+    
+    func handleNext(_ pass:Bool){
+        //最后一题回答错误，特殊处理，
+        if self.questionViewNext == nil && self.questionView.question.pass == false{
+            self.animating = true
+            //冻结页面，提示10秒后重新回答
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.show(withStatus: "最后一题回答错误，请在10秒后重新回答")
+            
+            self.questionView.closeAnswer()
+            
+            var tc = 10
+            let timer = Timer.init(timeInterval: 1, repeats:true) { (kTimer) in
+                SVProgressHUD.setStatus("最后一题回答错误，请在\(tc)秒后重新回答")
+                tc -= 1
+                if tc == -1{
+                    SVProgressHUD.dismiss(completion: {
+                        kTimer.invalidate()
+                        self.animating = false
+                    })
+                }
+            }
+            RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
+            // TODO : 启动定时器
+            timer.fire()
+            return
+        }
+        
+        //更新导航栏
+        let nq = self.questions.filter { (qm: QuestionModel) -> Bool in
+            return !qm.pass
+        }
+        self.navigationItem.title = "\(nq.count)/\(self.questions.count)"
+        
+        //测试结束，提交
+        if self.questionViewNext == nil {
+            self.learnRecord.end_time = Date()
+            
+            //提交
+            self.submitTestResult()
+            
+            return
+        }
+        
+        //不是最后一题，动画切换到下一题
+        self.animating = true
+        self.questionView.backgroundColor = UIColor.gray
+        let rTrans = self.rImage.transform
+        let wTrans = self.wImage.transform
+        UIView.animate(withDuration: 0.3, animations: {
+            if(pass)
+            {
+                self.questionView.center = CGPoint(x:self.view.center.x*(-1),y:self.view.center.y)
+                
+                self.rImage.transform = rTrans.scaledBy(x: 2, y: 2)
+                self.rImage.alpha = 0.001
+            }
+            else{
+                self.questionView.center = CGPoint(x:self.view.center.x*(3),y:self.view.center.y)
+                self.wImage.transform = wTrans.scaledBy(x: 2, y: 2)
+                self.wImage.alpha = 0.001
+            }
+        }, completion: {(_) in
+            self.questionView.removeFromSuperview()
+            self.questionView = self.questionViewNext!
+            //被展示后，认定为开始回答，回答次数+1
+            self.questionView.question.plusAnswerTimes()
+            
+            //判断是否是最后一题了
+            if let qst = LearnTestViewController4.getRandomQuestion(self.questions,except: self.questionView.question)
+            {
+                self.questionViewNext = QuestionView2(frame: self.view.frame, question: qst)
+                self.view.insertSubview(self.questionViewNext!, belowSubview: self.questionView)
+                self.questionViewNext!.snp.makeConstraints { (make) -> Void in
+                    make.left.top.right.bottom.equalTo(self.view)
+                }
+            }
+            else{
+                self.questionViewNext = nil
+            }
+            
+            self.animating = false
+        })
     }
 
     @objc func viewTap(_ sender:UITapGestureRecognizer) {
