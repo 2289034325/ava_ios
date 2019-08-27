@@ -28,7 +28,7 @@ class BookMarkListController: UIViewController,SaveBookMarkDelegate {
 //    }()
     var selectedIndex = 0
     lazy var optionAlert:UIAlertController={
-        let controller = UIAlertController(title: "操作", message: "请选择", preferredStyle: .actionSheet)
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let names = ["删除"]
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { (action) in

@@ -93,7 +93,7 @@ class UserBookViewController: UIViewController {
             
             let touchPoint = longPressGestureRecognizer.location(in: self.tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                let controller = UIAlertController(title: "对词书操作", message: "", preferredStyle: .actionSheet)
+                let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 let names = ["设为默认","删除词书", "重新开始"]
                 for name in names {
                     let action = UIAlertAction(title: name, style: .default) { (action) in
@@ -262,7 +262,7 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
     func selectedRowWithActionSheet(_ indexPath:IndexPath){
         self.tableView.deselectRow(at: indexPath, animated: true);
 
-        let controller = UIAlertController(title: "请选择", message: "", preferredStyle: .actionSheet)
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let names = ["学习", "复习"]
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { (action) in
@@ -285,7 +285,7 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
     @objc func learnNew(_ row:Int){
         let item = self.bookList![row]
 
-        let controller = UIAlertController(title: "学习", message: "选择个数", preferredStyle: .alert)
+        let controller = UIAlertController(title: "选择单词个数", message: nil, preferredStyle: .alert)
         controller.setValue(pickerViewVc, forKey: "contentViewController")
 
         let okAction = UIAlertAction(title: "确定", style: .default) { (_) in
@@ -324,7 +324,7 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
     @objc func reviewOld(_ row:Int){
         let item = self.bookList![row]
 
-        let controller = UIAlertController(title: "学习", message: "选择个数", preferredStyle: .alert)
+        let controller = UIAlertController(title: "选择单词个数", message: nil, preferredStyle: .alert)
         controller.setValue(pickerViewVc, forKey: "contentViewController")
 
         let okAction = UIAlertAction(title: "确定", style: .default) { (_) in

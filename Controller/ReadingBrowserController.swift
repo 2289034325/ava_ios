@@ -99,7 +99,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     let generalPasteboard = UIPasteboard.general
     
     lazy var saveAlertController:UIAlertController={
-        let controller = UIAlertController(title: "保存", message: "书签信息", preferredStyle: .alert)
+        let controller = UIAlertController(title: "书签信息", message: nil, preferredStyle: .alert)
         controller.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "请输入名称"
         })
