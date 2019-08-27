@@ -36,7 +36,7 @@ class LearnTestViewController4: UIViewController {
     var rImage:UIImageView =
     {
         // SwiftIconFont 做出来的图形无法缩放，放入UIImageView后始终不能填满UIImageView，在图片周围留下几个像素的空白!!!
-        let img = UIImage(from: .segoeMDL2, code: "CalculatorSquareroot", textColor: .white, backgroundColor: .blue, size: CGSize(width: 50, height: 50))
+        let img = UIImage(from: .segoeMDL2, code: "CheckMark", textColor: .white, backgroundColor: .blue, size: CGSize(width: 50, height: 50))
 //        let img = UIImage(named: "flg_fr")!
         
         let iv = UIImageView()
@@ -58,7 +58,7 @@ class LearnTestViewController4: UIViewController {
     
     var wImage:UIImageView =
     {
-        let img = UIImage(from: .segoeMDL2, code: "CalculatorMultiply", textColor: .white, backgroundColor: .red, size: CGSize(width: 50, height: 50))
+        let img = UIImage(from: .segoeMDL2, code: "Cancel", textColor: .white, backgroundColor: .red, size: CGSize(width: 50, height: 50))
         
         let iv = UIImageView()
         iv.backgroundColor = UIColor.red
@@ -75,6 +75,8 @@ class LearnTestViewController4: UIViewController {
     lazy var wImageTransform:CGAffineTransform={
         return self.wImage.transform
     }()
+    
+    var actionFloatView: LearnTestRightFloatView!
 
     init(book:UserBookModel,words:[WordModel]) {
 
@@ -123,25 +125,12 @@ class LearnTestViewController4: UIViewController {
         self.edgesForExtendedLayout = []
 
         self.view.backgroundColor = UIColor.gray
-        
-        
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewTap(_:)))
         self.view.addGestureRecognizer(tap)
 
         let panRecognizer = UIPanGestureRecognizer(target: self, action:  #selector(panedView))
         self.view.addGestureRecognizer(panRecognizer)
-
-        self.navigationItem.title = "\(self.questions.count)/\(self.questions.count)"
-
-//        let menuButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backAction))
-//        let bimg = UIImage(from: .segoeMDL2, code: "ChevronLeft", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
-//        menuButton.image = bimg
-//        menuButton.tintColor = .black
-//        menuButton.imageInsets = UIEdgeInsetsMake(0, -12, 0, 0)
-//        self.navigationItem.leftBarButtonItem = menuButton
-        
-        customNavBackButton(backAction: #selector(backAction))        
 
         self.view.addSubview(questionView)
         questionView.snp.makeConstraints{(make)->Void in
@@ -157,6 +146,37 @@ class LearnTestViewController4: UIViewController {
         
         self.view.addSubview(rImage)
         self.view.addSubview(wImage)
+        
+        setupNavigationItem()
+    }
+    
+    func setupNavigationItem(){
+        
+        customNavBackButton(backAction: #selector(backAction))
+        
+        self.navigationItem.title = "\(self.questions.count)/\(self.questions.count)"
+        
+        //Init ActionFloatView
+        self.actionFloatView = LearnTestRightFloatView()
+        self.actionFloatView.delegate = self
+        self.view.addSubview(self.actionFloatView)
+        self.actionFloatView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
+        }
+        
+        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        rightButton.contentMode = .center
+        rightButton.tintColor = .black
+        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+        let bimg = UIImage(from: .segoeMDL2, code: "More", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        rightButton.setImage(bimg.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        rightButton.addTarget(self, action: #selector(LearnTestViewController4.rightClick), for: .touchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+    }
+    
+    //打开公共词书页面，选择词书
+    @objc func rightClick(){        
+        self.actionFloatView.hide(!self.actionFloatView.isHidden)
     }
 
     @objc func backAction(){
@@ -396,3 +416,19 @@ class LearnTestViewController4: UIViewController {
 //                })
     }
 }
+
+extension LearnTestViewController4: LearnTestFloatViewDelegate {
+    func floatViewTapItemIndex(_ type: LearnTestFloatViewItemType) {
+        switch type {
+        // 将当前单词标记为已掌握
+        case .setFinished:
+            self.questionView.question.pass = true
+            self.questionView.question.learn_record_word_model.finished = true
+            self.handleNext(true)
+            break
+        default:
+            break
+        }
+    }
+}
+

@@ -25,7 +25,7 @@ class UserBookViewController: UIViewController {
     var pickerView:UIPickerView!
     var pickerNums:[Int] = [5,10,15,20,25,30,35,40,45,50]
     
-    var actionFloatView: TSMessageActionFloatView!
+    var actionFloatView: UserBookRightFloatView!
     
     fileprivate lazy var tableView: UITableView  = {
         let tableView = UITableView()
@@ -43,6 +43,8 @@ class UserBookViewController: UIViewController {
         super.viewDidLoad()
         self.setupNavigationItem()
 
+        self.edgesForExtendedLayout = []
+        
         let vc = UIViewController()
         vc.preferredContentSize = CGSize(width: 250,height: 100)
         pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 100))
@@ -58,11 +60,11 @@ class UserBookViewController: UIViewController {
         }
         
         //Init ActionFloatView
-        self.actionFloatView = TSMessageActionFloatView()
+        self.actionFloatView = UserBookRightFloatView()
         self.actionFloatView.delegate = self
         self.view.addSubview(self.actionFloatView)
         self.actionFloatView.snp.makeConstraints { (make) -> Void in
-            make.edges.equalTo(UIEdgeInsetsMake(64, 0, 0, 0))
+            make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
         }
         
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
@@ -92,15 +94,18 @@ class UserBookViewController: UIViewController {
             let touchPoint = longPressGestureRecognizer.location(in: self.tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 let controller = UIAlertController(title: "对词书操作", message: "", preferredStyle: .actionSheet)
-                let names = ["删除词书", "重新开始"]
+                let names = ["设为默认","删除词书", "重新开始"]
                 for name in names {
                     let action = UIAlertAction(title: name, style: .default) { (action) in
                         
                         if name == "删除词书" {
                             self.deleteBook(indexPath.row)
                         }
-                        else {
+                        else if name == "重新开始"{
                             self.restartBook(indexPath.row)
+                        }
+                        else{
+                            self.setDefaultBook(indexPath.row)
                         }
                     }
                     controller.addAction(action)
@@ -355,6 +360,19 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
 
     }
     
+    @objc func setDefaultBook(_ row:Int){
+        let item = self.bookList![row]
+        _ = DictionaryApi.provider
+            .requestAPI(.setDefaultBook(user_book_id: item.id))
+            .subscribe(onNext: { (response) in
+                SVProgressHUD.showInfo(withStatus: "设置成功")
+                self.refresh()
+            }, onError: { (error) in
+                SVProgressHUD.showError(withStatus: error.rawString())
+                
+            })
+    }
+    
     @objc func restartBook(_ row:Int){
         let item = self.bookList![row]
         
@@ -430,8 +448,8 @@ extension UserBookViewController:UIPickerViewDelegate, UIPickerViewDataSource{
     }
 }
 
-extension UserBookViewController: ActionFloatViewDelegate {
-    func floatViewTapItemIndex(_ type: ActionFloatViewItemType) {
+extension UserBookViewController: UserBookFloatViewDelegate {
+    func floatViewTapItemIndex(_ type: UserBookFloatViewItemType) {
         switch type {
         case .publicBook:
             let publicBookController = PublicBookViewController()
@@ -442,6 +460,8 @@ extension UserBookViewController: ActionFloatViewDelegate {
             let cController = CreateUserBookController()
             cController.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(cController, animated: true)
+            break
+        default:
             break
         }
     }

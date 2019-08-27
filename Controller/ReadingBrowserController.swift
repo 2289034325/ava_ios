@@ -56,8 +56,16 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     var avHTrans=CGAffineTransform()
     var avShow=true
     
-    var addTxb: MyUITextField = {
+    lazy var addTxb: MyUITextField = {
         let txb = MyUITextField()
+        txb.layer.cornerRadius = 5.0
+        txb.layer.backgroundColor = #colorLiteral(red: 0.6146097716, green: 0.6146097716, blue: 0.6146097716, alpha: 1)
+        txb.textColor = UIColor.white
+        txb.tintColor = UIColor.white
+        txb.returnKeyType = UIReturnKeyType.go
+        
+        txb.delegate = self
+        
         return txb
     }()
     
@@ -90,6 +98,45 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     
     let generalPasteboard = UIPasteboard.general
     
+    lazy var saveAlertController:UIAlertController={
+        let controller = UIAlertController(title: "保存", message: "书签信息", preferredStyle: .alert)
+        controller.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "请输入名称"
+        })
+        controller.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "请输入标题"
+        })
+        
+        let okAction = UIAlertAction(title: "确定", style: .default) { (_) in
+            
+            let name = (controller.textFields![0] as UITextField).text
+            let title = (controller.textFields![1] as UITextField).text
+            
+            var bookMark = self.initBookMark
+            if bookMark == nil{
+                bookMark = BookMarkModel()
+                bookMark!.url = self.webView.url!.absoluteString
+                bookMark!.name = name!
+                bookMark!.title = title!
+                self.delegate?.addBookMark(bookMark: bookMark!)
+            }
+            else{
+                bookMark!.url = self.webView.url!.absoluteString
+                bookMark!.name = name!
+                bookMark!.title = title!
+                bookMark!.time = Date()
+                self.delegate?.editBookMark(bookMark: bookMark!)
+            }
+            
+        }
+        controller.addAction(okAction)
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+        
+        return controller
+    }()
+    
     override func viewDidLoad() {
         
         self.view.addSubview(addressView)
@@ -99,11 +146,6 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             make.height.equalTo(40)
         }
         
-        addTxb.layer.cornerRadius = 5.0
-        addTxb.layer.backgroundColor = #colorLiteral(red: 0.6146097716, green: 0.6146097716, blue: 0.6146097716, alpha: 1)
-        addTxb.textColor = UIColor.white
-        addTxb.tintColor = UIColor.white
-        addTxb.delegate = self
         addressView.addSubview(addTxb)
         addTxb.snp.makeConstraints { (make) in
             make.left.top.equalTo(addressView).offset(5)
@@ -158,6 +200,19 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let url_str = addTxb.text!
+        if(!url_str.isEmpty)
+        {
+            addTxb.resignFirstResponder()
+            let url = URL(string: url_str)
+            webView.load(URLRequest(url: url!))
+            return true
+        }
+        
+        return false
+    }
+    
     // 在viewDidLoad中，获取不到view的frame尺寸!!!
     override func viewDidLayoutSubviews() {
         self.avOTrans = addressView.transform
@@ -173,38 +228,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             startLocation = sender.location(in: self.view)
             self.panDirection = 0
         }
-        else if(sender.state == UIGestureRecognizer.State.changed){
-//            let currentLocation = sender.location(in: self.view)
-//            let dx = currentLocation.x - startLocation.x
-//            let dy = currentLocation.y - startLocation.y
-//            var distance = sqrt(dx * dx + dy * dy)
-//
-//            //横向移动50像素才能开始动画，否则上下滑动浏览的时候，很可能会经常触发动画
-//            if(distance>50){
-//                distance -= 50
-//                print(self.addressView.frame)
-//                if(dx<0){
-//                    self.panDirection = -1
-//                    if(self.addressView.frame.maxY>0)
-//                    {
-//                        self.addressView.transform = avOTrans.translatedBy(x: 0, y: -distance)
-//                    }
-//                    if(self.statusView.frame.minY<SCREEN_HEIGHT){
-//                        self.statusView.transform = svOTrans.translatedBy(x: 0, y: distance)
-//                    }
-//                }
-//                else{
-//                    self.panDirection = 1
-//                    if(self.addressView.frame.minY<0 && distance<self.addressView.frame.height)
-//                    {
-//                        self.addressView.transform = avHTrans.translatedBy(x: 0, y: distance)
-//                    }
-//                    if(self.statusView.frame.maxY>SCREEN_HEIGHT && distance<self.statusView.frame.height){
-//                        self.statusView.transform = svHTrans.translatedBy(x: 0, y: -distance)
-//                    }
-//                }
-//            }
-            
+        else if(sender.state == UIGestureRecognizer.State.changed){            
         }
         else if (sender.state == UIGestureRecognizer.State.ended) {
             let currentLocation = sender.location(in: self.view)
@@ -436,7 +460,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         return cell
     }
     
-    func browserBack(_ sneder:UIButton){
+    @objc func browserBack(_ sneder:UIButton){
         webView.goBack()
     }
     func browserForward(_ sneder:UIButton){
@@ -445,18 +469,16 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     func browserRefresh(_ sneder:UIButton){
         webView.reload()
     }
-    func browserSave(_ sneder:UIButton){
-        if let url = webView.url?.absoluteString{
-            var bookMark = initBookMark
-            if bookMark == nil{
-                bookMark = BookMarkModel()
-                bookMark!.url = url
-                delegate?.addBookMark(bookMark: bookMark!)
+    @objc func browserSave(_ sneder:UIButton){
+        if let _ = webView.url?.absoluteString{
+            if(self.initBookMark != nil){
+                (saveAlertController.textFields![0] as UITextField).text = initBookMark!.name                
             }
-            else{
-                bookMark!.url = url
-                delegate?.editBookMark(bookMark: bookMark!)
-            }
+            (saveAlertController.textFields![1] as UITextField).text = webView.title
+            present(saveAlertController, animated: true, completion: nil)
+        }
+        else{
+            SVProgressHUD.showError(withStatus: "请先加载网页！")
         }
     }    
 }

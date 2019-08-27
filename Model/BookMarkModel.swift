@@ -7,13 +7,47 @@
 //
 
 import UIKit
+import Alamofire
+import Ji
+import ObjectMapper
 import Foundation
 
-class BookMarkModel:Codable{
+class BookMarkModel:Mappable,Codable{
     var id:Int = 0
     var lang:Int = 0
+    var name:String = ""
     var title:String = ""
     var url:String = ""
     var time:Date = Date()
     
+    enum CodingKeys: String, CodingKey {
+        case id
+        case lang
+        case name
+        case title
+        case url
+        case time
+    }
+    
+    init(){
+    }
+    
+    required init?(map: Map) {
+    }
+    
+    let df : DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return formatter
+    }()
+    
+    func mapping(map: Map) {
+        id <- map["id"]
+        lang <- map["lang"]
+        name <- map["name"]
+        title <- map["title"]
+        url <- map["url"]
+        
+        time <- (map["time"], DateFormatterTransform(dateFormatter: df))
+    }
 }

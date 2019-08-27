@@ -13,6 +13,7 @@ enum ReadingApi {
     case bookMarkList
     case editBookMark(_ bookMark:BookMarkModel)
     case addBookMark(_ bookMark:BookMarkModel)
+    case deleteBookMark(_ bookMark:BookMarkModel)
 }
 
 extension ReadingApi: V2EXTargetType {
@@ -20,8 +21,14 @@ extension ReadingApi: V2EXTargetType {
         switch self {
         case .bookMarkList:
             return .get
-        default:
+        case .editBookMark:
+            return .put
+        case .addBookMark:
             return .post
+        case .deleteBookMark:
+            return .delete
+        default:
+            return .get
         }
     }
 
@@ -37,11 +44,15 @@ extension ReadingApi: V2EXTargetType {
     var path: String {
         switch self {
         case .bookMarkList:
-            return "/bookmark/list"
+            return "reading/bookmark/list"
         case .addBookMark:
-            return "/bookmark/add"
+            return "reading/bookmark"
         case .editBookMark:
-            return "/bookmark/edit"
+            return "reading/bookmark"
+        case let .deleteBookMark(bookMark):
+            return "reading/bookmark/\(bookMark.id)"
+        default:
+            return ""
         }
     }
 

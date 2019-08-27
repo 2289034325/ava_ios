@@ -15,8 +15,8 @@ private let kActionViewHeight: CGFloat = 100    //container view height
 private let kActionButtonHeight: CGFloat = 44   //button height
 private let kFirstButtonY: CGFloat = 12 //the first button Y value
 
-class TSMessageActionFloatView: UIView {
-    weak var delegate: ActionFloatViewDelegate?
+class UserBookRightFloatView: UIView {
+    weak var delegate: UserBookFloatViewDelegate?
     let disposeBag = DisposeBag()
     
     override init (frame: CGRect) {
@@ -78,7 +78,7 @@ class TSMessageActionFloatView: UIView {
             itemButton.setTitle(actionTitles[index], for: .highlighted)
             itemButton.setImage(actionImages[index], for: .normal)
             itemButton.setImage(actionImages[index], for: .highlighted)
-            itemButton.addTarget(self, action: #selector(TSMessageActionFloatView.buttonTaped(_:)), for: UIControlEvents.touchUpInside)
+            itemButton.addTarget(self, action: #selector(UserBookRightFloatView.buttonTaped(_:)), for: UIControlEvents.touchUpInside)
             itemButton.contentHorizontalAlignment = .left
             itemButton.contentEdgeInsets = UIEdgeInsetsMake(0, 12, 0, 0)
             itemButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
@@ -110,7 +110,7 @@ class TSMessageActionFloatView: UIView {
             return
         }
         
-        let type = ActionFloatViewItemType(rawValue:sender.tag)!
+        let type = UserBookFloatViewItemType(rawValue:sender.tag)!
         delegate.floatViewTapItemIndex(type)
         self.hide(true)
     }
@@ -151,15 +151,15 @@ class TSMessageActionFloatView: UIView {
 /**
  *  TSMessageViewController Float view delegate methods
  */
-protocol ActionFloatViewDelegate: class {
+protocol UserBookFloatViewDelegate: class {
     /**
      Tap the item with index
      */
-    func floatViewTapItemIndex(_ type: ActionFloatViewItemType)
+    func floatViewTapItemIndex(_ type: UserBookFloatViewItemType)
 }
 
-enum ActionFloatViewItemType: Int {
-    case publicBook = 0, customDefine
+enum UserBookFloatViewItemType: Int {
+    case publicBook = 0, customDefine = 1
 }
 
 

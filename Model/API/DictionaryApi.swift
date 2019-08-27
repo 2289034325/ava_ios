@@ -23,6 +23,8 @@ enum DictionaryApi {
     case restartUserBook(user_book_id: Int)
     //删除词书
     case deleteUserBook(user_book_id: Int)
+    //设置为默认词书
+    case setDefaultBook(user_book_id: Int)
 
     //学习新词
     case getNewWords(user_book_id: Int,word_count: Int)
@@ -49,18 +51,6 @@ extension DictionaryApi: V2EXTargetType {
 
     var parameters: [String : Any]? {
         switch self {
-        case .getMyBooks:
-            return nil
-        case .getPublicBooks:
-            return nil
-        case .addUserBook:
-            return nil
-        case .saveUserBook:
-            return nil
-        case .restartUserBook:
-            return nil
-        case .deleteUserBook:
-            return nil
         case let .getNewWords(user_book_id,word_count):
             return ["user_book_id":user_book_id,"word_count":word_count]
         case let .reviewOldWords(user_book_id,word_count):
@@ -86,6 +76,8 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/restartuserbook/\(user_book_id)"
         case let .deleteUserBook(user_book_id):
             return "/dictionary/book/deleteuserbook/\(user_book_id)"
+        case let .setDefaultBook(user_book_id):
+            return "/dictionary/book/setdefaultuserbook/\(user_book_id)"
         case let .getNewWords(user_book_id,word_count):
             return "/dictionary/book/\(user_book_id)/learn_new/\(word_count)"
         case let .reviewOldWords(user_book_id,word_count):
