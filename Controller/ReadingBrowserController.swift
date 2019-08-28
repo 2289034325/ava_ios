@@ -36,11 +36,11 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     var startLocation = CGPoint()
     var panDirection = 0
     
-    var popUpView: SearchPopUpView={
-        let pv = SearchPopUpView()
-        
-        return pv
-    }()
+//    var popUpView: SearchPopUpView={
+//        let pv = SearchPopUpView()
+//
+//        return pv
+//    }()
     
     var webView: WKWebView = {
         let v = WKWebView()
@@ -346,9 +346,10 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
                 .mapResponseToObj(WordModel.self)
                 .subscribe(onNext: { (response) in
                     
-                    self.popUpView.setInfo(word: response)
+                    let popUpView = SearchPopUpView()
+                    popUpView.setInfo(word: response)
                     let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                    alertView.setValue(self.popUpView, forKey: "contentViewController")
+                    alertView.setValue(popUpView, forKey: "contentViewController")
                     
                     alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                     self.present(alertView, animated: true, completion: nil)
@@ -487,7 +488,7 @@ class SearchPopUpView:UIViewController{
     
     var lbl_spell:UILabel={
         let lbl = UILabel()
-        lbl.font = v2Font(22)
+        lbl.font = v2Font(25)
         return lbl
     }()
     
@@ -499,29 +500,51 @@ class SearchPopUpView:UIViewController{
     
     var lbl_meaning:UILabel={
         let lbl = UILabel()
-        lbl.font = v2Font(18)
+        lbl.font = v2Font(14)
         lbl.numberOfLines = 0
         return lbl
     }()
     
+    var scroll_view:UIScrollView={
+        let v = UIScrollView()
+        return v
+    }()
+    
+    let v_width:CGFloat = 250
+    
     
     override func viewDidLoad() {
-        self.view.addSubview(lbl_spell)
+        self.view.snp.makeConstraints { (make) in
+            make.height.equalTo(150)
+        }
+        
+        self.view.addSubview(scroll_view)
+        scroll_view.snp.makeConstraints { (make) in
+            make.width.equalTo(v_width)
+            make.height.equalTo(150)
+        }
+        
+        scroll_view.addSubview(lbl_spell)
         lbl_spell.snp.makeConstraints { (make) in
-            make.left.top.equalTo(self.view).offset(10)
+            make.left.top.equalTo(scroll_view).offset(10)
         }
         
-        self.view.addSubview(lbl_pronounce)
+        scroll_view.addSubview(lbl_pronounce)
         lbl_pronounce.snp.makeConstraints { (make) in
-            make.left.equalTo(lbl_spell.snp.right).offset(10)
-            make.bottom.equalTo(lbl_spell.snp.bottom)
+            make.left.equalTo(lbl_spell.snp.left)
+            make.top.equalTo(lbl_spell.snp.bottom)
         }
         
-        self.view.addSubview(lbl_meaning)
+        scroll_view.addSubview(lbl_meaning)
         lbl_meaning.snp.makeConstraints { (make) in
-            make.left.equalTo(self.view).offset(10)
-            make.top.equalTo(lbl_spell.snp.bottom).offset(15)
+            make.left.equalTo(scroll_view).offset(10)
+            make.top.equalTo(lbl_pronounce.snp.bottom).offset(5)
+            make.width.equalTo(v_width-20)
         }
+        
+        // 不设置contentSize就不能滚动!!!
+        let scroll_height = 10+lbl_spell.actualHeight(v_width)+lbl_pronounce.actualHeight(v_width)+5+lbl_meaning.actualHeight(v_width-20)+5
+        scroll_view.contentSize = CGSize(width: v_width, height: scroll_height)
     }
     
     func setInfo(word:WordModel){
