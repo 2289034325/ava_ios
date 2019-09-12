@@ -42,9 +42,16 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
 //        return pv
 //    }()
     
-    var webView: WKWebView = {
+    lazy var webView: WKWebView = {
         let v = WKWebView()
+        v.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil);
+        v.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
         return v
+    }()
+    
+    var progressView: UIProgressView = {
+       let pv = UIProgressView()
+        return pv
     }()
     
     var addressView: UIView = {
@@ -167,6 +174,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
 //            make.height.equalTo(50)
 //        }
         
+        
         //即使是UICollectionViewCell，也必须注册，不注册就会出异常!!!
         statusView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         statusView.backgroundColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
@@ -184,6 +192,12 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             make.bottom.equalTo(statusView.snp.top)
         }
         
+        self.view.addSubview(progressView)
+        progressView.snp.makeConstraints { (make) in
+            make.top.equalTo(addressView.snp.bottom)
+            make.left.right.equalTo(self.view)
+        }
+        
 //        setupCustomMenu()
 
         NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
@@ -197,6 +211,21 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             let url = URL(string: initUrl)!
             webView.load(URLRequest(url: url))
             }
+        }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            self.progressView.progress = Float(self.webView.estimatedProgress);
+            if(self.progressView.progress == 1){
+                self.progressView.alpha = 0.001
+            }
+            else{
+                self.progressView.alpha = 1
+            }
+        }
+        else if(keyPath == "URL"){
+            self.addTxb.text = self.webView.url!.absoluteString
         }
     }
     
@@ -243,6 +272,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
                         make.left.right.equalTo(self.view)
                         make.height.equalTo(40)
                     }
+                    
                     self.statusView.snp.removeConstraints()
                     statusView.snp.makeConstraints { (make) in
                         make.left.right.equalTo(self.view)
@@ -255,6 +285,12 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
                         make.left.right.equalTo(self.view)
                         make.top.equalTo(self.addressView.snp.bottom)
                         make.bottom.equalTo(self.statusView.snp.top)}
+                    
+                    self.progressView.snp.removeConstraints()
+                    progressView.snp.makeConstraints { (make) in
+                        make.top.equalTo(self.addressView.snp.bottom)
+                        make.left.right.equalTo(self.view)
+                    }
                     
                     // 跟其他控件位置相关联的动画，必须这么做，不能只做目标控件的动画，然后去手动更改其他相关控件的位置!!!
                     // 否则会出现奇怪的现象
@@ -280,6 +316,13 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
                         make.left.right.equalTo(self.view)
                         make.top.equalTo(self.addressView.snp.bottom)
                         make.bottom.equalTo(self.statusView.snp.top)}
+                    
+                    self.progressView.snp.removeConstraints()
+                    progressView.snp.makeConstraints { (make) in
+                        make.top.equalTo(self.addressView.snp.bottom)
+                        make.left.right.equalTo(self.view)
+                    }
+                    
                     
                     UIView.animate(withDuration: 0.3, animations: {
                         self.view.layoutIfNeeded()

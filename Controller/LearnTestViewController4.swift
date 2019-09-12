@@ -194,7 +194,7 @@ class LearnTestViewController4: UIViewController {
     class func getRandomQuestion(_ questions:[QuestionModel],except:QuestionModel?)->QuestionModel?{
         
         let qs = questions.filter { (qm: QuestionModel) -> Bool in
-            return !qm.pass && ((except == nil) ? true : (qm.word.id != except!.word.id || qm.type != except?.type))
+            return !(qm.pass || qm.learn_record_word_model.finished) && ((except == nil) ? true : (qm.word.id != except!.word.id || qm.type != except?.type))
         }
 
         //回答次数少的优先出现
@@ -312,7 +312,7 @@ class LearnTestViewController4: UIViewController {
         
         //更新导航栏
         let nq = self.questions.filter { (qm: QuestionModel) -> Bool in
-            return !qm.pass
+            return !(qm.pass || qm.learn_record_word_model.finished)
         }
         self.navigationItem.title = "\(nq.count)/\(self.questions.count)"
         

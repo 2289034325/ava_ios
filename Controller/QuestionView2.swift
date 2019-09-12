@@ -221,8 +221,6 @@ class QuestionView2: UIView {
         let pl = "".leftPadding(toLength: wordT.count, withPad: "_")
         sentenceLabel.text = self.question.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
         translationLabel.text = self.question.sentence?.translation
-
-        translationLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     func showAnswerOfSentence(){
@@ -231,7 +229,6 @@ class QuestionView2: UIView {
         pronImage.tintColor = UIColor.blue
         meaningLabel.textColor = UIColor.black
         sentenceLabel.text = self.question.sentence?.sentence
-        translationLabel.textColor = UIColor.black
     }
     func closeAnswerOfSentence(){
         spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
@@ -241,6 +238,5 @@ class QuestionView2: UIView {
         let wordT = self.question.sentence!.word!
         let pl = "".leftPadding(toLength: wordT.count, withPad: "_")
         sentenceLabel.text = self.question.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
-        translationLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 }
