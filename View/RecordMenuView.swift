@@ -41,7 +41,14 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         addSubview(collectionView)
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: [], metrics: nil, views: ["v0":collectionView]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: [], metrics: nil, views: ["v0":collectionView]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: [], metrics: nil, views: ["v0":collectionView]))    
+    }
+    
+    // 只有加在这里才有用，fuck!!!
+    override func didMoveToWindow() {
+        // 必须加layoutIfNeeded，边框才会出现!!!
+        self.layoutIfNeeded()
+        self.layer.addBorder(edge: .top, color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), thickness: 0.5)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -131,7 +138,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         override var isSelected: Bool{
             didSet{
-                imageView.tintColor = isSelected ? UIColor.blue : UIColor.gray
+                imageView.tintColor = isSelected ? #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1) : UIColor.gray
                 
                 playCell?.playerStatus = "reload"
                 
@@ -247,6 +254,37 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+    }
+    
+    class MenuCell:UICollectionViewCell{
+        
+        var imgButton:UIButton={
+            var img_play = UIImage(from: .segoeMDL2, code: "More", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+            let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            btn.contentMode = .center
+            btn.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
+            btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+            btn.setImage(img_play.withRenderingMode(.alwaysTemplate), for: UIControlState())
+            btn.addTarget(self, action: #selector(SpeechController.expandMenu), for: .touchUpInside)
+            return btn
+        }()
+        
+        override init(frame:CGRect){
+            super.init(frame:frame)
+            
+            addSubview(imgButton)
+            
+            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v0(30)]", options: [], metrics: nil, views: ["v0":imgButton]))
+            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v0(30)]", options: [], metrics: nil, views: ["v0":imgButton]))
+            
+            addConstraint(NSLayoutConstraint(item: imgButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+            addConstraint(NSLayoutConstraint(item: imgButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
     }
     
     class PlayCell:UICollectionViewCell,AVAudioPlayerDelegate{

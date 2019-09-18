@@ -90,12 +90,16 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         
         mediaView.snp.makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.view)
+            // 200 full view. 45 only show playback controls
             make.height.equalTo(200)
         }
         recrdMenuView.snp.makeConstraints{ (make) -> Void in
             make.bottom.left.right.equalTo(self.view)
-            make.height.equalTo(40)
+            make.height.equalTo(50)
         }
+//        recrdMenuView.layoutIfNeeded()
+//        recrdMenuView.layer.addBorder(edge: .top, color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), thickness: 0.5)
+        
 //        playerMenuView.snp.makeConstraints{ (make) -> Void in
 //            make.bottom.equalTo(recrdMenuView.snp.top)
 //            make.left.right.equalTo(self.view)
@@ -379,5 +383,9 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     func downloadMedia(_ downloadUrl:URL,_ fileName:String){
         Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initMedia(filePath!) })
+    }
+    
+    func expandMenu(){
+        
     }
 }
