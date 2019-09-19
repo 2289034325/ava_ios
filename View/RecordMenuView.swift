@@ -25,6 +25,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
     var playCell:PlayCell?
     var stopCell:StopCell?
     var timeCell:TimeCell?
+    var menuCell:MenuCell?
     
     
     override init(frame: CGRect) {
@@ -35,6 +36,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         collectionView.register(StopCell.self, forCellWithReuseIdentifier: "stopcell")
         collectionView.register(TimeCell.self, forCellWithReuseIdentifier: "timecell")
         collectionView.register(BlankCell.self, forCellWithReuseIdentifier: "blankcell")
+        collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "menucell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
         collectionView.allowsMultipleSelection = true
@@ -92,14 +94,15 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             stopCell?.playCell = playCell
         }
         else if(indexPath.row == 3){
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "blankcell", for: indexPath)
-        }
-        else if(indexPath.row == 4){            
             //音频时长
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "timecell", for: indexPath)
             timeCell = cell as? TimeCell
             recordCell?.timeCell = timeCell
+        }
+        else if(indexPath.row == 4){
             playCell?.timeCell = timeCell
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "menucell", for: indexPath)
+            menuCell = cell as? MenuCell
         }
         
         return cell
@@ -123,7 +126,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             iv.translatesAutoresizingMaskIntoConstraints = false
             
             iv.image = img_record.withRenderingMode(.alwaysTemplate)
-            iv.tintColor = UIColor.gray
+            iv.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
             return iv
@@ -138,7 +141,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         override var isSelected: Bool{
             didSet{
-                imageView.tintColor = isSelected ? #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1) : UIColor.gray
+                imageView.tintColor = isSelected ? #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1) : #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
                 
                 playCell?.playerStatus = "reload"
                 
@@ -259,11 +262,10 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
     class MenuCell:UICollectionViewCell{
         
         var imgButton:UIButton={
-            var img_play = UIImage(from: .segoeMDL2, code: "More", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
-            let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            var img_play = UIImage(from: .segoeMDL2, code: "GlobalNavigationButton", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+            let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
             btn.contentMode = .center
             btn.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
-            btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
             btn.setImage(img_play.withRenderingMode(.alwaysTemplate), for: UIControlState())
             btn.addTarget(self, action: #selector(SpeechController.expandMenu), for: .touchUpInside)
             return btn
@@ -272,17 +274,24 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         override init(frame:CGRect){
             super.init(frame:frame)
             
-            addSubview(imgButton)
+//            addSubview(imgButton)
             
-            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v0(30)]", options: [], metrics: nil, views: ["v0":imgButton]))
-            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v0(30)]", options: [], metrics: nil, views: ["v0":imgButton]))
-            
-            addConstraint(NSLayoutConstraint(item: imgButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-            addConstraint(NSLayoutConstraint(item: imgButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+//            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[v0(30)]", options: [], metrics: nil, views: ["v0":imgButton]))
+//            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[v0(30)]", options: [], metrics: nil, views: ["v0":imgButton]))
+//
+//            addConstraint(NSLayoutConstraint(item: imgButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+//            addConstraint(NSLayoutConstraint(item: imgButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         }
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+        
+        override func didMoveToWindow() {
+            addSubview(imgButton)
+            imgButton.snp.makeConstraints { (make) in
+                make.top.right.bottom.left.equalTo(self)
+            }
         }
         
     }
@@ -343,7 +352,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             iv.translatesAutoresizingMaskIntoConstraints = false
             
             iv.image = img_play.withRenderingMode(.alwaysTemplate)
-            iv.tintColor = UIColor.gray
+            iv.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
             return iv
@@ -422,7 +431,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             iv.translatesAutoresizingMaskIntoConstraints = false
             
             iv.image = img_stop.withRenderingMode(.alwaysTemplate)
-            iv.tintColor = UIColor.gray
+            iv.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
             iv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             
             return iv
@@ -459,7 +468,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             tv.translatesAutoresizingMaskIntoConstraints = false
             
             tv.text = "00:00:00"+"\n"+"00:00:00"
-            tv.tintColor = UIColor.gray
+            tv.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
             tv.backgroundColor = UIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
             tv.isEditable = false
             tv.textContainerInset = UIEdgeInsets(top: 2 , left: 20, bottom: 0, right: 0)

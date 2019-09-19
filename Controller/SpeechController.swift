@@ -75,6 +75,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         return true
     }
     
+    
     func setSubviews(){
                 
         tableView.dataSource = self
@@ -97,14 +98,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             make.bottom.left.right.equalTo(self.view)
             make.height.equalTo(50)
         }
-//        recrdMenuView.layoutIfNeeded()
-//        recrdMenuView.layer.addBorder(edge: .top, color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), thickness: 0.5)
-        
-//        playerMenuView.snp.makeConstraints{ (make) -> Void in
-//            make.bottom.equalTo(recrdMenuView.snp.top)
-//            make.left.right.equalTo(self.view)
-//            make.height.equalTo(40)
-//        }
+
         tableView.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(mediaView.snp.bottom)
             make.left.right.equalTo(self.view)
@@ -138,7 +132,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         htl.font = UIFont.boldSystemFont(ofSize: 17)
         htl.numberOfLines = 0
         htl.lineBreakMode = .byCharWrapping
-        htl.text = self.article!.paragraphs[section].performer
+        htl.text = self.article!.paragraphs[section].performer+":"
         hv.addSubview(htl)
         htl.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(hv)
@@ -166,11 +160,11 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         let text = String(paragraph.text[startIndex ..< endIndex])
         
         let htl = UILabel()
-        htl.font = v2Font(15)
+        htl.font = v2Font(18)
         htl.numberOfLines = 0
-        htl.lineBreakMode = .byCharWrapping
-        htl.text = text
-        return htl.actualHeight(SCREEN_WIDTH-10)
+        htl.lineBreakMode = .byWordWrapping
+        htl.text =  "  "+text
+        return htl.actualHeight(SCREEN_WIDTH-10)+10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
@@ -180,49 +174,29 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         let split = paragraph.splits[indexPath.row]
 
         let label = UILabel()
-        label.font = v2Font(15)
+        label.font = v2Font(18)
         label.numberOfLines = 0
-        label.lineBreakMode = .byCharWrapping
+        label.lineBreakMode = .byWordWrapping
         let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
         let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
-        label.text = String(paragraph.text[startIndex ..< endIndex])
+        label.text = "  "+String(paragraph.text[startIndex ..< endIndex])
     
-        let splitTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.splitTapAction))
-        splitTap.numberOfTapsRequired = 1
         let splitDbTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.splitDbTapAction))
         splitDbTap.numberOfTapsRequired = 2
         
         label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(splitTap)
         label.addGestureRecognizer(splitDbTap)
         
         label.accessibilityElements = [split]
     
         cell.contentView.addSubview(label)
         label.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(cell.contentView)
+            make.top.equalTo(cell.contentView).offset(5)
             make.left.equalTo(cell.contentView).offset(5)
             make.right.equalTo(cell.contentView).offset(-5)
         }        
         
         return cell
-    }
-    
-    @objc func splitTapAction(sender:UITapGestureRecognizer) {
-        
-        let lbl = sender.view as! UILabel
-        let split = lbl.accessibilityElements![0] as! ParagraphSplitModel
-        
-        //cancel selection
-//        lbl.selectedTextRange = nil
-        
-//        if(playerMenuView.playCell?.playerStatus != "play" &&
-//            playerMenuView.playCell?.playerStatus != "continue" &&
-//            playerMenuView.playCell?.playerStatus != "pause" )
-//        {
-//            playerMenuView.playCell?.start_time = split.start_time
-//            playerMenuView.playCell?.end_time = split.end_time
-//        }
     }
     
     @objc func headerDbTapAction(sender:UITapGestureRecognizer) {
@@ -254,12 +228,6 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         let lbl = sender.view as! UILabel
         let split = lbl.accessibilityElements![0] as! ParagraphSplitModel
         
-//        playerMenuView.abCell?.cancelAB()
-//        playerMenuView.playCell?.cancelAB()
-//        playerMenuView.playCell?.start_time = split.start_time
-//        playerMenuView.playCell?.end_time = split.end_time
-//        playerMenuView.playCell?.playerStatus = "play"
-        
         let time = CMTimeMakeWithSeconds(Double(split.start_time), 10000)
         self.player!.seek(to: time, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
         self.player!.play()
@@ -290,19 +258,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
     
     func loadArticle()
-    {        
-//        HttpClient.getArticle(articleId: self.articleId, complitionHandler: { articles in
-//            self.article = articles
-//            if(self.article!.paragraphs.count>0)
-//            {
-//                if(self.article!.paragraphs[0].splits.count>0){
-//                        self.tableView.reloadData()
-//                        self.playerMenuView.playCell?.end_time = self.article!.paragraphs[0].splits[0].end_time
-//                        self.playerMenuView.playCell?.loadMedia(media_url: self.article!.media_url, media_name: self.article!.media_name)
-//                    }
-//            }
-//        })
-        
+    {
         _ = SpeechApi.provider
             .requestAPI(.getArticle(article_id: self.article!.id))
             .mapResponseToObj(ArticleModel.self)
@@ -385,7 +341,81 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initMedia(filePath!) })
     }
     
-    func expandMenu(){
+    lazy var menuController: UIAlertController = {
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let names = ["缩小播放器"]
+        for name in names {
+            let action = UIAlertAction(title: name, style: .default) { (action) in
+                
+                let title = action.title!
+                
+                if title == "缩小播放器" {
+                    self.playerVisible = false
+                }
+                else if title == "放大播放器"{
+                    self.playerVisible = true
+                }
+                else{
+                    
+                }
+            }
+            controller.addAction(action)
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
         
+        return controller
+    }()
+    
+    var playerVisible : Bool {
+        
+        didSet{
+            if(playerVisible){
+                
+                mediaView.snp.removeConstraints()
+                mediaView.snp.makeConstraints{ (make) -> Void in
+                    make.top.left.right.equalTo(self.view)
+                    // 200 full view. 45 only show playback controls
+                    make.height.equalTo(200)
+                }
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.layoutIfNeeded()
+                })
+                
+                menuController.actions[0].setValue("缩小播放器", forKey: "title")
+                
+            }
+            else{
+                
+                mediaView.snp.removeConstraints()
+                mediaView.snp.makeConstraints{ (make) -> Void in
+                    make.top.left.right.equalTo(self.view)
+                    // 200 full view. 45 only show playback controls
+                    // 如果这里完全隐藏，设置为0的话，下次播放器再显示出来的时候播放控制按钮会显示异常，需要全屏放大后再缩回来才会回复正常!!!
+                    make.height.equalTo(45)
+                }
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view.layoutIfNeeded()
+                })
+                
+                menuController.actions[0].setValue("放大播放器", forKey: "title")
+            }
+        }
+    }
+    
+    // controller init 垃圾东西!!!
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.playerVisible = true
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func expandMenu(){
+        present(menuController, animated: true, completion: nil)
     }
 }
