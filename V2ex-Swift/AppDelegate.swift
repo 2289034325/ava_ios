@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
-        SVProgressHUD.setDefaultMaskType(.none)
+        SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setMinimumDismissTimeInterval(1.5)
         SVProgressHUD.setContainerView(self.window!)
         

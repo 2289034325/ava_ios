@@ -277,6 +277,15 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             })
     }
     
+    // 有时候服务端会重新上传视频，这里就需要强制重新下载
+    func reloadMedia(){
+        let media_url = self.article!.media_url
+        let media_name = self.article!.media_name
+        
+        let url = URL(string:media_url)
+        Downloader.loadFileAsync(url: url!, fileName: media_name, overWrite: true, completion: {filePath,error in self.initMedia(filePath!) })
+    }
+    
     func loadMedia(media_url:String,media_name:String){
         let fileManager = FileManager.default
         var paths: [String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as [String]
@@ -285,7 +294,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         if !fileManager.fileExists(atPath: mediafilePath)
         {
             let url = URL(string:media_url)
-            downloadMedia(url!,media_name)
+            Downloader.loadFileAsync(url: url!, fileName: media_name, overWrite: false, completion: {filePath,error in self.initMedia(filePath!) })
         }
         else{
             initMedia(mediafilePath)
@@ -337,13 +346,13 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         }
     }
     
-    func downloadMedia(_ downloadUrl:URL,_ fileName:String){
-        Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initMedia(filePath!) })
-    }
+//    func downloadMedia(_ downloadUrl:URL,_ fileName:String){
+//        Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initMedia(filePath!) })
+//    }
     
     lazy var menuController: UIAlertController = {
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let names = ["缩小播放器"]
+        let names = ["缩小播放器","重新下载音频"]
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { (action) in
                 
@@ -356,7 +365,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
                     self.playerVisible = true
                 }
                 else{
-                    
+                    self.reloadMedia()
                 }
             }
             controller.addAction(action)
