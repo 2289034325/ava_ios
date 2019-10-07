@@ -18,7 +18,7 @@ import MJRefresh
 
 import SVProgressHUD
 
-class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate {
     
     
 //    func expandMenu(expand: Bool) {
@@ -48,6 +48,9 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     var timeObserver: Any?
     
+    
+    let generalPasteboard = UIPasteboard.general
+    
     var player: AVPlayer?{
         didSet{
             vController?.player = self.player
@@ -61,8 +64,70 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
 //    var constraintsOfRecordMenu:[NSLayoutConstraint] = []
     
+    var selMenu: UIMenuController = {
+       let mn = UIMenuController()
+        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
+        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
+        mn.menuItems = [mi_ava,mi_ggl]
+        
+        return mn
+    }()
+    
+    @objc func searchAVA(_ sender:Any?){
+        let md = selectionText!
+        _ = DictionaryApi.provider
+                        .requestAPI(.searchWord(lang: 1, form: md))
+                        .mapResponseToObj(WordModel.self)
+                        .subscribe(onNext: { (response) in
+        
+                            let popUpView = SearchPopUpView()
+                            popUpView.setInfo(word: response)
+                            let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                            alertView.setValue(popUpView, forKey: "contentViewController")
+        
+                            alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            self.present(alertView, animated: true, completion: nil)
+        
+                        }, onError: { (error) in
+                            SVProgressHUD.showError(withStatus: error.rawString())
+                        })
+    }
+    
+    @objc func searchGGL(_ sender:Any?){
+        let md = selectionText!       
+        
+        _ = OtherApi.provider
+            .requestAPI(.googleTranslate(text: md))
+            .mapResponseToObj(GoogleTransModel.self)
+            .subscribe(onNext: { (response) in
+                
+                let popUpView = SearchPopUpView()
+                let text = response.getAllTrans()                
+                popUpView.setInfo(trans: text)
+                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                alertView.setValue(popUpView, forKey: "contentViewController")
+                
+                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertView, animated: true, completion: nil)
+                
+            }, onError: { (error) in
+                SVProgressHUD.showError(withStatus: error.rawString())
+            })
+    }
+    
+    var selectionText:String?
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        if (textView.selectedTextRange != nil){
+            self.selectionText = textView.text(in:textView.selectedTextRange!)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
         
         setSubviews()
         
@@ -151,20 +216,29 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         return hv
     }
     
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//
+//        return 100.0 // You can set any other value, it's up to you
+//    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let paragraph = self.article!.paragraphs[indexPath.section]
-        let split = paragraph.splits[indexPath.row]
-        let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
-        let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
-        let text = String(paragraph.text[startIndex ..< endIndex])
+//        let paragraph = self.article!.paragraphs[indexPath.section]
+//        let split = paragraph.splits[indexPath.row]
+//        let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
+//        let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
+//        let text = String(paragraph.text[startIndex ..< endIndex])
         
-        let htl = UILabel()
-        htl.font = v2Font(18)
-        htl.numberOfLines = 0
-        htl.lineBreakMode = .byWordWrapping
-        htl.text =  "  "+text
-        return htl.actualHeight(SCREEN_WIDTH-10)+10
+//        let htl = UILabel()
+//        htl.font = v2Font(18)
+//        htl.numberOfLines = 0
+//        htl.lineBreakMode = .byWordWrapping
+//        htl.text =  "  "+text
+//        return htl.actualHeight(SCREEN_WIDH-10)+10
+        
+        // 自动适配高度!!!
+        return UITableViewAutomaticDimension
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
@@ -173,31 +247,86 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         let paragraph = self.article!.paragraphs[indexPath.section]
         let split = paragraph.splits[indexPath.row]
 
-        let label = UILabel()
-        label.font = v2Font(18)
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
+//        let label = UILabel()
+//        label.font = v2Font(18)
+//        label.numberOfLines = 0
+//        label.lineBreakMode = .byWordWrapping
+//        let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
+//        let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
+//        label.text = "  "+String(paragraph.text[startIndex ..< endIndex])
+//
+//        let splitDbTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.splitDbTapAction))
+//        splitDbTap.numberOfTapsRequired = 2
+//
+//        label.isUserInteractionEnabled = true
+//        label.addGestureRecognizer(splitDbTap)
+//
+//        label.accessibilityElements = [split]
+//
+//        cell.contentView.addSubview(label)
+//        label.snp.makeConstraints{ (make) -> Void in
+//            make.top.equalTo(cell.contentView).offset(5)
+//            make.left.equalTo(cell.contentView).offset(5)
+//            make.right.equalTo(cell.contentView).offset(-5)
+//        }
+        
+        let textView = MyTextView()
+        textView.isEditable = false
+        // 不加isScrollEnabled，文字不显示!!!
+        textView.isScrollEnabled = false
+        textView.font = v2Font(18)
+        textView.textContainer.lineBreakMode = .byWordWrapping
         let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
         let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
-        label.text = "  "+String(paragraph.text[startIndex ..< endIndex])
-    
+        textView.text = "  "+String(paragraph.text[startIndex ..< endIndex])
+        
         let splitDbTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.splitDbTapAction))
         splitDbTap.numberOfTapsRequired = 2
-        
-        label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(splitDbTap)
-        
-        label.accessibilityElements = [split]
-    
-        cell.contentView.addSubview(label)
-        label.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(cell.contentView).offset(5)
+
+        textView.isUserInteractionEnabled = true
+        textView.addGestureRecognizer(splitDbTap)
+
+        textView.accessibilityElements = [split]
+
+        cell.contentView.addSubview(textView)
+        textView.snp.makeConstraints{ (make) -> Void in
+            // top 和 bottom约束必须都有，否则textView不能等自动适配高度!!!
+            make.top.bottom.equalTo(cell.contentView)
             make.left.equalTo(cell.contentView).offset(5)
             make.right.equalTo(cell.contentView).offset(-5)
-        }        
+        }
+        
+        textView.delegate = self
         
         return cell
     }
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        NotificationCenter.default.removeObserver(NSNotification.Name.UIPasteboardChanged)
+//        super.viewDidDisappear(animated)
+//    }
+    
+//    @objc func pasteboardChanged(_ notification: Notification) {
+//        if let md = UIPasteboard.general.string{
+//
+//            _ = DictionaryApi.provider
+//                .requestAPI(.searchWord(lang: 1, form: md))
+//                .mapResponseToObj(WordModel.self)
+//                .subscribe(onNext: { (response) in
+//
+//                    let popUpView = SearchPopUpView()
+//                    popUpView.setInfo(word: response)
+//                    let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+//                    alertView.setValue(popUpView, forKey: "contentViewController")
+//
+//                    alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                    self.present(alertView, animated: true, completion: nil)
+//
+//                }, onError: { (error) in
+//                    SVProgressHUD.showError(withStatus: error.rawString())
+//                })
+//        }
+//    }
     
     @objc func headerDbTapAction(sender:UITapGestureRecognizer) {
         
@@ -225,7 +354,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     @objc func splitDbTapAction(sender:UITapGestureRecognizer) {
         
-        let lbl = sender.view as! UILabel
+        let lbl = sender.view as! UITextView
         let split = lbl.accessibilityElements![0] as! ParagraphSplitModel
         
         let time = CMTimeMakeWithSeconds(Double(split.start_time), 10000)

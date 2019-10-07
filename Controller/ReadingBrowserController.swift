@@ -42,8 +42,8 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
 //        return pv
 //    }()
     
-    lazy var webView: WKWebView = {
-        let v = WKWebView()
+    lazy var webView: MyWKWebView = {
+        let v = MyWKWebView()
         v.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil);
         v.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
         return v
@@ -103,7 +103,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     var svHTrans=CGAffineTransform()
     var svShow=true
     
-    let generalPasteboard = UIPasteboard.general
+//    let generalPasteboard = UIPasteboard.general
     
     lazy var saveAlertController:UIAlertController={
         let controller = UIAlertController(title: "书签信息", message: nil, preferredStyle: .alert)
@@ -198,9 +198,9 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             make.left.right.equalTo(self.view)
         }
         
-//        setupCustomMenu()
+        setupCustomMenu()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
+//        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
         
         let panRecognizer = UIPanGestureRecognizer(target: self, action:  #selector(panedView))
         self.view.addGestureRecognizer(panRecognizer)
@@ -212,6 +212,8 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             webView.load(URLRequest(url: url))
             }
         }
+        
+        
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -375,39 +377,88 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         addTxb.resignFirstResponder()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIPasteboardChanged)
-        super.viewDidDisappear(animated)
+//    override func viewDidDisappear(_ animated: Bool) {
+//        NotificationCenter.default.removeObserver(NSNotification.Name.UIPasteboardChanged)
+//        super.viewDidDisappear(animated)
+//    }
+    
+//    @objc
+//    func pasteboardChanged(_ notification: Notification) {
+//        if let md = UIPasteboard.general.string{
+//            
+//            _ = DictionaryApi.provider
+//                .requestAPI(.searchWord(lang: 1, form: md))
+//                .mapResponseToObj(WordModel.self)
+//                .subscribe(onNext: { (response) in
+//                    
+//                    let popUpView = SearchPopUpView()
+//                    popUpView.setInfo(word: response)
+//                    let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+//                    alertView.setValue(popUpView, forKey: "contentViewController")
+//                    
+//                    alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                    self.present(alertView, animated: true, completion: nil)
+//                    
+//                }, onError: { (error) in
+//                    SVProgressHUD.showError(withStatus: error.rawString())
+//                })
+//        }
+//    }
+    
+    func setupCustomMenu() {
+        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
+        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
+        UIMenuController.shared.menuItems = [mi_ava,mi_ggl]
+        UIMenuController.shared.update()
     }
     
-    @objc
-    func pasteboardChanged(_ notification: Notification) {
-        if let md = UIPasteboard.general.string{
-            
-            _ = DictionaryApi.provider
-                .requestAPI(.searchWord(lang: 1, form: md))
-                .mapResponseToObj(WordModel.self)
-                .subscribe(onNext: { (response) in
-                    
-                    let popUpView = SearchPopUpView()
-                    popUpView.setInfo(word: response)
-                    let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                    alertView.setValue(popUpView, forKey: "contentViewController")
-                    
-                    alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alertView, animated: true, completion: nil)
-                    
-                }, onError: { (error) in
-                    SVProgressHUD.showError(withStatus: error.rawString())
-                })
+    @objc func searchAVA(_ sender:Any?){
+        var md = ""
+        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
+            md = any as! String
+        
+        _ = DictionaryApi.provider
+            .requestAPI(.searchWord(lang: 1, form: md))
+            .mapResponseToObj(WordModel.self)
+            .subscribe(onNext: { (response) in
+
+                let popUpView = SearchPopUpView()
+                popUpView.setInfo(word: response)
+                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                alertView.setValue(popUpView, forKey: "contentViewController")
+
+                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertView, animated: true, completion: nil)
+
+            }, onError: { (error) in
+                SVProgressHUD.showError(withStatus: error.rawString())
+            })
         }
     }
     
-    func setupCustomMenu() {
-        let customMenuItem = UIMenuItem(title: "Foo", action:
-            #selector(ReadingBrowserController.transelateMenuTapped))
-        UIMenuController.shared.menuItems = [customMenuItem]
-        UIMenuController.shared.update()
+    @objc func searchGGL(_ sender:Any?){
+        var md = ""
+        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
+            md = any as! String
+        
+        _ = OtherApi.provider
+            .requestAPI(.googleTranslate(text: md))
+            .mapResponseToObj(GoogleTransModel.self)
+            .subscribe(onNext: { (response) in
+                
+                let popUpView = SearchPopUpView()
+                let text = response.getAllTrans()
+                popUpView.setInfo(trans: text)
+                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                alertView.setValue(popUpView, forKey: "contentViewController")
+                
+                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertView, animated: true, completion: nil)
+                
+            }, onError: { (error) in
+                SVProgressHUD.showError(withStatus: error.rawString())
+            })
+        }
     }
     
     @objc func transelateMenuTapped() {
@@ -594,5 +645,11 @@ class SearchPopUpView:UIViewController{
         lbl_spell.text = word.spell!
         lbl_pronounce.text = "[\(word.pronounce!)]"
         lbl_meaning.text = word.meaning!
+    }
+    
+    func setInfo(trans:String){
+        lbl_spell.text = ""
+        lbl_pronounce.text = ""
+        lbl_meaning.text = trans
     }
 }

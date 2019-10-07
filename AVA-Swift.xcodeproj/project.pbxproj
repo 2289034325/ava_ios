@@ -82,6 +82,10 @@
 		4081018C22F3D5F200C6DA1B /* UserBookRightFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018B22F3D5F200C6DA1B /* UserBookRightFloatView.swift */; };
 		409FBC0C22E7119E00B1AA26 /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */; };
 		8037FC86233213BE00DB34ED /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8037FC85233213BE00DB34ED /* CALayer+Extension.swift */; };
+		804B9492234B665200369936 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9491234B665200369936 /* UITextView+Extension.swift */; };
+		804B9494234B785000369936 /* OtherApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9493234B785000369936 /* OtherApi.swift */; };
+		804B9496234B804600369936 /* GoogleTransModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9495234B804600369936 /* GoogleTransModel.swift */; };
+		804B9498234B8AC000369936 /* MyWKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9497234B8AC000369936 /* MyWKWebView.swift */; };
 		806C8C1F2312A87D00FB2378 /* LearnTestRightFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C8C1E2312A87D00FB2378 /* LearnTestRightFloatView.swift */; };
 		80C75C8223150F8A00144CF1 /* BookMarkListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C75C8123150F8A00144CF1 /* BookMarkListTableViewCell.swift */; };
 		C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22139B81026470D3B418227 /* BookMarkListController.swift */; };
@@ -210,6 +214,10 @@
 		52700928D2B67AA24FBCC006 /* Pods-V2ex-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		61362A97378A23EFC5EDD56C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8037FC85233213BE00DB34ED /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		804B9491234B665200369936 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
+		804B9493234B785000369936 /* OtherApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherApi.swift; sourceTree = "<group>"; };
+		804B9495234B804600369936 /* GoogleTransModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTransModel.swift; sourceTree = "<group>"; };
+		804B9497234B8AC000369936 /* MyWKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWKWebView.swift; sourceTree = "<group>"; };
 		806C8C1E2312A87D00FB2378 /* LearnTestRightFloatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestRightFloatView.swift; sourceTree = "<group>"; };
 		80C75C8123150F8A00144CF1 /* BookMarkListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkListTableViewCell.swift; sourceTree = "<group>"; };
 		8659DB1BFBA4E17FA63A4C14 /* Pods-V2ex-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.release.xcconfig"; sourceTree = "<group>"; };
@@ -269,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				0620DA02214F56FC00761FBB /* TopicListApi.swift */,
+				804B9493234B785000369936 /* OtherApi.swift */,
 				C2207FE837BC256E49304E3E /* DictionaryApi.swift */,
 				4081018922F2B50A00C6DA1B /* ReadingApi.swift */,
 				402B07C822E84B59007DC5D2 /* SpeechApi.swift */,
@@ -301,6 +310,8 @@
 				C22BE2138C27DBD4323B7DCE /* UIViewController+Extension.swift */,
 				C22FA7C65BC94D791EE8DFD6 /* JSONEncoder+Extension.swift */,
 				8037FC85233213BE00DB34ED /* CALayer+Extension.swift */,
+				804B9491234B665200369936 /* UITextView+Extension.swift */,
+				804B9497234B8AC000369936 /* MyWKWebView.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -422,6 +433,7 @@
 				C2233EBABBF24EA7D9EA91F4 /* LearnRecordWordModel.swift */,
 				C22743CB424F35F57C69342F /* QuestionModel.swift */,
 				C22917FFECB49F9DBE49B604 /* UserBookModel.swift */,
+				804B9495234B804600369936 /* GoogleTransModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -730,6 +742,7 @@
 				4081018222EACB1300C6DA1B /* UserModel.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				0678F47120CE388E0048A64B /* Observable+Extension.swift in Sources */,
+				804B9498234B8AC000369936 /* MyWKWebView.swift in Sources */,
 				8037FC86233213BE00DB34ED /* CALayer+Extension.swift in Sources */,
 				402B07C922E84B59007DC5D2 /* SpeechApi.swift in Sources */,
 				064F03B21ED5700C0094683D /* V2EXTargetType.swift in Sources */,
@@ -745,7 +758,9 @@
 				80C75C8223150F8A00144CF1 /* BookMarkListTableViewCell.swift in Sources */,
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */,
+				804B9492234B665200369936 /* UITextView+Extension.swift in Sources */,
 				4081017322E859BF00C6DA1B /* ParagraphModel.swift in Sources */,
+				804B9494234B785000369936 /* OtherApi.swift in Sources */,
 				4081018422EFE4D600C6DA1B /* ReadingBrowserController.swift in Sources */,
 				2D6B1BB01CA93F970050121D /* V2User.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
@@ -755,6 +770,7 @@
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */,
 				C2265112502B0C95A4A16942 /* String+Extension.swift in Sources */,
+				804B9496234B804600369936 /* GoogleTransModel.swift in Sources */,
 				4081017022E858B000C6DA1B /* RecordMenuView.swift in Sources */,
 				4065EC9022F407B5008F463D /* CreateUserBookController.swift in Sources */,
 				C22AF6B70C40D5A8FBB58CDB /* UserBookViewController.swift in Sources */,
