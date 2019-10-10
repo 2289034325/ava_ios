@@ -84,8 +84,13 @@ extension DictionaryApi: V2EXTargetType {
             return "/dictionary/book/\(user_book_id)/review_old/\(word_count)"
         case .submitResult:
             return "/dictionary/learn/record/save"
-        case .searchWord:
-            return "/dictionary/word/search"
+        case let .searchWord(lang,_):
+            if(lang == Lang.EN.id){
+                return "/dictionary/word/search"
+            }
+            else{
+                return "/dictionary/word/grab"
+            }
 //        default:
 //            return ""
         }

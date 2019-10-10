@@ -44,16 +44,16 @@ extension UIImage {
     }
 
     class func getLangFlag(_ lang:Int) -> UIImage{
-        if(lang == 1){
+        if(lang == Lang.EN.id){
             return UIImage(named: "flg_en")!
         }
-        else if(lang == 2){
+        else if(lang == Lang.JP.id){
             return UIImage(named: "flg_jp")!
         }
-        else if(lang == 3){
+        else if(lang == Lang.KR.id){
             return UIImage(named: "flg_kr")!
         }
-        else if(lang == 4){
+        else if(lang == Lang.FR.id){
             return UIImage(named: "flg_fr")!
         }
 

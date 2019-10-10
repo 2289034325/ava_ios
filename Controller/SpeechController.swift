@@ -76,12 +76,12 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     @objc func searchAVA(_ sender:Any?){
         let md = selectionText!
         _ = DictionaryApi.provider
-                        .requestAPI(.searchWord(lang: 1, form: md))
-                        .mapResponseToObj(WordModel.self)
+                        .requestAPI(.searchWord(lang: article!.lang, form: md))
+                        .mapResponseToObj(WordSearchModel.self)
                         .subscribe(onNext: { (response) in
         
                             let popUpView = SearchPopUpView()
-                            popUpView.setInfo(word: response)
+                            popUpView.setInfo(word: response.word!)
                             let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
                             alertView.setValue(popUpView, forKey: "contentViewController")
         

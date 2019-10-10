@@ -31,6 +31,14 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     
     var initBookMark:BookMarkModel?
     
+    lazy var pageLang : Lang = {
+        var lang = Lang.EN
+        if let s_lang = V2EXSettings.sharedInstance["bm_\(self.initBookMark!.id)_lang"]{
+            lang = Lang.fromId(id: Int(s_lang)!)!
+        }
+        return lang
+    }()
+    
     var delegate: SaveBookMarkDelegate?
     
     var startLocation = CGPoint()
@@ -385,20 +393,20 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
 //    @objc
 //    func pasteboardChanged(_ notification: Notification) {
 //        if let md = UIPasteboard.general.string{
-//            
+//
 //            _ = DictionaryApi.provider
 //                .requestAPI(.searchWord(lang: 1, form: md))
 //                .mapResponseToObj(WordModel.self)
 //                .subscribe(onNext: { (response) in
-//                    
+//
 //                    let popUpView = SearchPopUpView()
 //                    popUpView.setInfo(word: response)
 //                    let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
 //                    alertView.setValue(popUpView, forKey: "contentViewController")
-//                    
+//
 //                    alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 //                    self.present(alertView, animated: true, completion: nil)
-//                    
+//
 //                }, onError: { (error) in
 //                    SVProgressHUD.showError(withStatus: error.rawString())
 //                })
@@ -418,12 +426,12 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             md = any as! String
         
         _ = DictionaryApi.provider
-            .requestAPI(.searchWord(lang: 1, form: md))
-            .mapResponseToObj(WordModel.self)
+            .requestAPI(.searchWord(lang: self.pageLang.id, form: md))
+            .mapResponseToObj(WordSearchModel.self)
             .subscribe(onNext: { (response) in
 
                 let popUpView = SearchPopUpView()
-                popUpView.setInfo(word: response)
+                popUpView.setInfo(word: response.word!)
                 let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
                 alertView.setValue(popUpView, forKey: "contentViewController")
 
@@ -481,7 +489,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -493,7 +501,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width:collectionView.frame.width/4,height:collectionView.frame.height)
+        return CGSize(width:collectionView.frame.width/5,height:collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -525,12 +533,32 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
                 make.left.top.right.bottom.equalTo(cell)
             }
         }
+        // 选择页面语言
         else if indexPath.row == 2 {
+            let btn = UIButton()
+            btn.tintColor = .white
+            btn.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            // 不加 下面两个Alignment，scaleAspectFill不生效!!!
+            btn.imageView!.contentMode = .scaleAspectFill
+            btn.contentVerticalAlignment = .fill
+            btn.contentHorizontalAlignment = .fill
+            btn.imageView!.layer.cornerRadius = 25
+            let img = UIImage.getLangFlag(self.pageLang.id)
+            btn.setImage(img.withRenderingMode(.alwaysOriginal), for: UIControlState.normal)
+
+            btn.addTarget(self, action: #selector(ReadingBrowserController.changePageLang(_:)), for: .touchUpInside)
+            
+            cell.addSubview(btn)
+//            btn.snp.makeConstraints { (make) in
+//                make.left.top.right.bottom.equalTo(cell)
+//            }
+        }
+        else if indexPath.row == 3 {
             let btn = UIButton()
             btn.tintColor = .white
             let img = UIImage(from: .segoeMDL2, code: "Sync", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
             btn.setImage(img.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
-
+            
             btn.addTarget(self, action: #selector(ReadingBrowserController.browserRefresh(_:)), for: .touchUpInside)
             
             cell.addSubview(btn)
@@ -538,7 +566,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
                 make.left.top.right.bottom.equalTo(cell)
             }
         }
-        else if indexPath.row == 3 {
+        else if indexPath.row == 4 {
             let btn = UIButton()
             btn.tintColor = .white
             let img = UIImage(from: .segoeMDL2, code: "Pinned", textColor: .black, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
@@ -558,11 +586,19 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     @objc func browserBack(_ sneder:UIButton){
         webView.goBack()
     }
-    func browserForward(_ sneder:UIButton){
+    @objc func browserForward(_ sneder:UIButton){
         webView.goForward()
     }
-    func browserRefresh(_ sneder:UIButton){
+    @objc func browserRefresh(_ sneder:UIButton){
         webView.reload()
+    }
+    @objc func changePageLang(_ sneder:UIButton){
+        self.pageLang.next()
+        
+        let img = UIImage.getLangFlag(self.pageLang.id)
+        sneder.setImage(img.withRenderingMode(.alwaysOriginal), for: UIControlState.normal)
+        
+        V2EXSettings.sharedInstance["bm_\(self.initBookMark!.id)_lang"] = String(self.pageLang.id)
     }
     @objc func browserSave(_ sneder:UIButton){
         if let _ = webView.url?.absoluteString{

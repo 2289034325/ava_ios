@@ -86,6 +86,8 @@
 		804B9494234B785000369936 /* OtherApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9493234B785000369936 /* OtherApi.swift */; };
 		804B9496234B804600369936 /* GoogleTransModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9495234B804600369936 /* GoogleTransModel.swift */; };
 		804B9498234B8AC000369936 /* MyWKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9497234B8AC000369936 /* MyWKWebView.swift */; };
+		804B949A234F2B9900369936 /* WordSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B9499234F2B9900369936 /* WordSearch.swift */; };
+		804B949C234F33B500369936 /* Langs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804B949B234F33B500369936 /* Langs.swift */; };
 		806C8C1F2312A87D00FB2378 /* LearnTestRightFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C8C1E2312A87D00FB2378 /* LearnTestRightFloatView.swift */; };
 		80C75C8223150F8A00144CF1 /* BookMarkListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C75C8123150F8A00144CF1 /* BookMarkListTableViewCell.swift */; };
 		C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22139B81026470D3B418227 /* BookMarkListController.swift */; };
@@ -218,6 +220,8 @@
 		804B9493234B785000369936 /* OtherApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherApi.swift; sourceTree = "<group>"; };
 		804B9495234B804600369936 /* GoogleTransModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTransModel.swift; sourceTree = "<group>"; };
 		804B9497234B8AC000369936 /* MyWKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWKWebView.swift; sourceTree = "<group>"; };
+		804B9499234F2B9900369936 /* WordSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSearch.swift; sourceTree = "<group>"; };
+		804B949B234F33B500369936 /* Langs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Langs.swift; sourceTree = "<group>"; };
 		806C8C1E2312A87D00FB2378 /* LearnTestRightFloatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnTestRightFloatView.swift; sourceTree = "<group>"; };
 		80C75C8123150F8A00144CF1 /* BookMarkListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookMarkListTableViewCell.swift; sourceTree = "<group>"; };
 		8659DB1BFBA4E17FA63A4C14 /* Pods-V2ex-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.release.xcconfig"; sourceTree = "<group>"; };
@@ -426,10 +430,12 @@
 				4081017222E859BF00C6DA1B /* ParagraphSplitModel.swift */,
 				4081018522F0292300C6DA1B /* BookMarkModel.swift */,
 				C222F448070E93539C4B3F03 /* WordModel.swift */,
+				804B9499234F2B9900369936 /* WordSearch.swift */,
 				C2243DA421D2117CEC13F51A /* ExplainModel.swift */,
 				C22B4CA62193A800C2B0758F /* SentenceModel.swift */,
 				C224763652327DFDD632D367 /* LearnRecordModel.swift */,
 				C220DC1B5B66562737A2F7B3 /* Consts.swift */,
+				804B949B234F33B500369936 /* Langs.swift */,
 				C2233EBABBF24EA7D9EA91F4 /* LearnRecordWordModel.swift */,
 				C22743CB424F35F57C69342F /* QuestionModel.swift */,
 				C22917FFECB49F9DBE49B604 /* UserBookModel.swift */,
@@ -759,6 +765,7 @@
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */,
 				804B9492234B665200369936 /* UITextView+Extension.swift in Sources */,
+				804B949A234F2B9900369936 /* WordSearch.swift in Sources */,
 				4081017322E859BF00C6DA1B /* ParagraphModel.swift in Sources */,
 				804B9494234B785000369936 /* OtherApi.swift in Sources */,
 				4081018422EFE4D600C6DA1B /* ReadingBrowserController.swift in Sources */,
@@ -792,6 +799,7 @@
 				C2218B49B684C78B24DCC7CB /* SentenceModel.swift in Sources */,
 				C22E72A496E622CE14DB3CBC /* WordViewController.swift in Sources */,
 				C22559357A977D3CF425A049 /* WordSentenceTableViewCell.swift in Sources */,
+				804B949C234F33B500369936 /* Langs.swift in Sources */,
 				C226D2BC457B8BFFAFDE6BD3 /* WordTitleTableViewCell.swift in Sources */,
 				C223B8CA22BAD683312E2D07 /* UILabel+Extension.swift in Sources */,
 				4081017822E8600700C6DA1B /* DateTimeUtil.swift in Sources */,

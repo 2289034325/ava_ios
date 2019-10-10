@@ -32,7 +32,7 @@ extension OtherApi: V2EXTargetType {
     var parameters: [String : Any]? {
         switch self {
         case let .googleTranslate(text):
-            return ["client":"gtx","sl":"en","tl":"zh-CN","hl":"zh-CN","dt":"t","dj":"1","source":"icon","q":text]
+            return ["client":"gtx","sl":"auto","tl":"zh-CN","hl":"zh-CN","dt":"t","dj":"1","source":"icon","q":text]
         }
     }
     

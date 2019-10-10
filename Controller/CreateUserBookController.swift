@@ -93,11 +93,12 @@ class CreateUserBookController: UIViewController{
         langComb.anchorView = langLbl
         langComb.direction = .bottom
         langComb.bottomOffset = CGPoint(x: 0, y:(langComb.anchorView?.plainView.bounds.height)!)
-        langComb.dataSource = ["English", "Japanese", "Korean","Franch"]
+        langComb.dataSource = Lang.all.map{l in l.name}
         langComb.selectionAction = { [unowned self] (index: Int, item: String) in
 //            print("Selected item: \(item) at index: \(index)")
+            let l = Lang.fromName(name: item)!
             self.langLbl.text = item
-            self.selectedLang = index+1
+            self.selectedLang = l.id
         }
         
     }
