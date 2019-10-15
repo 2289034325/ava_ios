@@ -78,6 +78,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1)
         
         DropDown.startListeningToKeyboard()
+        
+        // 防止屏幕关闭
+        UIApplication.shared.isIdleTimerDisabled = true
  
         return true
     }

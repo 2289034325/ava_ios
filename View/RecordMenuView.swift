@@ -112,6 +112,11 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         fatalError("init(coder:) has not been implemented")
     }
     
+    func stopPlayingAndRecording(){
+        recordCell?.finishRecording(success: true)
+        playCell?.playerStatus = "stop"
+    }
+    
     
     
     class RecordCell:UICollectionViewCell, AVAudioRecorderDelegate{
@@ -155,6 +160,11 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                 {
                     isRecording = false
                     finishRecording(success: true)
+                    
+                    // 恢复到播放模式，否则播放的声音会很小
+                    do {
+                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    } catch _ {}
                 }
             }
         }
@@ -308,10 +318,6 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                 if(playerStatus == "play")
                 {
                     imageView.image = img_pause.withRenderingMode(.alwaysTemplate)
-                    
-                    do {
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-                    } catch _ {}
                     
                     updater?.invalidate()
                     updater = CADisplayLink(target: self, selector: #selector(PlayCell.updateTimer))

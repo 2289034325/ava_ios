@@ -161,7 +161,7 @@ extension WordScanViewController {
     //开始测试
     @objc func rightClick(){
 //        let testController = LearnTestViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
-        let testController = LearnTestViewController4(book:self.book!,words:self.words)
+        let testController = LearnTestViewController(book:self.book!,words:self.words)
         testController.hidesBottomBarWhenPushed = true
         testController.refrenceView = "wordscan"
         self.navigationController?.pushViewController(testController, animated: true)

@@ -13,11 +13,8 @@ import RxCocoa
 
 
 class QuestionView: UIView {
-    var question:QuestionModel?
-    var index:Int?
-
-    // 如果使用UIScrollView 会导致label无法换行
-    var contentPanel:UIView = UIView()
+    var question:QuestionModel
+    var index:Int = 0
 
     var spellLabel: UILabel = {
         let label = UILabel()
@@ -61,27 +58,23 @@ class QuestionView: UIView {
     }()
 
     init(frame: CGRect,question: QuestionModel) {
-        super.init(frame: frame)
 
         self.question = question
+
+        super.init(frame: frame)
+
         commonInit()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     func commonInit() {
 
-        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
-        self.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        self.backgroundColor=V2EXColor.colors.v2_CellWhiteBackgroundColor;
 
-        self.addSubview(contentPanel);
-        contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.top.bottom.left.right.equalTo(self)
-        }
-
-        switch question!.type{
+        switch question.type{
         case .MF:
             setUpMF()
         case .FM:
@@ -90,12 +83,23 @@ class QuestionView: UIView {
             setUpSentence()
         }
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(QuestionView.viewTap(_:)))
-        self.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(QuestionView.viewTap(_:)))
+//        self.addGestureRecognizer(tap)
     }
 
-    @objc func viewTap(_ sender:UITapGestureRecognizer) {
-        switch self.question!.type{
+//    @objc func viewTap(_ sender:UITapGestureRecognizer) {
+//        switch self.question!.type{
+//        case .MF:
+//            showAnwserOfMF()
+//        case .FM:
+//            showAnserOfFM()
+//        case .Fill:
+//            showAnswerOfSentence()
+//        }
+//    }
+
+    func showAnswer(){
+        switch self.question.type{
         case .MF:
             showAnwserOfMF()
         case .FM:
@@ -104,37 +108,48 @@ class QuestionView: UIView {
             showAnswerOfSentence()
         }
     }
+    
+    func closeAnswer(){
+        switch self.question.type{
+        case .MF:
+            closeAnwserOfMF()
+        case .FM:
+            closeAnserOfFM()
+        case .Fill:
+            closeAnswerOfSentence()
+        }
+    }
 
     func setUpBasic(){
 
-        spellLabel.text = self.question?.word.spell
-        pronLabel.text = "[\(self.question!.word.pronounce!)]"
-        meaningLabel.text = self.question?.word.meaning
+        spellLabel.text = self.question.word.spell
+        pronLabel.text = "[\(self.question.word.pronounce!)]"
+        meaningLabel.text = self.question.word.meaning
 
-        contentPanel.addSubview(spellLabel);
+        self.addSubview(spellLabel);
         spellLabel.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(contentPanel)
-            make.left.equalTo(contentPanel).offset(5)
+            make.top.equalTo(self)
+            make.left.equalTo(self).offset(5)
         }
 
-        contentPanel.addSubview(pronLabel);
+        self.addSubview(pronLabel);
         pronLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(spellLabel.snp.bottom)
             make.left.equalTo(spellLabel)
         }
 
-        contentPanel.addSubview(pronImage);
+        self.addSubview(pronImage);
         pronImage.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(pronLabel);
             make.width.height.equalTo(pronImage_height);
             make.left.equalTo(pronLabel.snp.right).offset(2);
         }
 
-        contentPanel.addSubview(meaningLabel);
+        self.addSubview(meaningLabel);
         meaningLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(pronLabel.snp.bottom).offset(5)
-            make.left.equalTo(contentPanel).offset(5)
-            make.right.equalTo(contentPanel).offset(-5)
+            make.left.equalTo(self).offset(5)
+            make.right.equalTo(self).offset(-5)
         }
     }
 
@@ -153,6 +168,11 @@ class QuestionView: UIView {
         pronImage.tintColor = UIColor.blue
         meaningLabel.textColor = UIColor.black
     }
+    func closeAnwserOfMF(){
+        pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+    }
 
     func setUpFM(){
         setUpBasic()
@@ -165,10 +185,14 @@ class QuestionView: UIView {
     }
 
     func showAnserOfFM(){
-
         spellLabel.textColor = UIColor.black
         pronLabel.textColor = UIColor.black
         pronImage.tintColor = UIColor.blue
+    }
+    func closeAnserOfFM(){
+        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     func setUpSentence(){
@@ -179,26 +203,24 @@ class QuestionView: UIView {
         pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
 
-        contentPanel.addSubview(sentenceLabel);
+        self.addSubview(sentenceLabel);
         sentenceLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(meaningLabel.snp.bottom).offset(5)
-            make.left.equalTo(contentPanel).offset(5)
-            make.right.equalTo(contentPanel).offset(-5)
+            make.left.equalTo(self).offset(5)
+            make.right.equalTo(self).offset(-5)
         }
 
-        contentPanel.addSubview(translationLabel);
+        self.addSubview(translationLabel);
         translationLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(sentenceLabel.snp.bottom).offset(5)
-            make.left.equalTo(contentPanel).offset(5)
-            make.right.equalTo(contentPanel).offset(-5)
+            make.left.equalTo(self).offset(5)
+            make.right.equalTo(self).offset(-5)
         }
 
-        let wordT = self.question!.sentence!.word!
+        let wordT = self.question.sentence!.word!
         let pl = "".leftPadding(toLength: wordT.count, withPad: "_")
-        sentenceLabel.text = self.question?.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
-        translationLabel.text = self.question?.sentence?.translation
-
-        translationLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        sentenceLabel.text = self.question.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
+        translationLabel.text = self.question.sentence?.translation
     }
 
     func showAnswerOfSentence(){
@@ -206,7 +228,15 @@ class QuestionView: UIView {
         pronLabel.textColor = UIColor.black
         pronImage.tintColor = UIColor.blue
         meaningLabel.textColor = UIColor.black
-        sentenceLabel.text = self.question?.sentence?.sentence
-        translationLabel.textColor = UIColor.black
+        sentenceLabel.text = self.question.sentence?.sentence
+    }
+    func closeAnswerOfSentence(){
+        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        let wordT = self.question.sentence!.word!
+        let pl = "".leftPadding(toLength: wordT.count, withPad: "_")
+        sentenceLabel.text = self.question.sentence?.sentence?.replacingOccurrences(of: wordT, with: pl)
     }
 }

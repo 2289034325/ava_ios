@@ -134,6 +134,15 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         loadArticle()
         
         setNavigationBar()
+        
+        // 设置后台播放
+        do{
+            let ss = AVAudioSession.sharedInstance()
+            try ss.setCategory(AVAudioSessionCategoryPlayback)
+            try ss.setActive(true)
+        } catch {
+            print(error)
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -157,7 +166,12 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         mediaView.snp.makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.view)
             // 200 full view. 45 only show playback controls
-            make.height.equalTo(200)
+            if(self.playerVisible){
+                make.height.equalTo(200)
+            }
+            else{
+                make.height.equalTo(45)
+            }
         }
         recrdMenuView.snp.makeConstraints{ (make) -> Void in
             make.bottom.left.right.equalTo(self.view)
@@ -384,6 +398,8 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
+        self.player?.pause()
+        self.recrdMenuView.stopPlayingAndRecording()
     }
     
     func loadArticle()
@@ -481,7 +497,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     lazy var menuController: UIAlertController = {
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let names = ["缩小播放器","重新下载音频"]
+        let names = self.playerVisible ? ["缩小播放器","重新下载音频"] : ["放大播放器","重新下载音频"]
         for name in names {
             let action = UIAlertAction(title: name, style: .default) { (action) in
                 
@@ -543,7 +559,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     // controller init 垃圾东西!!!
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.playerVisible = true
+        self.playerVisible = false
         
         super.init(nibName: nil, bundle: nil)
     }

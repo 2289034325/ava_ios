@@ -341,7 +341,7 @@ extension UserBookViewController:UITableViewDataSource,UITableViewDelegate {
                             SVProgressHUD.showError(withStatus: "没有需要复习的词")
                         }
                         else{
-                        let wordController = LearnTestViewController4(book: item, words: response)
+                        let wordController = LearnTestViewController(book: item, words: response)
                         wordController.hidesBottomBarWhenPushed = true
 
                         self.navigationController?.pushViewController(wordController, animated: true)

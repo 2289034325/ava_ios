@@ -58,13 +58,18 @@ class WordModel: Mappable {
 
     func createQuestions(types:[QuestionType],recordModel:LearnRecordWordModel)->[QuestionModel]{
         var qs = [QuestionModel]()
+        
+        // 去除没有词形的例句
+        let ss = self.sentences.filter { (st: SentenceModel) -> Bool in
+            return !((st.word ?? "").isEmpty)
+        }
 
-        for (idx,qt) in types.enumerated(){
-            if qt == QuestionType.Fill && self.sentences.count == 0{
+        for (_,qt) in types.enumerated(){
+            if qt == QuestionType.Fill && ss.count == 0{
                 continue
             }
 
-            let sts = self.sentences.randomElement()
+            let sts = ss.randomElement()
 
             let nq = QuestionModel(word:self,type:qt,sentence:sts,recordModel: recordModel)
             qs.append(nq)
