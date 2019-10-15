@@ -64,14 +64,22 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
 //    var constraintsOfRecordMenu:[NSLayoutConstraint] = []
     
-    var selMenu: UIMenuController = {
-       let mn = UIMenuController()
+    // 实例化UIMenuController会crash!!!
+//    var selMenu: UIMenuController = {
+//       let mn = UIMenuController()
+//        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
+//        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
+//        mn.menuItems = [mi_ava,mi_ggl]
+//
+//        return mn
+//    }()
+    
+    func setupCustomMenu() {
         let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
         let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
-        mn.menuItems = [mi_ava,mi_ggl]
-        
-        return mn
-    }()
+        UIMenuController.shared.menuItems = [mi_ava,mi_ggl]
+        UIMenuController.shared.update()
+    }
     
     @objc func searchAVA(_ sender:Any?){
         let md = selectionText!
@@ -135,8 +143,11 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         
         setNavigationBar()
         
+        setupCustomMenu()
+        
         // 设置后台播放
         do{
+            // 不加这些，项目属性设置UIBackgroundModes没有用!!!
             let ss = AVAudioSession.sharedInstance()
             try ss.setCategory(AVAudioSessionCategoryPlayback)
             try ss.setActive(true)
