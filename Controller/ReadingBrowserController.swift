@@ -33,8 +33,10 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
     
     lazy var pageLang : Lang = {
         var lang = Lang.EN
-        if let s_lang = V2EXSettings.sharedInstance["bm_\(self.initBookMark!.id)_lang"]{
-            lang = Lang.fromId(id: Int(s_lang)!)!
+        if(self.initBookMark != nil){
+            if let s_lang = V2EXSettings.sharedInstance["bm_\(self.initBookMark!.id)_lang"]{
+                lang = Lang.fromId(id: Int(s_lang)!)!
+            }
         }
         return lang
     }()
@@ -168,7 +170,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         }
         
         addressView.addSubview(addCancelBtn)
-        addCancelBtn.addTarget(self, action: #selector(ReadingBrowserController.addCancelClick(_:)), for: .touchUpInside)
+        addCancelBtn.addTarget(self, action: #selector(addCancelClick(_:)), for: .touchUpInside)
         addCancelBtn.snp.makeConstraints { (make) in
             make.top.equalTo(addressView).offset(5)
             make.bottom.equalTo(addressView).offset(-5)
@@ -374,7 +376,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         }
     }
     
-    func addCancelClick(_ sneder:UIButton){
+    @objc func addCancelClick(_ sneder:UIButton){
 //        addTxb.snp.removeConstraints()
 //        addTxb.snp.makeConstraints { (make) in
 //            make.left.top.equalTo(addressView).offset(5)
@@ -597,8 +599,9 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         
         let img = UIImage.getLangFlag(self.pageLang.id)
         sneder.setImage(img.withRenderingMode(.alwaysOriginal), for: UIControlState.normal)
-        
-        V2EXSettings.sharedInstance["bm_\(self.initBookMark!.id)_lang"] = String(self.pageLang.id)
+        if(self.initBookMark != nil){
+            V2EXSettings.sharedInstance["bm_\(self.initBookMark!.id)_lang"] = String(self.pageLang.id)
+        }
     }
     @objc func browserSave(_ sneder:UIButton){
         if let _ = webView.url?.absoluteString{
