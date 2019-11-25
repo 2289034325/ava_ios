@@ -10,7 +10,7 @@ import ObjectMapper
 import Foundation
 
 class WordModel: Mappable {
-    var id:Int?
+    var id:String?
     var lang:Int?
     var spell:String?
     var pronounce:String?

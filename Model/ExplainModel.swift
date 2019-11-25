@@ -13,8 +13,8 @@ import ObjectMapper
 import Foundation
 
 class ExplainModel: BaseJsonModel {
-    var id:Int?
-    var word_id:Int?
+    var id:String?
+    var word_id:String?
     var explain:String?
     var sentences:[SentenceModel]?
 

@@ -11,15 +11,14 @@ import ObjectMapper
 import Foundation
 
 class ArticleModel: BaseJsonModel {
-    var id:Int = 0
+    var id:String = ""
     var lang:Int = 0
     var title:String = ""
     var performer:String = ""
     var description:String = ""
     
-    var media_url:String = ""
-    var media_name:String = ""
     var paragraphs = [ParagraphModel]()
+    var medias = [MediaModel]()
 
     override func mapping(map: Map) {
         id <- map["id"]
@@ -28,8 +27,7 @@ class ArticleModel: BaseJsonModel {
         performer <- map["performer"]
         description <- map["description"]
         paragraphs <- map["paragraphs"]
-        media_url <- map["media_url"]
-        media_name <- map["media_name"]
+        medias <- map["medias"]
         
         if(paragraphs == nil){
             paragraphs = []

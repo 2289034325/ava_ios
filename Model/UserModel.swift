@@ -106,7 +106,7 @@ extension UserModel{
 
     class func Login(_ username:String,password:String ,
                      code:String,loginTicket:String,
-                     completionHandler: @escaping (V2ValueResponse<[String:String]>, Bool) -> Void){
+                     completionHandler: @escaping (V2ValueResponse<String>, Bool) -> Void){
         let prames = [
             "password": password,
             "username": username
@@ -117,7 +117,7 @@ extension UserModel{
         //为安全，此处使用https
         var loginUrl = API_BASE_URL+"/auth/login/"+loginTicket+"/"+code
         //登录
-        Alamofire.request(loginUrl,method:.post, parameters: prames, encoding: JSONEncoding.default,headers: dict).responseJSON{
+        Alamofire.request(loginUrl,method:.post, parameters: prames, encoding: JSONEncoding.default,headers: dict).responseString{
             (response) -> Void in
 
             var statusCode = response.response?.statusCode
@@ -130,7 +130,7 @@ extension UserModel{
                 completionHandler(V2ValueResponse(success: false,message: error_msg),false)
             }
             else{
-                var res = response.result.value as! [String:String]
+                var res = response.result.value!
                 completionHandler(V2ValueResponse(value: res, success: true),false)
             }
         }
@@ -163,23 +163,6 @@ extension UserModel{
                 completionHandler(false);
             }
         }
-    }
-    
-    class func getUserInfoByUsername(_ username:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){
-        
-        _ = UserApi.provider.requestAPI(.getUserInfo(username: username))
-            .mapResponseToObj(UserModel.self)
-            .subscribe(onNext: { (userModel) in
-                V2User.sharedInstance.user = userModel
-                //将头像更新进 keychain保存的users中
-                if let avatar = userModel.avatar_large {
-                    V2UsersKeychain.sharedInstance.update(username, password: nil, avatar: "https:" + avatar )
-                }
-                completionHandler?(V2ValueResponse(value: userModel, success: true))
-                return ;
-            }, onError: { (error) in
-                completionHandler?(V2ValueResponse(success: false,message: "获取用户信息失败"))
-            });
     }
 
     class func getUserInfoFromToken(_ token:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){

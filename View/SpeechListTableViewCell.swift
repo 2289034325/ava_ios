@@ -49,8 +49,6 @@ class SpeechListTableViewCell: UITableViewCell {
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView = UIView()
 
-    var itemModel:PublicBookModel?
-
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }

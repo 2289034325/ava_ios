@@ -18,7 +18,7 @@ import TinderSwipeView
 
 class LearnTestViewController: UIViewController {
 
-    var book:UserBookModel
+    var lang:Int
     var words:[WordModel]
     var questions:[QuestionModel]
 
@@ -78,16 +78,16 @@ class LearnTestViewController: UIViewController {
     
     var actionFloatView: LearnTestRightFloatView!
 
-    init(book:UserBookModel,words:[WordModel]) {
+    init(lang:Int,words:[WordModel]) {
 
-        self.book = book
+        self.lang = lang
         self.words = words
 
         if words.count == 0 {
             fatalError("need at least one words!")
         }
 
-        learnRecord = LearnRecordModel(user_book:self.book,word_count:self.words.count)
+        learnRecord = LearnRecordModel(lang:self.lang,word_count:self.words.count)
 
         //生成question
         self.questions = [QuestionModel]()
@@ -290,8 +290,8 @@ class LearnTestViewController: UIViewController {
             //冻结页面，提示10秒后重新回答
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.show(withStatus: "最后一题回答错误，请在10秒后重新回答")
-            
             self.questionView.closeAnswer()
+            self.questionView.question.plusAnswerTimes()
             
             var tc = 10
             let timer = Timer.init(timeInterval: 1, repeats:true) { (kTimer) in

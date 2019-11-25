@@ -13,9 +13,9 @@ import ObjectMapper
 import Foundation
 
 class SentenceModel: BaseJsonModel {
-    var id:Int?
-    var word_id:Int?
-    var explain_id:Int?
+    var id:String?
+    var word_id:String?
+    var explain_id:String?
     var word:String?
     var sentence:String?
     var translation:String?

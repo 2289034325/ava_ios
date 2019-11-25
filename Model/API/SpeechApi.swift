@@ -14,7 +14,7 @@ enum SpeechApi {
     case getSpeechList()
     
     //获取完整的脚本信息
-    case getArticle(article_id: Int)
+    case getArticle(article_id: String)
 }
 
 extension SpeechApi: V2EXTargetType {
@@ -41,9 +41,9 @@ extension SpeechApi: V2EXTargetType {
     var path: String {
         switch self {
         case .getSpeechList():
-            return "/speech/article/list"
+            return "/app/speech/article/list"
         case let .getArticle(article_id):
-            return "/speech/article/\(article_id)"
+            return "/app/speech/article/\(article_id)"
         }
     }
 

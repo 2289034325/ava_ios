@@ -10,7 +10,7 @@ import Foundation
 
 class LearnRecordWordModel:Codable {
     var word:WordModel
-    var word_id:Int
+    var word_id:String
     var answer_times:Int
     var wrong_times:Int
     var learn_phase:Int
@@ -27,7 +27,7 @@ class LearnRecordWordModel:Codable {
     required init(from decoder: Decoder) {
         self.word = WordModel()
 
-        word_id = 0
+        word_id = ""
         answer_times = 0
         wrong_times = 0
         learn_phase = 0

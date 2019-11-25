@@ -11,7 +11,7 @@ import ObjectMapper
 import Foundation
 
 class ParagraphModel: BaseJsonModel {
-    var id:Int = 0
+    var id:String = ""
     var text:String = ""
     var translation:String = ""
     var performer:String = ""

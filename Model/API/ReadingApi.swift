@@ -44,13 +44,13 @@ extension ReadingApi: V2EXTargetType {
     var path: String {
         switch self {
         case .bookMarkList:
-            return "reading/bookmark/list"
+            return "app/reading/bookmark/list"
         case .addBookMark:
-            return "reading/bookmark"
+            return "app/reading/bookmark"
         case .editBookMark:
-            return "reading/bookmark"
+            return "app/reading/bookmark"
         case let .deleteBookMark(bookMark):
-            return "reading/bookmark/\(bookMark.id)"
+            return "app/reading/bookmark/\(bookMark.id)"
         default:
             return ""
         }

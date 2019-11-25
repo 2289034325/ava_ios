@@ -17,7 +17,7 @@ import SnapKit
 
 
 class WordScanViewController: UIPageViewController {
-    var book:UserBookModel?
+    var lang: Int?
     var words = [WordModel]()
     var curr_word_index:Int = 0
     var title_panel:UIView?
@@ -161,7 +161,7 @@ extension WordScanViewController {
     //开始测试
     @objc func rightClick(){
 //        let testController = LearnTestViewController(transitionStyle:UIPageViewController.TransitionStyle.scroll, navigationOrientation:UIPageViewController.NavigationOrientation.horizontal)
-        let testController = LearnTestViewController(book:self.book!,words:self.words)
+        let testController = LearnTestViewController(lang:self.lang!,words:self.words)
         testController.hidesBottomBarWhenPushed = true
         testController.refrenceView = "wordscan"
         self.navigationController?.pushViewController(testController, animated: true)

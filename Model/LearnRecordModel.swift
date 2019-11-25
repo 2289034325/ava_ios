@@ -10,9 +10,7 @@ import Foundation
 
 class LearnRecordModel:Codable {
     var id:String
-    var user_id:Int
-    var book_id:Int
-    var user_book_id:Int
+    var lang:Int
     var word_count:Int
     var answer_times:Int
     var wrong_times:Int
@@ -22,11 +20,9 @@ class LearnRecordModel:Codable {
 
 
 
-    init(user_book:UserBookModel,word_count:Int){
+    init(lang:Int,word_count:Int){
         self.id = UUID().uuidString
-        self.user_id = user_book.user_id
-        self.book_id = user_book.book_id
-        self.user_book_id = user_book.id
+        self.lang = lang
         self.word_count = word_count
         answer_times = 0
         wrong_times = 0

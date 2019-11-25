@@ -21,26 +21,26 @@ import SVProgressHUD
 class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate {
     
     
-//    func expandMenu(expand: Bool) {
-//        if(expand){
-////            constraintsOfRecordMenu[4].constant = 40
-//            recrdMenuView.snp.removeConstraints()
-//            recrdMenuView.snp.makeConstraints{ (make) -> Void in
-//                make.bottom.left.right.equalTo(self.view)
-//                make.height.equalTo(40)
-//            }
-//            recrdMenuView.collectionView.collectionViewLayout.invalidateLayout()
-//        }
-//        else{
-////            constraintsOfRecordMenu[4].constant = 0
-//            recrdMenuView.snp.removeConstraints()
-//            recrdMenuView.snp.makeConstraints{ (make) -> Void in
-//                make.bottom.left.right.equalTo(self.view)
-//                make.height.equalTo(0)
-//            }
-//            recrdMenuView.collectionView.collectionViewLayout.invalidateLayout()
-//        }
-//    }
+    //    func expandMenu(expand: Bool) {
+    //        if(expand){
+    ////            constraintsOfRecordMenu[4].constant = 40
+    //            recrdMenuView.snp.removeConstraints()
+    //            recrdMenuView.snp.makeConstraints{ (make) -> Void in
+    //                make.bottom.left.right.equalTo(self.view)
+    //                make.height.equalTo(40)
+    //            }
+    //            recrdMenuView.collectionView.collectionViewLayout.invalidateLayout()
+    //        }
+    //        else{
+    ////            constraintsOfRecordMenu[4].constant = 0
+    //            recrdMenuView.snp.removeConstraints()
+    //            recrdMenuView.snp.makeConstraints{ (make) -> Void in
+    //                make.bottom.left.right.equalTo(self.view)
+    //                make.height.equalTo(0)
+    //            }
+    //            recrdMenuView.collectionView.collectionViewLayout.invalidateLayout()
+    //        }
+    //    }
     
     var article: ArticleModel?
     
@@ -60,19 +60,19 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     let mediaView = UIView()
     let tableView = UITableView()
     let recrdMenuView = RecordMenuView()
-//    let playerMenuView = PlayerMenuView()
+    //    let playerMenuView = PlayerMenuView()
     
-//    var constraintsOfRecordMenu:[NSLayoutConstraint] = []
+    //    var constraintsOfRecordMenu:[NSLayoutConstraint] = []
     
     // 实例化UIMenuController会crash!!!
-//    var selMenu: UIMenuController = {
-//       let mn = UIMenuController()
-//        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
-//        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
-//        mn.menuItems = [mi_ava,mi_ggl]
-//
-//        return mn
-//    }()
+    //    var selMenu: UIMenuController = {
+    //       let mn = UIMenuController()
+    //        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
+    //        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
+    //        mn.menuItems = [mi_ava,mi_ggl]
+    //
+    //        return mn
+    //    }()
     
     func setupCustomMenu() {
         let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
@@ -84,21 +84,21 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     @objc func searchAVA(_ sender:Any?){
         let md = selectionText!
         _ = DictionaryApi.provider
-                        .requestAPI(.searchWord(lang: article!.lang, form: md))
-                        .mapResponseToObj(WordSearchModel.self)
-                        .subscribe(onNext: { (response) in
-        
-                            let popUpView = SearchPopUpView()
-                            popUpView.setInfo(word: response.word!)
-                            let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                            alertView.setValue(popUpView, forKey: "contentViewController")
-        
-                            alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                            self.present(alertView, animated: true, completion: nil)
-        
-                        }, onError: { (error) in
-                            SVProgressHUD.showError(withStatus: error.rawString())
-                        })
+            .requestAPI(.searchWord(lang: article!.lang, form: md))
+            .mapResponseToObj(WordSearchModel.self)
+            .subscribe(onNext: { (response) in
+                
+                let popUpView = SearchPopUpView()
+                popUpView.setInfo(word: response.word!)
+                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                alertView.setValue(popUpView, forKey: "contentViewController")
+                
+                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertView, animated: true, completion: nil)
+                
+            }, onError: { (error) in
+                SVProgressHUD.showError(withStatus: error.rawString())
+            })
     }
     
     @objc func searchGGL(_ sender:Any?){
@@ -135,7 +135,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         super.viewDidLoad()
         
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
         
         setSubviews()
         
@@ -162,16 +162,16 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     
     func setSubviews(){
-                
+        
         tableView.dataSource = self
         tableView.delegate = self
-//        playerMenuView.delegate = self
+        //        playerMenuView.delegate = self
         
         self.edgesForExtendedLayout = []
         
         self.view.addSubview(mediaView)
         self.view.addSubview(tableView)
-//        self.view.addSubview(playerMenuView)
+        //        self.view.addSubview(playerMenuView)
         self.view.addSubview(recrdMenuView)
         
         mediaView.snp.makeConstraints{ (make) -> Void in
@@ -188,7 +188,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             make.bottom.left.right.equalTo(self.view)
             make.height.equalTo(50)
         }
-
+        
         tableView.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(mediaView.snp.bottom)
             make.left.right.equalTo(self.view)
@@ -215,7 +215,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?{
-       
+        
         let hv = UIView()
         hv.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         let htl = UILabel()
@@ -241,25 +241,25 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         return hv
     }
     
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//
-//        return 100.0 // You can set any other value, it's up to you
-//    }
+    //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    //
+    //        return 100.0 // You can set any other value, it's up to you
+    //    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-//        let paragraph = self.article!.paragraphs[indexPath.section]
-//        let split = paragraph.splits[indexPath.row]
-//        let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
-//        let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
-//        let text = String(paragraph.text[startIndex ..< endIndex])
+        //        let paragraph = self.article!.paragraphs[indexPath.section]
+        //        let split = paragraph.splits[indexPath.row]
+        //        let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
+        //        let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
+        //        let text = String(paragraph.text[startIndex ..< endIndex])
         
-//        let htl = UILabel()
-//        htl.font = v2Font(18)
-//        htl.numberOfLines = 0
-//        htl.lineBreakMode = .byWordWrapping
-//        htl.text =  "  "+text
-//        return htl.actualHeight(SCREEN_WIDH-10)+10
+        //        let htl = UILabel()
+        //        htl.font = v2Font(18)
+        //        htl.numberOfLines = 0
+        //        htl.lineBreakMode = .byWordWrapping
+        //        htl.text =  "  "+text
+        //        return htl.actualHeight(SCREEN_WIDH-10)+10
         
         // 自动适配高度!!!
         return UITableViewAutomaticDimension
@@ -271,29 +271,29 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         
         let paragraph = self.article!.paragraphs[indexPath.section]
         let split = paragraph.splits[indexPath.row]
-
-//        let label = UILabel()
-//        label.font = v2Font(18)
-//        label.numberOfLines = 0
-//        label.lineBreakMode = .byWordWrapping
-//        let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
-//        let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
-//        label.text = "  "+String(paragraph.text[startIndex ..< endIndex])
-//
-//        let splitDbTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.splitDbTapAction))
-//        splitDbTap.numberOfTapsRequired = 2
-//
-//        label.isUserInteractionEnabled = true
-//        label.addGestureRecognizer(splitDbTap)
-//
-//        label.accessibilityElements = [split]
-//
-//        cell.contentView.addSubview(label)
-//        label.snp.makeConstraints{ (make) -> Void in
-//            make.top.equalTo(cell.contentView).offset(5)
-//            make.left.equalTo(cell.contentView).offset(5)
-//            make.right.equalTo(cell.contentView).offset(-5)
-//        }
+        
+        //        let label = UILabel()
+        //        label.font = v2Font(18)
+        //        label.numberOfLines = 0
+        //        label.lineBreakMode = .byWordWrapping
+        //        let startIndex = paragraph.text.index(paragraph.text.startIndex, offsetBy: split.start_index)
+        //        let endIndex =  paragraph.text.index(paragraph.text.startIndex, offsetBy: split.end_index+1)
+        //        label.text = "  "+String(paragraph.text[startIndex ..< endIndex])
+        //
+        //        let splitDbTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.splitDbTapAction))
+        //        splitDbTap.numberOfTapsRequired = 2
+        //
+        //        label.isUserInteractionEnabled = true
+        //        label.addGestureRecognizer(splitDbTap)
+        //
+        //        label.accessibilityElements = [split]
+        //
+        //        cell.contentView.addSubview(label)
+        //        label.snp.makeConstraints{ (make) -> Void in
+        //            make.top.equalTo(cell.contentView).offset(5)
+        //            make.left.equalTo(cell.contentView).offset(5)
+        //            make.right.equalTo(cell.contentView).offset(-5)
+        //        }
         
         let textView = MyTextView()
         textView.isEditable = false
@@ -307,12 +307,12 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         
         let splitDbTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.splitDbTapAction))
         splitDbTap.numberOfTapsRequired = 2
-
+        
         textView.isUserInteractionEnabled = true
         textView.addGestureRecognizer(splitDbTap)
-
+        
         textView.accessibilityElements = [split]
-
+        
         cell.contentView.addSubview(textView)
         textView.snp.makeConstraints{ (make) -> Void in
             // top 和 bottom约束必须都有，否则textView不能等自动适配高度!!!
@@ -326,32 +326,32 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         return cell
     }
     
-//    override func viewDidDisappear(_ animated: Bool) {
-//        NotificationCenter.default.removeObserver(NSNotification.Name.UIPasteboardChanged)
-//        super.viewDidDisappear(animated)
-//    }
+    //    override func viewDidDisappear(_ animated: Bool) {
+    //        NotificationCenter.default.removeObserver(NSNotification.Name.UIPasteboardChanged)
+    //        super.viewDidDisappear(animated)
+    //    }
     
-//    @objc func pasteboardChanged(_ notification: Notification) {
-//        if let md = UIPasteboard.general.string{
-//
-//            _ = DictionaryApi.provider
-//                .requestAPI(.searchWord(lang: 1, form: md))
-//                .mapResponseToObj(WordModel.self)
-//                .subscribe(onNext: { (response) in
-//
-//                    let popUpView = SearchPopUpView()
-//                    popUpView.setInfo(word: response)
-//                    let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-//                    alertView.setValue(popUpView, forKey: "contentViewController")
-//
-//                    alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//                    self.present(alertView, animated: true, completion: nil)
-//
-//                }, onError: { (error) in
-//                    SVProgressHUD.showError(withStatus: error.rawString())
-//                })
-//        }
-//    }
+    //    @objc func pasteboardChanged(_ notification: Notification) {
+    //        if let md = UIPasteboard.general.string{
+    //
+    //            _ = DictionaryApi.provider
+    //                .requestAPI(.searchWord(lang: 1, form: md))
+    //                .mapResponseToObj(WordModel.self)
+    //                .subscribe(onNext: { (response) in
+    //
+    //                    let popUpView = SearchPopUpView()
+    //                    popUpView.setInfo(word: response)
+    //                    let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+    //                    alertView.setValue(popUpView, forKey: "contentViewController")
+    //
+    //                    alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    //                    self.present(alertView, animated: true, completion: nil)
+    //
+    //                }, onError: { (error) in
+    //                    SVProgressHUD.showError(withStatus: error.rawString())
+    //                })
+    //        }
+    //    }
     
     @objc func headerDbTapAction(sender:UITapGestureRecognizer) {
         
@@ -422,11 +422,11 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 self.article = response
                 self.tableView.reloadData()
                 
-//                self.playerMenuView.playCell?.end_time = self.article!.paragraphs[0].splits[0].end_time
-//                self.playerMenuView.playCell?.loadMedia(media_url: self.article!.media_url, media_name: self.article!.media_name)
+                //                self.playerMenuView.playCell?.end_time = self.article!.paragraphs[0].splits[0].end_time
+                //                self.playerMenuView.playCell?.loadMedia(media_url: self.article!.media_url, media_name: self.article!.media_name)
                 
                 
-                self.loadMedia(media_url: response.media_url, media_name: response.media_name)
+                self.loadMedia()
                 
             }, onError: { (error) in
                 SVProgressHUD.showError(withStatus: error.rawString())
@@ -435,76 +435,91 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     // 有时候服务端会重新上传视频，这里就需要强制重新下载
     func reloadMedia(){
-        let media_url = self.article!.media_url
-        let media_name = self.article!.media_name
+        let medias = self.article!.medias.filter { (model) -> Bool in
+        return model.usage == MediaUsages.ORIGIN.value
+        }
         
-        let url = URL(string:media_url)
-        Downloader.loadFileAsync(url: url!, fileName: media_name, overWrite: true, completion: {filePath,error in self.initMedia(filePath!) })
+        if(medias.count > 0)
+        {
+            let media = medias[0]
+            
+            let url = URL(string:media.getDownloadUrl())
+            Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: true, completion: {filePath,error in self.initMedia(filePath!) })
+        }
     }
     
-    func loadMedia(media_url:String,media_name:String){
-        let fileManager = FileManager.default
-        var paths: [String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as [String]
-        
-        let mediafilePath = paths[0].appending("/\(media_name)")
-        if !fileManager.fileExists(atPath: mediafilePath)
-        {
-            let url = URL(string:media_url)
-            Downloader.loadFileAsync(url: url!, fileName: media_name, overWrite: false, completion: {filePath,error in self.initMedia(filePath!) })
+    func loadMedia(){
+        let medias = self.article!.medias.filter { (model) -> Bool in
+        return model.usage == MediaUsages.ORIGIN.value
         }
-        else{
-            initMedia(mediafilePath)
+        
+        if(medias.count > 0)
+        {
+            let media = medias[0]
+            
+            let fileManager = FileManager.default
+            var paths: [String] = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true) as [String]
+            
+            let mediafilePath = paths[0].appending("/\(media.name)")
+            if !fileManager.fileExists(atPath: mediafilePath)
+            {
+                let url = URL(string:media.getDownloadUrl())
+                Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: false, completion: {filePath,error in self.initMedia(filePath!) })
+            }
+            else{
+                initMedia(mediafilePath)
+            }
         }
     }
     
     func initMedia(_ mediafilePath:String){
-//        do {
-//            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-//        } catch _ {}
+        //        do {
+        //            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        //        } catch _ {}
         
         do {
             let videoURL = URL(fileURLWithPath: mediafilePath)
-//            vController.player = AVPlayer(url: videoURL!)
+            //            vController.player = AVPlayer(url: videoURL!)
             let item = AVPlayerItem(url: videoURL)
             
             if self.player == nil {
                 self.player = AVPlayer(playerItem: item)
-//                var times = [NSValue]()
-//                self.article?.paragraphs.forEach({ paragraph in
-//                    var tms = [NSValue]()
-//                    paragraph.splits.forEach({ (split) in
-//                        print(split.start_time,split.end_time)
-//                        let t = CMTimeMakeWithSeconds(TimeInterval(split.end_time), 1000000000)
-//                        tms.append(NSValue(time:t))
-//                        print(NSValue(time:t))
-//                    })
-//                    times.append(contentsOf: tms)
-//                })
+                //                var times = [NSValue]()
+                //                self.article?.paragraphs.forEach({ paragraph in
+                //                    var tms = [NSValue]()
+                //                    paragraph.splits.forEach({ (split) in
+                //                        print(split.start_time,split.end_time)
+                //                        let t = CMTimeMakeWithSeconds(TimeInterval(split.end_time), 1000000000)
+                //                        tms.append(NSValue(time:t))
+                //                        print(NSValue(time:t))
+                //                    })
+                //                    times.append(contentsOf: tms)
+                //                })
                 
             } else {
                 throw "player has already been initialized"
             }
             
-//            let playerLayer = AVPlayerLayer.init(player: self.player)
-//            playerLayer.videoGravity = .resizeAspect
-//            playerLayer.frame = self.mediaView.bounds
-//            self.mediaView.layer.addSublayer(playerLayer)
+            //            let playerLayer = AVPlayerLayer.init(player: self.player)
+            //            playerLayer.videoGravity = .resizeAspect
+            //            playerLayer.frame = self.mediaView.bounds
+            //            self.mediaView.layer.addSublayer(playerLayer)
             
-//            self.playerMenuView.playCell?.player = vController!.player
+            //            self.playerMenuView.playCell?.player = vController!.player
             
-//            player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: audiofilePath))
-//            player!.prepareToPlay()
+            //            player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: audiofilePath))
+            //            player!.prepareToPlay()
             
-//            self.player?.play()
+            //            self.player?.play()
             
         } catch let error as NSError {
             print(error)
         }
     }
     
-//    func downloadMedia(_ downloadUrl:URL,_ fileName:String){
-//        Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initMedia(filePath!) })
-//    }
+    //    func downloadMedia(_ downloadUrl:URL,_ fileName:String){
+    //        Downloader.loadFileAsync(url: downloadUrl, fileName: fileName, completion: {filePath,error in self.initMedia(filePath!) })
+    //    }
     
     lazy var menuController: UIAlertController = {
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -580,7 +595,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
         fatalError("init(coder:) has not been implemented")
     }
     
-    func expandMenu(){
+    @objc func expandMenu(){
         present(menuController, animated: true, completion: nil)
     }
 }

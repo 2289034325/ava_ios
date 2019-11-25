@@ -11,7 +11,7 @@ import ObjectMapper
 import Foundation
 
 class ParagraphSplitModel: BaseJsonModel {
-    var id:Int = 0
+    var id:String = ""
     var start_index:Int = 0
     var end_index:Int = 0
     var start_time:Float = 0
@@ -22,6 +22,6 @@ class ParagraphSplitModel: BaseJsonModel {
         start_index <- map["start_index"]
         end_index <- map["end_index"]
         start_time <- map["start_time"]
-        end_time <- map["end_time"]        
+        end_time <- map["end_time"]
     }
 }

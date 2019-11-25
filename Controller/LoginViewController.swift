@@ -13,6 +13,8 @@ import SVProgressHUD
 import Alamofire
 import ObjectMapper
 
+import JWTDecode
+
 public typealias LoginSuccessHandel = (String) -> Void
 
 class LoginViewController: UIViewController {
@@ -109,7 +111,7 @@ class LoginViewController: UIViewController {
                         password: password.md5(),
                         code:code,
                         loginTicket:loginTicket){
-            (response:V2ValueResponse<[String:String]> , is2FALoggedIn:Bool) -> Void in
+            (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
             if response.success {
                 V2Success("登录成功")
                 let res = response.value!
@@ -117,18 +119,27 @@ class LoginViewController: UIViewController {
                 V2EXSettings.sharedInstance[kUserName] = userName
 
                 //保存token
-                var token = res["token"]!
-                V2EXSettings.sharedInstance[kUserToken] = res["token"]
+                var token = res
+                V2EXSettings.sharedInstance[kUserToken] = res
+                
+                var map = [String:String]()
+                //解析token
+                do{
+                let jwt = try decode(jwt: token)
+                let name = jwt.body["name"] as! String
+                let roles = jwt.body["roles"] as! String
+                
 
                 //将用户名密码保存进keychain （安全保存)
-                var avatar = res["avatar"]!
-                V2UsersKeychain.sharedInstance.addUser(userName, password: password, avatar: avatar)
+                V2UsersKeychain.sharedInstance.addUser(name, roles:roles)
 
-                var map = [String:String]()
-                map["username"] =  userName
-                map["password"] = password
-                map["avatar_large"] = avatar
-                map["avatar_normal"] = avatar
+                map["name"] =  name
+                map["roles"] = roles}
+                catch let exp{
+                    print(exp)
+                }
+//                map["avatar_large"] = avatar
+//                map["avatar_normal"] = avatar
                 V2User.sharedInstance.user = Mapper<UserModel>().map(JSON: map)
                 //调用登录成功回调
                 if let handel = self.successHandel {

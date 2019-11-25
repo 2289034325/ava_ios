@@ -12,7 +12,7 @@ class LayoutViewController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
-        let dicNav = UINavigationController(rootViewController:UserBookViewController())
+        let dicNav = UINavigationController(rootViewController:UserWordStatController())
         let speechNav = UINavigationController(rootViewController:SpeechListController())
         let readNav = UINavigationController(rootViewController:BookMarkListController())
         let myNav = UINavigationController(rootViewController:MeViewController())
