@@ -94,25 +94,22 @@ class UserWordStatController: UIViewController {
             let touchPoint = longPressGestureRecognizer.location(in: self.tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                let names = ["设为默认","删除词书", "重新开始"]
+                let names = ["学习", "复习"]
                 for name in names {
                     let action = UIAlertAction(title: name, style: .default) { (action) in
-                        
-//                        if name == "删除词书" {
-//                            self.deleteBook(indexPath.row)
-//                        }
-//                        else if name == "重新开始"{
-//                            self.restartBook(indexPath.row)
-//                        }
-//                        else{
-//                            self.setDefaultBook(indexPath.row)
-//                        }
+
+                        if name == "学习" {
+                            self.learnNew(indexPath.row)
+                        }
+                        else {
+                            self.reviewOld(indexPath.row)
+                        }
                     }
                     controller.addAction(action)
                 }
                 let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                 controller.addAction(cancelAction)
-                
+
                 present(controller, animated: true, completion: nil)
             }
         }
@@ -234,25 +231,16 @@ extension UserWordStatController:UITableViewDataSource,UITableViewDelegate {
 
     func selectedRowWithActionSheet(_ indexPath:IndexPath){
         self.tableView.deselectRow(at: indexPath, animated: true);
+        
+        let wordController = WordListController()
+        
+        let item = self.statList![indexPath.row]
+        wordController.lang = item.lang
+        wordController.page_size=20
+        wordController.page_index=0
+        wordController.hidesBottomBarWhenPushed = true
 
-        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let names = ["学习", "复习"]
-        for name in names {
-            let action = UIAlertAction(title: name, style: .default) { (action) in
-
-                if name == "学习" {
-                    self.learnNew(indexPath.row)
-                }
-                else {
-                    self.reviewOld(indexPath.row)
-                }
-            }
-            controller.addAction(action)
-        }
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        controller.addAction(cancelAction)
-
-        present(controller, animated: true, completion: nil)
+        self.navigationController?.pushViewController(wordController, animated: true)
     }
 
     @objc func learnNew(_ row:Int){

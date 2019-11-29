@@ -11,7 +11,6 @@
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
 		0614FDC91CB371A600C3740A /* V2LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0614FDC81CB371A600C3740A /* V2LeftAlignedCollectionViewFlowLayout.swift */; };
-		0620DA03214F56FC00761FBB /* TopicListApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620DA02214F56FC00761FBB /* TopicListApi.swift */; };
 		0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */; };
 		064F03B21ED5700C0094683D /* V2EXTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064F03B11ED5700C0094683D /* V2EXTargetType.swift */; };
 		0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */; };
@@ -74,6 +73,9 @@
 		4081018A22F2B50A00C6DA1B /* ReadingApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018922F2B50A00C6DA1B /* ReadingApi.swift */; };
 		4081018C22F3D5F200C6DA1B /* UserBookRightFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4081018B22F3D5F200C6DA1B /* UserBookRightFloatView.swift */; };
 		409FBC0C22E7119E00B1AA26 /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */; };
+		40B0E4BD239004200039B550 /* WordListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B0E4BC239004200039B550 /* WordListController.swift */; };
+		40B0E4BF239004830039B550 /* WordListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B0E4BE239004830039B550 /* WordListTableViewCell.swift */; };
+		40B0E4C12390F7580039B550 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B0E4C02390F7580039B550 /* Double+Extension.swift */; };
 		40D06FF6238BBECF00E2BB83 /* MediaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D06FF5238BBECF00E2BB83 /* MediaModel.swift */; };
 		40D06FF8238BD42C00E2BB83 /* MediaUsages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D06FF7238BD42C00E2BB83 /* MediaUsages.swift */; };
 		8037FC86233213BE00DB34ED /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8037FC85233213BE00DB34ED /* CALayer+Extension.swift */; };
@@ -124,7 +126,6 @@
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
 		0614FDC81CB371A600C3740A /* V2LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
-		0620DA02214F56FC00761FBB /* TopicListApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListApi.swift; sourceTree = "<group>"; };
 		0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXSettings.swift; sourceTree = "<group>"; };
 		064F03B11ED5700C0094683D /* V2EXTargetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXTargetType.swift; sourceTree = "<group>"; };
 		0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+FINAutomaticHeightCell.swift"; sourceTree = "<group>"; };
@@ -196,6 +197,9 @@
 		4081018922F2B50A00C6DA1B /* ReadingApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingApi.swift; sourceTree = "<group>"; };
 		4081018B22F3D5F200C6DA1B /* UserBookRightFloatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBookRightFloatView.swift; sourceTree = "<group>"; };
 		409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleModel.swift; sourceTree = "<group>"; };
+		40B0E4BC239004200039B550 /* WordListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordListController.swift; sourceTree = "<group>"; };
+		40B0E4BE239004830039B550 /* WordListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordListTableViewCell.swift; sourceTree = "<group>"; };
+		40B0E4C02390F7580039B550 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		40D06FF5238BBECF00E2BB83 /* MediaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaModel.swift; sourceTree = "<group>"; };
 		40D06FF7238BD42C00E2BB83 /* MediaUsages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaUsages.swift; sourceTree = "<group>"; };
 		44B6C123CE7CA62B5B4450D9 /* Pods-AVA-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AVA-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AVA-Swift/Pods-AVA-Swift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -259,7 +263,6 @@
 		0620DA01214F56E800761FBB /* API */ = {
 			isa = PBXGroup;
 			children = (
-				0620DA02214F56FC00761FBB /* TopicListApi.swift */,
 				804B9493234B785000369936 /* OtherApi.swift */,
 				C2207FE837BC256E49304E3E /* DictionaryApi.swift */,
 				4081018922F2B50A00C6DA1B /* ReadingApi.swift */,
@@ -295,6 +298,7 @@
 				8037FC85233213BE00DB34ED /* CALayer+Extension.swift */,
 				804B9491234B665200369936 /* UITextView+Extension.swift */,
 				804B9497234B8AC000369936 /* MyWKWebView.swift */,
+				40B0E4C02390F7580039B550 /* Double+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -385,6 +389,7 @@
 				C22CCFBE76B908C7E7F54A7F /* LearnTestViewController.swift */,
 				C221B046F8360B69D24F83C4 /* MeViewController.swift */,
 				C22139B81026470D3B418227 /* BookMarkListController.swift */,
+				40B0E4BC239004200039B550 /* WordListController.swift */,
 				4081018322EFE4D600C6DA1B /* ReadingBrowserController.swift */,
 			);
 			path = Controller;
@@ -430,6 +435,7 @@
 				C22CC81C0F1317BE812A05F5 /* WordTitleTableViewCell.swift */,
 				C22C8BA8B05A3E99BB513CFC /* SpeechListTableViewCell.swift */,
 				80C75C8123150F8A00144CF1 /* BookMarkListTableViewCell.swift */,
+				40B0E4BE239004830039B550 /* WordListTableViewCell.swift */,
 				4081016D22E858AF00C6DA1B /* PlayerMenuView.swift */,
 				4081016E22E858AF00C6DA1B /* RecordMenuView.swift */,
 				4081018B22F3D5F200C6DA1B /* UserBookRightFloatView.swift */,
@@ -706,6 +712,7 @@
 				06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */,
 				0610F1B01C46136300481402 /* BaseModel.swift in Sources */,
 				069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */,
+				40B0E4BF239004830039B550 /* WordListTableViewCell.swift in Sources */,
 				4081017622E85FC000C6DA1B /* Downloader.swift in Sources */,
 				0614FDC91CB371A600C3740A /* V2LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */,
@@ -732,6 +739,7 @@
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */,
 				804B9492234B665200369936 /* UITextView+Extension.swift in Sources */,
+				40B0E4C12390F7580039B550 /* Double+Extension.swift in Sources */,
 				804B949A234F2B9900369936 /* WordSearch.swift in Sources */,
 				4081017322E859BF00C6DA1B /* ParagraphModel.swift in Sources */,
 				804B9494234B785000369936 /* OtherApi.swift in Sources */,
@@ -740,7 +748,6 @@
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
 				4081017422E859BF00C6DA1B /* ParagraphSplitModel.swift in Sources */,
 				409FBC0C22E7119E00B1AA26 /* ArticleModel.swift in Sources */,
-				0620DA03214F56FC00761FBB /* TopicListApi.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */,
 				C2265112502B0C95A4A16942 /* String+Extension.swift in Sources */,
@@ -752,6 +759,7 @@
 				C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */,
 				C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */,
 				4081018022EAC45E00C6DA1B /* V2RefreshFooter.swift in Sources */,
+				40B0E4BD239004200039B550 /* WordListController.swift in Sources */,
 				C2239D71F7635AA9B09D4F1C /* Reactive+Extension.swift in Sources */,
 				C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */,
 				4081016822E8585900C6DA1B /* SpeechController.swift in Sources */,

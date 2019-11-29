@@ -18,8 +18,13 @@ class WordModel: Mappable {
     var explains:[ExplainModel]?
     var sentences = [SentenceModel]()
     var questions:[QuestionModel]?
+    
+    var last_review_time: Date?;
+    var next_review_date: Date?;
+    var answer_times: Int?;
+    var wrong_times: Int?;
 
-    // 记忆的第几阶段（同一个词如果在不同的词书，可能有不同的phase）
+    // 记忆的第几阶段
     var learn_phase:Int?
 
     let df : DateFormatter = {
@@ -42,6 +47,11 @@ class WordModel: Mappable {
         meaning <- map["meaning"]
         explains <- map["explains"]
         learn_phase <- map["learn_phase"]
+                
+        last_review_time <- (map["last_review_time"], DateFormatterTransform(dateFormatter: df))
+        next_review_date <- (map["next_review_date"], DateFormatterTransform(dateFormatter: df))
+        answer_times <- map["answer_times"]
+        wrong_times <- map["wrong_times"]
 
         if(explains == nil){
             explains = []
@@ -76,5 +86,14 @@ class WordModel: Mappable {
         }
 
         return qs
+    }
+    
+    func getWrongRate()->Double{
+        if(self.answer_times! == 0){
+            return 0.00
+        }
+        else{
+            return Double(self.wrong_times!*100/self.answer_times!).rounded(toPlaces: 2);
+        }
     }
 }

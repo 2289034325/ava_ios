@@ -15,7 +15,8 @@ class UserWordStatListTableViewCell: UITableViewCell {
     /// 语言国旗
     var avatarImageView: UIImageView = {
         let imageview = UIImageView()
-        imageview.contentMode=UIViewContentMode.scaleAspectFit
+        imageview.backgroundColor = UIColor.red
+        imageview.contentMode=UIViewContentMode.scaleToFill
         return imageview
     }()
     
@@ -65,8 +66,11 @@ class UserWordStatListTableViewCell: UITableViewCell {
         return label
     }()
     
-    /// 装上面定义的那些元素的容器
-    var contentPanel:UIView = UIView()
+    var bottomLine: UIView = {
+       let v = UIView()
+        v.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        return v
+    }()
     
     var itemModel:UserWordStatModel?
     
@@ -79,66 +83,27 @@ class UserWordStatListTableViewCell: UITableViewCell {
     }
     
     func setup()->Void{
-        let selectedBackgroundView = UIView()
-        self.selectedBackgroundView = selectedBackgroundView
         
-        self.contentView .addSubview(self.contentPanel);
-        self.contentPanel.addSubview(self.langNameLabel);
-        self.contentPanel.addSubview(self.avatarImageView);
-        self.contentPanel.addSubview(self.dateAndLastLearnedLabel);
-        self.contentPanel.addSubview(self.wordCountLabel);
-        self.contentPanel.addSubview(self.wordCountIconImageView);
-        self.contentPanel.addSubview(self.todayNeedReviewCountLabel);
-        self.contentPanel.addSubview(self.todayNeedReviewCountImageView);
-        self.contentPanel.addSubview(self.progressLabel);
+        self.contentView.addSubview(self.avatarImageView);
+        self.contentView.addSubview(self.bottomLine);
         
         self.setupLayout()
 
-        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
-        self.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        self.backgroundColor=V2EXColor.colors.v2_CellWhiteBackgroundColor;
     }
     
     fileprivate func setupLayout(){
-        self.contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.top.left.right.equalTo(self.contentView);
-        }
+        
         self.avatarImageView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.equalTo(self.contentView).offset(12);
-            make.width.height.equalTo(35);
+            make.left.top.equalTo(self.contentView).offset(5);
+            make.height.equalTo(30);
+            make.width.equalTo(40);
         }
-        self.langNameLabel.snp.makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp.right).offset(10);
-            make.top.equalTo(self.avatarImageView);
-        }
-        self.dateAndLastLearnedLabel.snp.makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.avatarImageView);
-            make.left.equalTo(self.langNameLabel);
-        }
-        self.todayNeedReviewCountLabel.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.langNameLabel);
-            make.right.equalTo(self.contentPanel).offset(-12);
-        }
-        self.todayNeedReviewCountImageView.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.todayNeedReviewCountLabel);
-            make.width.height.equalTo(18);
-            make.right.equalTo(self.todayNeedReviewCountLabel.snp.left).offset(-2);
-        }
-        self.wordCountIconImageView.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.wordCountLabel);
-            make.width.height.equalTo(18);
-            make.left.equalTo(self.todayNeedReviewCountImageView.snp.left).offset(-50);
-        }
-        self.wordCountLabel.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.langNameLabel);
-            make.left.equalTo(self.wordCountIconImageView.snp.right).offset(-2);
-        }
-        self.progressLabel.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
-            make.left.equalTo(self.avatarImageView);
-            make.right.equalTo(self.contentPanel).offset(-12);
-        }
-        self.contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp.bottom).offset(-1);
+        
+        self.bottomLine.snp.makeConstraints { (make) in
+            make.height.equalTo(0.5);
+            make.left.equalTo(self.contentView).offset(10);
+            make.right.bottom.equalTo(self.contentView);
         }
     }
     
