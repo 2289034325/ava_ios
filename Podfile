@@ -30,6 +30,8 @@ def pods
     pod 'TinderSwipeView', '~> 1.1.8'
     pod 'SwiftIconFont'
     pod 'DropDown'
+    pod 'Charts'
+    pod 'ChartsRealm'
 end
 
 target 'AVA-Swift' do

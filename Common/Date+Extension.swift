@@ -6,6 +6,12 @@
 import Foundation
 
 extension Date {
+    func toShortString() -> String{
+        let dfmatter = DateFormatter()
+        dfmatter.dateFormat="MM/dd HH:mm"
+        return dfmatter.string(from: self)
+    }
+    
     func toRelativeString() -> String {
         //时间差
         let reduceTime : TimeInterval = Date().timeIntervalSince(self)

@@ -36,9 +36,6 @@ class UserWordStatModel: BaseJsonModel {
         notstart_count <- map["notstart_count"]
         last_learn_time <- (map["last_learn_time"], DateFormatterTransform(dateFormatter: df))
         last_learn_count <- map["last_learn_count"]
-
         needreview_count <- map["needreview_count"]
-
-
     }
 }

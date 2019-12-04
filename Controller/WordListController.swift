@@ -109,13 +109,19 @@ class WordListController: UIViewController,SaveBookMarkDelegate {
     }
     
     func refresh(){
+        self.page_index = 0
+        
         //获取单词列表
         _ = DictionaryApi.provider
-            .requestAPI(.getLangWords(lang:self.lang!,page_size:self.page_size,page_index:0))
+            .requestAPI(.getLangWords(lang:self.lang!,page_size:self.page_size,page_index:self.page_index))
             .mapResponseToObjArray(WordModel.self)
             .subscribe(onNext: { (response) in
                 self.words = response
                 self.tableView.reloadData()
+                
+                let refreshFooter = self.tableView.mj_footer as! V2RefreshFooter
+                refreshFooter.noMoreDataStateString = nil
+                refreshFooter.resetNoMoreData()
                 
                 self.tableView.mj_header.endRefreshing()
                 
