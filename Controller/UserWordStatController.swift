@@ -118,15 +118,15 @@ class UserWordStatController: UIViewController {
     func setupNavigationItem(){
         self.navigationController!.navigationBar.topItem?.title = "词汇"
         
-        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        rightButton.contentMode = .center
-        rightButton.tintColor = .black
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        let bimg = UIImage(from: .segoeMDL2, code: "DictionaryAdd", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
-        rightButton.setImage(bimg.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
-        
-        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: #selector(UserWordStatController.rightClick), for: .touchUpInside)
+//        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+//        rightButton.contentMode = .center
+//        rightButton.tintColor = .black
+//        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+//        let bimg = UIImage(from: .segoeMDL2, code: "DictionaryAdd", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+//        rightButton.setImage(bimg.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+//        
+//        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+//        rightButton.addTarget(self, action: #selector(UserWordStatController.rightClick), for: .touchUpInside)
         
 //        self.navigationItem.rightButtonAction(TSAsset.Barbuttonicon_add.image) { () -> Void in
 //            self.actionFloatView.hide(!self.actionFloatView.isHidden)

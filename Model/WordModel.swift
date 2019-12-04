@@ -88,12 +88,13 @@ class WordModel: Mappable {
         return qs
     }
     
-    func getWrongRate()->Double{
+    func getWrongRate()->String{
         if(self.answer_times! == 0){
-            return 0.00
+            return "0.00"
         }
         else{
-            return Double(self.wrong_times!*100/self.answer_times!).rounded(toPlaces: 2);
+            let ret = (Double(self.wrong_times!*100)/Double(self.answer_times!)).rounded(toPlaces: 2);
+            return String(ret)
         }
     }
 }

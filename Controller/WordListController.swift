@@ -70,14 +70,14 @@ class WordListController: UIViewController,SaveBookMarkDelegate {
         tableView.cancelEstimatedHeight()
         tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
                 
-        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        rightButton.contentMode = .center
-        rightButton.tintColor = .black
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        let bimg = UIImage(from: .segoeMDL2, code: "Add", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
-        rightButton.setImage(bimg.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
-        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: #selector(BookMarkListController.rightClick), for: .touchUpInside)
+//        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+//        rightButton.contentMode = .center
+//        rightButton.tintColor = .black
+//        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+//        let bimg = UIImage(from: .segoeMDL2, code: "Add", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+//        rightButton.setImage(bimg.withRenderingMode(.alwaysTemplate), for: UIControlState.normal)
+//        self.navigationController!.navigationBar.topItem!.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+//        rightButton.addTarget(self, action: #selector(BookMarkListController.rightClick), for: .touchUpInside)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in

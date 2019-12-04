@@ -38,7 +38,7 @@ class SpeechListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController!.navigationBar.topItem?.title = "脚本"
+        self.navigationController!.navigationBar.topItem?.title = "会话"
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in

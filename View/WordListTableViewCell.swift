@@ -38,6 +38,21 @@ class WordListTableViewCell: UITableViewCell {
     var phraseLabel: UILabel = {
         let label = UILabel()
         label.font=v2Font(10)
+        label.textColor = UIColor.white
+        label.layer.backgroundColor  = #colorLiteral(red: 0.6679978967, green: 0.4751212597, blue: 0.2586010993, alpha: 1)
+        label.layer.cornerRadius = 3
+        label.textAlignment = .center
+        return label
+    }()
+    
+    /// 测试次数
+    var answerTimesLabel: UILabel = {
+        let label = UILabel()
+        label.font=v2Font(10)
+        label.textColor = UIColor.white
+        label.layer.backgroundColor  = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        label.layer.cornerRadius = 3
+        label.textAlignment = .center
         return label
     }()
     
@@ -45,6 +60,10 @@ class WordListTableViewCell: UITableViewCell {
     var wrongRateLabel: UILabel = {
         let label = UILabel()
         label.font=v2Font(10)
+        label.textColor = UIColor.white
+        label.layer.backgroundColor  = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.8017979452)
+        label.layer.cornerRadius = 3
+        label.textAlignment = .center
         return label
     }()
     
@@ -70,6 +89,7 @@ class WordListTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.soundLabel);
         self.contentView.addSubview(self.meaningLabel);
         self.contentView.addSubview(self.phraseLabel);
+        self.contentView.addSubview(self.answerTimesLabel);
         self.contentView.addSubview(self.wrongRateLabel);
         self.contentView.addSubview(self.cellBottomLine);
 
@@ -94,11 +114,18 @@ class WordListTableViewCell: UITableViewCell {
         
         self.wrongRateLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.spellLabel);
+            make.width.equalTo(40)
             make.right.equalTo(self.contentView).offset(-10);
+        }
+        self.answerTimesLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.spellLabel);
+            make.width.equalTo(20)
+            make.right.equalTo(self.wrongRateLabel).offset(-45);
         }
         self.phraseLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.spellLabel);
-            make.right.equalTo(self.wrongRateLabel.snp.left).offset(-5);
+            make.width.equalTo(15)
+            make.right.equalTo(self.answerTimesLabel).offset(-25);
         }
         
         self.cellBottomLine.snp.makeConstraints { (make) in
@@ -117,6 +144,7 @@ class WordListTableViewCell: UITableViewCell {
         self.soundLabel.text = "/\(model.pronounce!)/"
         self.meaningLabel.text = model.meaning
         self.phraseLabel.text = String(model.learn_phase!)
+        self.answerTimesLabel.text = String(model.answer_times!)
         self.wrongRateLabel.text = "\(model.getWrongRate())%"
         
     }
