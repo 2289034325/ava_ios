@@ -92,6 +92,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "stopcell", for: indexPath)
             stopCell = cell as? StopCell
             stopCell?.playCell = playCell
+            stopCell?.recordCell = recordCell
         }
         else if(indexPath.row == 3){
             //音频时长
@@ -101,6 +102,8 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         }
         else if(indexPath.row == 4){
             playCell?.timeCell = timeCell
+            playCell?.initAudio()
+            playCell?.updateTimer()
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "menucell", for: indexPath)
             menuCell = cell as? MenuCell
         }
@@ -252,6 +255,8 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             audioRecorder = nil
             
             if success {
+                // reload player
+                playCell?.initAudio()
                 //            recordButton.setTitle("Tap to Re-record", for: .normal)
             } else {
                 //            recordButton.setTitle("Tap to Record", for: .normal)
@@ -335,8 +340,9 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                 {
                     player?.stop()
                     player?.currentTime = 0
+                    updateTimer()
                     imageView.image = img_play.withRenderingMode(.alwaysTemplate)
-//                    updater?.invalidate()
+                    updater?.invalidate()
                 }
                 else if( playerStatus == "reload")
                 {
@@ -376,15 +382,24 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                     return;
                 }
                 
+                // 判断录音文件是否存在
+                if(!FileManager().fileExists(atPath: RecordCell.getAudioName().path))
+                {
+                    return;
+                }
+                
                 if(playerStatus == "" || playerStatus == "reload"){
-                    let audioFilename = RecordCell.getAudioName()
-                    initAudio(audioFilename)
+                    initAudio()
                     
                     playerStatus = "pause"
                 }
                 
                 if(playerStatus == "pause" || playerStatus == "stop"){
-                    playerStatus = "play"
+                    // 判断录音文件是否存在
+                    if(FileManager().fileExists(atPath: RecordCell.getAudioName().path))
+                    {
+                        playerStatus = "play"
+                    }
                 }
                 else{
                     playerStatus = "pause"
@@ -393,7 +408,13 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         }
         
         @objc func updateTimer(){
-            timeCell?.textView.text = DateTimeUtil.stringFromTimeInterval(interval: (player?.currentTime)!)+"\n"+DateTimeUtil.stringFromTimeInterval(interval: (player?.duration)!)
+            if((player) != nil){
+                timeCell?.textView.text = DateTimeUtil.stringFromTimeInterval(interval: (player?.currentTime)!)+"\n"+DateTimeUtil.stringFromTimeInterval(interval: (player?.duration)!)
+            }
+            else{
+
+                timeCell?.textView.text = "00:00:00"+"\n"+"00:00:00"
+            }
         }
         
         override init(frame:CGRect){
@@ -409,12 +430,18 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             addConstraint(NSLayoutConstraint(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         }
         
-        func initAudio(_ audiofilePath:URL){
+        func initAudio(){
             
             do {
-                player = try AVAudioPlayer(contentsOf: audiofilePath)
-                player?.delegate = self
-                player!.prepareToPlay()
+                let audiofilePath = RecordCell.getAudioName()
+                // 判断录音文件是否存在
+                if(FileManager().fileExists(atPath: audiofilePath.path))
+                {
+                    player = try AVAudioPlayer(contentsOf: audiofilePath)
+                    player?.delegate = self
+                    player!.prepareToPlay()
+                    updateTimer()
+                }
                 
             } catch let error as NSError {
                 print(error)
@@ -429,6 +456,7 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
     class StopCell:UICollectionViewCell{
         
         var playCell:PlayCell?
+        var recordCell:RecordCell?
         
         var img_stop = UIImage(from: .segoeMDL2, code: "Stop", textColor: .black, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
         
@@ -447,6 +475,11 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             didSet{
                 //            imageView.tintColor = isSelected ? UIColor.blue : UIColor.gray
                 //            playCell?.player?.stop()
+                // 录音过程中，不做响应
+                if(recordCell!.isRecording)
+                {
+                    return
+                }
                 playCell?.playerStatus = "stop"
             }
         }

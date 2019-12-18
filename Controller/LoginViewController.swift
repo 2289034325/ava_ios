@@ -429,7 +429,7 @@ extension LoginViewController {
         
         let v2exSummaryLabel = UILabel()
         v2exSummaryLabel.font = v2Font(13);
-        v2exSummaryLabel.text = "freedom"
+        v2exSummaryLabel.text = "leading your way"
         self.view.addSubview(v2exSummaryLabel);
         v2exSummaryLabel.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(self.view)
@@ -564,7 +564,7 @@ extension LoginViewController {
         let footLabel = UILabel()
         footLabel.alpha = 0.5
         footLabel.font = v2Font(12)
-        footLabel.text = "© 2018 Fin"
+        footLabel.text = "© acxca.com"
         
         self.view.addSubview(footLabel);
         
@@ -573,14 +573,14 @@ extension LoginViewController {
             make.centerX.equalTo(self.view)
         }
         
-        self.cancelButton.contentMode = .center
-        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
-        self.view.addSubview(cancelButton)
-        cancelButton.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(footLabel)
-            make.right.equalTo(self.view).offset(-5)
-            make.width.height.equalTo(40)
-        }
+//        self.cancelButton.contentMode = .center
+//        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+//        self.view.addSubview(cancelButton)
+//        cancelButton.snp.makeConstraints{ (make) -> Void in
+//            make.centerY.equalTo(footLabel)
+//            make.right.equalTo(self.view).offset(-5)
+//            make.width.height.equalTo(40)
+//        }
         
         refreshCode()
     }

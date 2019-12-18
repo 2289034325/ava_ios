@@ -12,7 +12,6 @@ import SVProgressHUD
 class Downloader: NSObject {
     static func loadFileAsync(url: URL, fileName:String, overWrite:Bool, completion: @escaping (String?, Error?) -> Void)
     {
-        SVProgressHUD.show(withStatus: "正在下载···")
         
         let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
@@ -22,7 +21,6 @@ class Downloader: NSObject {
         {
             if(!overWrite)
             {
-                SVProgressHUD.dismiss()
                 completion(destinationUrl.path, nil)
                 return
             }
@@ -34,8 +32,6 @@ class Downloader: NSObject {
         let task = session.dataTask(with: request, completionHandler:
         {
             data, response, error in
-            
-            SVProgressHUD.dismiss()
             
             if error == nil
             {

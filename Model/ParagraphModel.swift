@@ -12,6 +12,7 @@ import Foundation
 
 class ParagraphModel: BaseJsonModel {
     var id:String = ""
+    var index:Int = 0
     var text:String = ""
     var translation:String = ""
     var performer:String = ""
@@ -19,6 +20,7 @@ class ParagraphModel: BaseJsonModel {
     
     override func mapping(map: Map) {
         id <- map["id"]
+        index <- map["index"]
         text <- map["text"]
         translation <- map["translation"]
         performer <- map["performer"]

@@ -78,8 +78,8 @@ class UserWordStatController: UIViewController {
         footer?.centerOffset = -4
         self.tableView.mj_footer = footer
         
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
-        self.tableView.addGestureRecognizer(longPressRecognizer)
+//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
+//        self.tableView.addGestureRecognizer(longPressRecognizer)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -230,11 +230,33 @@ extension UserWordStatController:UITableViewDataSource,UITableViewDelegate {
     }
 
     func selectedRowWithActionSheet(_ indexPath:IndexPath){
-        self.tableView.deselectRow(at: indexPath, animated: true);
         
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let names = ["浏览","学习", "复习"]
+        for name in names {
+            let action = UIAlertAction(title: name, style: .default) { (action) in
+                if name == "浏览" {
+                    self.scanWords(indexPath.row)
+                }
+                else if name == "学习" {
+                    self.learnNew(indexPath.row)
+                }
+                else {
+                    self.reviewOld(indexPath.row)
+                }
+            }
+            controller.addAction(action)
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        controller.addAction(cancelAction)
+
+        present(controller, animated: true, completion: nil)
+    }
+    
+    @objc func scanWords(_ row:Int){
         let wordController = WordListController()
         
-        let item = self.statList![indexPath.row]
+        let item = self.statList![row]
         wordController.lang = item.lang
         wordController.page_size=20
         wordController.page_index=0

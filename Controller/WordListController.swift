@@ -96,8 +96,8 @@ class WordListController: UIViewController,SaveBookMarkDelegate {
 //        footer!.isOnlyRefreshPerDrag = true
         self.tableView.mj_footer = footer
         
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
-        self.tableView.addGestureRecognizer(longPressRecognizer)
+//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
+//        self.tableView.addGestureRecognizer(longPressRecognizer)
     }
     
     @objc func rightClick(){

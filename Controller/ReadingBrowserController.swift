@@ -427,11 +427,13 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
             md = any as! String
         
+            SVProgressHUD.show(withStatus: "正在查询")
         _ = DictionaryApi.provider
             .requestAPI(.searchWord(lang: self.pageLang.id, form: md))
             .mapResponseToObj(WordSearchModel.self)
             .subscribe(onNext: { (response) in
-
+                SVProgressHUD.dismiss()
+                
                 let popUpView = SearchPopUpView()
                 popUpView.setInfo(word: response.word!)
                 let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
@@ -450,11 +452,13 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         var md = ""
         webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
             md = any as! String
-        
+
+        SVProgressHUD.show(withStatus: "正在查询")
         _ = OtherApi.provider
             .requestAPI(.googleTranslate(text: md))
             .mapResponseToObj(GoogleTransModel.self)
             .subscribe(onNext: { (response) in
+                SVProgressHUD.dismiss()
                 
                 let popUpView = SearchPopUpView()
                 let text = response.getAllTrans()

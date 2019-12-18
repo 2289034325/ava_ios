@@ -83,10 +83,13 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     
     @objc func searchAVA(_ sender:Any?){
         let md = selectionText!
+        SVProgressHUD.show(withStatus: "正在查询")
+        
         _ = DictionaryApi.provider
             .requestAPI(.searchWord(lang: article!.lang, form: md))
             .mapResponseToObj(WordSearchModel.self)
             .subscribe(onNext: { (response) in
+                SVProgressHUD.dismiss()
                 
                 let popUpView = SearchPopUpView()
                 popUpView.setInfo(word: response.word!)
@@ -102,12 +105,14 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
     
     @objc func searchGGL(_ sender:Any?){
-        let md = selectionText!       
+        let md = selectionText!
+        SVProgressHUD.show(withStatus: "正在查询")
         
         _ = OtherApi.provider
             .requestAPI(.googleTranslate(text: md))
             .mapResponseToObj(GoogleTransModel.self)
             .subscribe(onNext: { (response) in
+                SVProgressHUD.dismiss()
                 
                 let popUpView = SearchPopUpView()
                 let text = response.getAllTrans()                
@@ -420,6 +425,17 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             .mapResponseToObj(ArticleModel.self)
             .subscribe(onNext: { (response) in
                 self.article = response
+                // 段落排序
+                self.article?.paragraphs.sort(by: { (p1, p2) -> Bool in
+                    return p1.index<p2.index
+                })
+                // 片段排序
+                self.article?.paragraphs.forEach({ (p) in
+                    p.splits.sort { (s1, s2) -> Bool in
+                        return s1.index<s2.index
+                    }
+                })
+                
                 self.tableView.reloadData()
                 
                 //                self.playerMenuView.playCell?.end_time = self.article!.paragraphs[0].splits[0].end_time
@@ -444,13 +460,21 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             let media = medias[0]
             
             let url = URL(string:media.getDownloadUrl())
-            Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: true, completion: {filePath,error in self.initMedia(filePath!) })
+            SVProgressHUD.showInfo(withStatus: "开始下载视频")
+            Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: true, completion: {filePath,error in
+                self.initMedia(filePath!)
+                DispatchQueue.main.async {
+                  if(self.isShowing()){
+                      SVProgressHUD.showInfo(withStatus: "视频下载完成")
+                  }
+                }
+            })
         }
     }
     
     func loadMedia(){
         let medias = self.article!.medias.filter { (model) -> Bool in
-        return model.usage == MediaUsages.ORIGIN.value
+            return model.usage == MediaUsages.ORIGIN.value
         }
         
         if(medias.count > 0)
@@ -463,8 +487,16 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             let mediafilePath = paths[0].appending("/\(media.name)")
             if !fileManager.fileExists(atPath: mediafilePath)
             {
+                SVProgressHUD.showInfo(withStatus: "开始下载视频")
                 let url = URL(string:media.getDownloadUrl())
-                Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: false, completion: {filePath,error in self.initMedia(filePath!) })
+                Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: false, completion: {filePath,error in
+                    self.initMedia(filePath!)
+                    DispatchQueue.main.async {
+                      if(self.isShowing()){
+                          SVProgressHUD.showInfo(withStatus: "视频下载完成")
+                      }
+                    }
+                })
             }
             else{
                 initMedia(mediafilePath)
@@ -497,7 +529,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 //                })
                 
             } else {
-                throw "player has already been initialized"
+                print("player has already been initialized")
             }
             
             //            let playerLayer = AVPlayerLayer.init(player: self.player)

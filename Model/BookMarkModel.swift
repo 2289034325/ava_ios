@@ -13,7 +13,7 @@ import ObjectMapper
 import Foundation
 
 class BookMarkModel:Mappable,Codable{
-    var id:Int = 0
+    var id:String = ""
     var lang:Int = 0
     var name:String = ""
     var title:String = ""

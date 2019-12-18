@@ -12,6 +12,7 @@ import Foundation
 
 class ParagraphSplitModel: BaseJsonModel {
     var id:String = ""
+    var index:Int = 0
     var start_index:Int = 0
     var end_index:Int = 0
     var start_time:Float = 0
@@ -19,6 +20,7 @@ class ParagraphSplitModel: BaseJsonModel {
     
     override func mapping(map: Map) {
         id <- map["id"]
+        index <- map["index"]
         start_index <- map["start_index"]
         end_index <- map["end_index"]
         start_time <- map["start_time"]

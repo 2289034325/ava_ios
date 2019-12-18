@@ -34,4 +34,8 @@ extension UIViewController{
     func defaultBack(){
         self.navigationController?.popViewController(animated: true)
     }
+    
+    func isShowing()->Bool{
+        return (self.isViewLoaded && ((self.view?.window) != nil));
+    }
 }

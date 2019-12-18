@@ -16,6 +16,7 @@ class MediaModel: BaseJsonModel {
     var path:String = ""
     var usage:Int = 0
     var time:Float = 0
+    var url:String = ""
     
     override func mapping(map: Map) {
         id <- map["id"]
@@ -23,9 +24,11 @@ class MediaModel: BaseJsonModel {
         path <- map["path"]
         usage <- map["usage"]
         time <- map["time"]
+        url <- map["url"]
     }
     
     func getDownloadUrl() -> String{
-        return "\(API_BASE_URL)/app/speech/article/media/\(id)"
+//        return "\(API_BASE_URL)/app/speech/article/media/\(id)"
+        return self.url
     }
 }
