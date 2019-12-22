@@ -462,8 +462,8 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             let url = URL(string:media.getDownloadUrl())
             SVProgressHUD.showInfo(withStatus: "开始下载视频")
             Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: true, completion: {filePath,error in
+            DispatchQueue.main.async {
                 self.initMedia(filePath!)
-                DispatchQueue.main.async {
                   if(self.isShowing()){
                       SVProgressHUD.showInfo(withStatus: "视频下载完成")
                   }
@@ -490,8 +490,8 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
                 SVProgressHUD.showInfo(withStatus: "开始下载视频")
                 let url = URL(string:media.getDownloadUrl())
                 Downloader.loadFileAsync(url: url!, fileName: media.name, overWrite: false, completion: {filePath,error in
-                    self.initMedia(filePath!)
                     DispatchQueue.main.async {
+                      self.initMedia(filePath!)
                       if(self.isShowing()){
                           SVProgressHUD.showInfo(withStatus: "视频下载完成")
                       }
@@ -515,6 +515,7 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
             let item = AVPlayerItem(url: videoURL)
             
             if self.player == nil {
+                // player 实例化要在主线程中做，否则会crash，swift也catch不住NSException，看不到任何错误信息，傻逼东西!!!
                 self.player = AVPlayer(playerItem: item)
                 //                var times = [NSValue]()
                 //                self.article?.paragraphs.forEach({ paragraph in
