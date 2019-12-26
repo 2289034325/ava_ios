@@ -16,6 +16,8 @@ import AlamofireObjectMapper
 import ObjectMapper
 import MJRefresh
 
+import Cosmos
+
 import SVProgressHUD
 
 class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate {
@@ -25,12 +27,18 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
     var histories = [WritingHistoryModel]()
         
     let tableView = UITableView()
+//    UIPasteboard.general.string = "Hello world"
     
     func setupCustomMenu() {
+        let mi_copy = UIMenuItem(title:"Copy", action:#selector(copyTopasteboard))
         let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
         let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
-        UIMenuController.shared.menuItems = [mi_ava,mi_ggl]
+        UIMenuController.shared.menuItems = [mi_ava,mi_ggl,mi_copy]
         UIMenuController.shared.update()
+    }
+    
+    @objc func copyTopasteboard(_ sender:Any?){
+        UIPasteboard.general.string = selectionText!
     }
     
     @objc func searchAVA(_ sender:Any?){
@@ -108,13 +116,16 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
-        return 22
+        return 30
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?{
+        let split = self.splits[section]
         
         let hv = UIView()
         hv.backgroundColor = V2EXColor.colors.v2_backgroundColor;
+        
+        
         let htl = UILabel()
         htl.font = UIFont.boldSystemFont(ofSize: 17)
         htl.numberOfLines = 0
@@ -122,9 +133,18 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
         htl.text = "P\(self.splits[section].paragraph!.index)-S\(self.splits[section].index+1)"
         hv.addSubview(htl)
         htl.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(hv)
-            make.left.equalTo(hv).offset(5)
-            make.right.equalTo(hv).offset(-5)
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(5)
+        }
+        
+        // 评分
+        let scoreView = CosmosView()
+        scoreView.settings.fillMode = .half
+        scoreView.rating = Double(split.getScore())
+        hv.addSubview(scoreView)
+        scoreView.snp.makeConstraints{ (make) -> Void in
+            make.centerY.equalToSuperview()
+            make.left.equalTo(htl.snp.right).offset(5)
         }
         
 //        let splitDbTap = UITapGestureRecognizer(target: self, action: #selector(SpeechController.headerDbTapAction))
@@ -148,7 +168,7 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
         let cell = UITableViewCell()
         
 //        let paragraph = self.article!.paragraphs[indexPath.section]
-        let split = self.splits[indexPath.row]
+        let split = self.splits[indexPath.section]
         
         let textView = MyTextView()
         
@@ -168,7 +188,13 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
 //        let startIndex = split.paragraph!.text.index(split.paragraph!.text.startIndex, offsetBy: split.start_index)
 //        let endIndex =  split.paragraph!.text.index(split.paragraph!.text.startIndex, offsetBy: split.end_index+1)
 //        textView.text = String(split.paragraph!.text[startIndex ..< endIndex])
-        textView.text = split.getText()
+        if let attt = split.getAttrText(font: v2Font(18))
+        {
+            textView.attributedText = attt            
+        }
+        else{
+            textView.text = split.getText()
+        }
         textView.accessibilityElements = [split]
         
         cell.contentView.addSubview(textView)
@@ -249,11 +275,10 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
             .requestAPI(.submitText(history: ht!))
             .mapResponseToObj(WritingHistoryModel.self)
             .subscribe(onNext: { (response) in
-                let atrString = response.getDiffText(font: v2Font(18))
-                textView.attributedText = atrString
-                
+                split.histories.insert(response, at: 0)
                 textView.isEditable = false
                 SVProgressHUD.dismiss()
+                self.tableView.reloadData()
         }, onError: { (error) in
             textView.isEditable = false
             SVProgressHUD.dismiss()

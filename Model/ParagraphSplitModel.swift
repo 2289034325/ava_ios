@@ -36,4 +36,28 @@ class ParagraphSplitModel: BaseJsonModel {
         
         return text
     }
+    
+    func getAttrText(font: UIFont)->NSAttributedString?{
+        if self.histories.count == 0{
+            return nil
+        }
+        
+        self.histories.sort { (a, b) -> Bool in
+            return a.submit_time! > b.submit_time!
+        }
+        
+        return self.histories[0].getDiffText(font: font)
+    }
+    
+    func getScore()->Float{
+        if self.histories.count == 0{
+            return 0.0
+        }
+        
+        self.histories.sort { (a, b) -> Bool in
+            return a.submit_time! > b.submit_time!
+        }
+        
+        return self.histories[0].score!
+    }
 }

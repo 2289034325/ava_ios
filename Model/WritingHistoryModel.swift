@@ -50,14 +50,15 @@ class WritingHistoryModel: Mappable,Codable {
         score <- map["score"]
         content <- map["content"]
         submit_time <- (map["submit_time"], DateFormatterTransform(dateFormatter: df))
+        submit_time <- (map["submit_time"],DateFormatterTransform(dateFormatter: df))
         diffs <- map["diffs"]
-        
+                
         if(diffs == nil){
             diffs = []
         }
     }
     
-    func getDiffText(font: UIFont)->NSMutableAttributedString{
+    func getDiffText(font: UIFont)->NSMutableAttributedString?{
         let delAttribute = [ NSAttributedStringKey.foregroundColor: UIColor.green,
                              NSAttributedStringKey.font: font]
         let insAttribute = [ NSAttributedStringKey.foregroundColor: UIColor.red,
@@ -87,6 +88,6 @@ class WritingHistoryModel: Mappable,Codable {
             }
         }
         
-        return myAttrString!
+        return myAttrString
     }
 }
