@@ -13,7 +13,6 @@ import SVProgressHUD
 import Alamofire
 import ObjectMapper
 import SnapKit
-import TinderSwipeView
 
 
 class LearnTestViewController: UIViewController {

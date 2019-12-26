@@ -77,14 +77,14 @@ class BookMarkListTableViewCell: UITableViewCell {
         }
         self.avatarImageView.snp.makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(20)
         }
         self.nameLabel.snp.makeConstraints{ (make) -> Void in
             make.left.equalTo(self.avatarImageView.snp.right).offset(10);
-            make.top.equalTo(self.avatarImageView);
+            make.centerY.equalTo(self.avatarImageView);
         }
         self.titleLabel.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView.snp.bottom);
+            make.top.equalTo(self.avatarImageView.snp.bottom).offset(15);
             make.left.equalTo(self.nameLabel);
             make.right.equalTo(self.contentPanel).offset(-12);
         }
@@ -111,8 +111,8 @@ class BookMarkListTableViewCell: UITableViewCell {
     
     func getHeight(_ model:BookMarkModel)->CGFloat{
         self.titleLabel.text = model.title
-        let titleHeight = self.titleLabel.actualHeight(SCREEN_WIDTH-24)
+        let titleHeight = self.titleLabel.actualHeight(SCREEN_WIDTH-54)
         
-        return 12+40+titleHeight+12
+        return 12+20+15+titleHeight+12
     }
 }

@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import Ji
 import ObjectMapper
 import Foundation
 

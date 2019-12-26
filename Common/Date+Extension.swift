@@ -12,6 +12,12 @@ extension Date {
         return dfmatter.string(from: self)
     }
     
+    func toFullString() -> String{
+        let dfmatter = DateFormatter()
+        dfmatter.dateFormat="yyyy/MM/dd HH:mm:ss"
+        return dfmatter.string(from: self)
+    }
+    
     func toRelativeString() -> String {
         //时间差
         let reduceTime : TimeInterval = Date().timeIntervalSince(self)

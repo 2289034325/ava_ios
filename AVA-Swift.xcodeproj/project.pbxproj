@@ -41,6 +41,13 @@
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
 		2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */; };
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
+		4018432C23B04F540040DFC5 /* SampleArticleListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018432B23B04F540040DFC5 /* SampleArticleListController.swift */; };
+		4018432E23B04FA20040DFC5 /* WritingArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018432D23B04FA20040DFC5 /* WritingArticleModel.swift */; };
+		4018433023B051500040DFC5 /* WritingApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018432F23B051500040DFC5 /* WritingApi.swift */; };
+		4018433223B058FC0040DFC5 /* WritingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433123B058FC0040DFC5 /* WritingListTableViewCell.swift */; };
+		4018433423B0648F0040DFC5 /* SampleArticleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433323B0648F0040DFC5 /* SampleArticleController.swift */; };
+		4018433623B0A9390040DFC5 /* WritingHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433523B0A9390040DFC5 /* WritingHistoryModel.swift */; };
+		4018433823B363880040DFC5 /* DiffModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433723B363880040DFC5 /* DiffModel.swift */; };
 		402B07C922E84B59007DC5D2 /* SpeechApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402B07C822E84B59007DC5D2 /* SpeechApi.swift */; };
 		4043E76822DDE5F100BFCA7B /* TypIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75922DDE5EF00BFCA7B /* TypIcons.ttf */; };
 		4043E76922DDE5F100BFCA7B /* Linearicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75A22DDE5EF00BFCA7B /* Linearicons.ttf */; };
@@ -159,6 +166,13 @@
 		06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVProgressHUD+Extension.swift"; sourceTree = "<group>"; };
 		2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2ProgressHUD.swift; sourceTree = "<group>"; };
 		2D6B1BAF1CA93F970050121D /* V2User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2User.swift; sourceTree = "<group>"; };
+		4018432B23B04F540040DFC5 /* SampleArticleListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleArticleListController.swift; sourceTree = "<group>"; };
+		4018432D23B04FA20040DFC5 /* WritingArticleModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingArticleModel.swift; sourceTree = "<group>"; };
+		4018432F23B051500040DFC5 /* WritingApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingApi.swift; sourceTree = "<group>"; };
+		4018433123B058FC0040DFC5 /* WritingListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingListTableViewCell.swift; sourceTree = "<group>"; };
+		4018433323B0648F0040DFC5 /* SampleArticleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleArticleController.swift; sourceTree = "<group>"; };
+		4018433523B0A9390040DFC5 /* WritingHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingHistoryModel.swift; sourceTree = "<group>"; };
+		4018433723B363880040DFC5 /* DiffModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffModel.swift; sourceTree = "<group>"; };
 		402B07C822E84B59007DC5D2 /* SpeechApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechApi.swift; sourceTree = "<group>"; };
 		40370EF022B3382E00766293 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		40370EF122B3385E00766293 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -267,6 +281,7 @@
 				C2207FE837BC256E49304E3E /* DictionaryApi.swift */,
 				4081018922F2B50A00C6DA1B /* ReadingApi.swift */,
 				402B07C822E84B59007DC5D2 /* SpeechApi.swift */,
+				4018432F23B051500040DFC5 /* WritingApi.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -381,7 +396,9 @@
 				C22A5130ACA999CFFB341AE4 /* UserWordStatController.swift */,
 				C224782FB8D8C5BA00A465BE /* LayoutViewController.swift */,
 				C22B2C0504070406B222EE33 /* SpeechListController.swift */,
+				4018432B23B04F540040DFC5 /* SampleArticleListController.swift */,
 				4081016722E8585900C6DA1B /* SpeechController.swift */,
+				4018433323B0648F0040DFC5 /* SampleArticleController.swift */,
 				C225833574CBA028B300E23A /* WordScanViewController.swift */,
 				C22AEE5BCAFE2EC81953D16D /* WordViewController.swift */,
 				C221590D741825FF89945CCE /* QuestionViewController.swift */,
@@ -403,6 +420,9 @@
 				0610F1AF1C46136300481402 /* BaseModel.swift */,
 				4081018122EACB1300C6DA1B /* UserModel.swift */,
 				409FBC0B22E7119E00B1AA26 /* ArticleModel.swift */,
+				4018432D23B04FA20040DFC5 /* WritingArticleModel.swift */,
+				4018433523B0A9390040DFC5 /* WritingHistoryModel.swift */,
+				4018433723B363880040DFC5 /* DiffModel.swift */,
 				4081017122E859BF00C6DA1B /* ParagraphModel.swift */,
 				4081017222E859BF00C6DA1B /* ParagraphSplitModel.swift */,
 				40D06FF5238BBECF00E2BB83 /* MediaModel.swift */,
@@ -434,6 +454,7 @@
 				C22AB017743E97CEC5E90306 /* MeLogoutTableViewCell.swift */,
 				C22CC81C0F1317BE812A05F5 /* WordTitleTableViewCell.swift */,
 				C22C8BA8B05A3E99BB513CFC /* SpeechListTableViewCell.swift */,
+				4018433123B058FC0040DFC5 /* WritingListTableViewCell.swift */,
 				80C75C8123150F8A00144CF1 /* BookMarkListTableViewCell.swift */,
 				40B0E4BE239004830039B550 /* WordListTableViewCell.swift */,
 				4081016D22E858AF00C6DA1B /* PlayerMenuView.swift */,
@@ -657,15 +678,6 @@
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/open-iconic.ttf",
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/Segoe mdl2 assets.ttf",
 				"${PODS_ROOT}/SwiftIconFont/SwiftIconFont/Resources/themify.ttf",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@2x.png",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_like@3x.png",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_skip@2x.png",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/ic_skip@3x.png",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/overlay_like.png",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/overlay_like@3x.png",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/overlay_skip.png",
-				"${PODS_ROOT}/TinderSwipeView/TinderSwipeView/Resources/overlay_skip@3x.png",
-				"${PODS_CONFIGURATION_BUILD_DIR}/TinderSwipeView/TinderSwipeView.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -681,15 +693,6 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/open-iconic.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Segoe mdl2 assets.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/themify.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@2x.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_like@3x.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_skip@2x.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ic_skip@3x.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/overlay_like.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/overlay_like@3x.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/overlay_skip.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/overlay_skip@3x.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TinderSwipeView.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -703,10 +706,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4018432C23B04F540040DFC5 /* SampleArticleListController.swift in Sources */,
 				06B6447E21B8D1A600D1BD46 /* V2HitTestSlopButton.swift in Sources */,
 				4081017E22EAC45E00C6DA1B /* V2RefreshHeader.swift in Sources */,
 				0678D20C1C61EAA8007FFCFD /* UIImageView+Extension.swift in Sources */,
 				4081017A22E8601000C6DA1B /* HttpClient.swift in Sources */,
+				4018433623B0A9390040DFC5 /* WritingHistoryModel.swift in Sources */,
 				06E52F781E012A8000E69084 /* UIView+Extension.swift in Sources */,
 				4081016F22E858B000C6DA1B /* PlayerMenuView.swift in Sources */,
 				06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */,
@@ -721,6 +726,7 @@
 				2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */,
 				4081018A22F2B50A00C6DA1B /* ReadingApi.swift in Sources */,
 				4081017F22EAC45E00C6DA1B /* V2LoadingView.swift in Sources */,
+				4018433823B363880040DFC5 /* DiffModel.swift in Sources */,
 				4081018222EACB1300C6DA1B /* UserModel.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				0678F47120CE388E0048A64B /* Observable+Extension.swift in Sources */,
@@ -758,7 +764,9 @@
 				4081018C22F3D5F200C6DA1B /* UserBookRightFloatView.swift in Sources */,
 				C22EEF2B9F0653BE28EBACDB /* DictionaryApi.swift in Sources */,
 				C2283E40DC2E308A6C1ED93B /* Date+Extension.swift in Sources */,
+				4018433423B0648F0040DFC5 /* SampleArticleController.swift in Sources */,
 				4081018022EAC45E00C6DA1B /* V2RefreshFooter.swift in Sources */,
+				4018432E23B04FA20040DFC5 /* WritingArticleModel.swift in Sources */,
 				40B0E4BD239004200039B550 /* WordListController.swift in Sources */,
 				C2239D71F7635AA9B09D4F1C /* Reactive+Extension.swift in Sources */,
 				C22CBCDD666A453EEF1D040B /* LayoutViewController.swift in Sources */,
@@ -783,6 +791,7 @@
 				4081018822F084CB00C6DA1B /* UITextField+Extension.swift in Sources */,
 				40D06FF6238BBECF00E2BB83 /* MediaModel.swift in Sources */,
 				C2290808B8CCE0BEB6784614 /* QuestionView.swift in Sources */,
+				4018433223B058FC0040DFC5 /* WritingListTableViewCell.swift in Sources */,
 				C2289A9F3AB7FA1DC9DDEF25 /* LearnTestViewController.swift in Sources */,
 				C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */,
 				C22234C5A259CDD0E716B93D /* UserWordStatModel.swift in Sources */,
@@ -790,6 +799,7 @@
 				C22BA643965A2A78AA669F2D /* MeViewController.swift in Sources */,
 				C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */,
 				C22371D6702E568750E09F6D /* MeLogoutTableViewCell.swift in Sources */,
+				4018433023B051500040DFC5 /* WritingApi.swift in Sources */,
 				C229B6C87CEDCE8EE93A7FFC /* SpeechListTableViewCell.swift in Sources */,
 				40D06FF8238BD42C00E2BB83 /* MediaUsages.swift in Sources */,
 			);

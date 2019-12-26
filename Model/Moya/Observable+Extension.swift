@@ -11,7 +11,6 @@ import RxSwift
 import ObjectMapper
 import SwiftyJSON
 import Moya
-import Ji
 
 public enum ApiError : Swift.Error {
     case Error(info: String)
@@ -135,71 +134,5 @@ extension Observable where Element: Moya.Response {
             return resultFromJSON(jsonString: str)
         }
         return nil
-    }
-}
-
-
-//MARK: - Ji 解析相关
-extension Observable where Element: Moya.Response {
-    
-    /// 过滤业务逻辑错误
-    func filterJiResponseError() -> Observable<Ji> {
-        return filterHttpError().map({ (response: Element) -> Ji in
-            if response.response?.url?.path == "/signin" && response.request?.url?.path != "/signin" {
-                throw ApiError.LoginPermissionRequired(info: "查看的内容需要登录!")
-            }
-            if response.response?.url?.path == "/2fa" {
-                //需要两步验证
-                throw ApiError.needs2FA(info: "需要两步验证")
-            }
-            
-            if let jiHtml = Ji(htmlData: response.data) {
-                return jiHtml
-            }
-            else {
-                throw ApiError.Error(info: "Failed to serialize response.")
-            }
-        })
-    }
-    
-    
-    /// 将Response 转成成 Ji Model Array
-    func mapResponseToJiArray<T: HtmlModelArrayProtocol>(_ type: T.Type) -> Observable<[T]> {
-        return filterJiResponseError().map{ ji in
-            return type.createModelArray(ji: ji) as! [T]
-        }
-    }
-    
-    /// 将Response 转成成 Ji Model
-    func mapResponseToJiModel<T: HtmlModelProtocol>(_ type: T.Type) -> Observable<T> {
-        return filterJiResponseError().map{ ji in
-            return type.createModel(ji: ji) as! T
-        }
-    }
-    
-    /// 在将 Ji 对象转换成 Model 之前，可能需要先获取 Ji 对象的数据
-    /// 例如获取我的收藏帖子列表时，除了需要将 Ji 数据 转换成 TopicListModel
-    /// 还需要额外获取最大页码,这个最大页面就从这个方法中获得
-    func getJiDataFirst(hander:@escaping ((_ ji: Ji) -> Void)) -> Observable<Ji> {
-        return filterJiResponseError().map({ (response: Ji) -> Ji in
-            hander(response)
-            return response
-        })
-    }
-}
-
-//调用 getJiDataFirst() 方法后可调用的方法
-extension Observable where Element: Ji {
-    func mapResponseToJiArray<T: HtmlModelArrayProtocol>(_ type: T.Type) -> Observable<[T]> {
-        return map{ ji in
-            return type.createModelArray(ji: ji) as! [T]
-        }
-    }
-    
-    /// 将Response 转成成 Ji Model
-    func mapResponseToJiModel<T: HtmlModelProtocol>(_ type: T.Type) -> Observable<T> {
-        return map{ ji in
-            return type.createModel(ji: ji) as! T
-        }
     }
 }

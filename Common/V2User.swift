@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import Ji
 
 let kUserName = "me.fin.username"
 let kUserToken = "me.fin.token"
@@ -127,52 +126,6 @@ class V2User: NSObject {
             for cookie in cookies {
                 NSLog("name:%@ , value:%@ \n", cookie.name,cookie.value)
             }
-        }
-    }
-
-    /**
-     获取once
-
-     - parameter url:               有once存在的url
-     */
-    func getOnce(_ url:String = V2EXURL+"signin" , completionHandler: @escaping (V2Response) -> Void) {
-        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml {
-            (response) -> Void in
-            if let jiHtml = response .result.value{
-                if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
-                    self.once = once
-                    completionHandler(V2Response(success: true))
-                    return;
-                }
-            }
-            completionHandler(V2Response(success: false))
-        }
-    }
-
-    /**
-     获取并更新通知数量
-     - parameter rootNode: 有Notifications 的节点
-     */
-    func getNotificationsCount(_ rootNode: JiNode) {
-        //这里本想放在 JIHTMLResponseSerializer 自动获取。
-        //但我现在还不确定，是否每个每个页面的title都会带上 未读通知数量
-        //所以先交由 我确定会带的页面 手动获取
-        let notification = rootNode.xPath("//head/title").first?.content
-        if let notification = notification {
-
-            self.notificationCount = 0;
-
-            let regex = try! NSRegularExpression(pattern: "V2EX \\([0-9]+\\)", options: [.caseInsensitive])
-            regex.enumerateMatches(in: notification, options: [.withoutAnchoringBounds], range: NSMakeRange(0, notification.Lenght), using: { (result, flags, stop) -> Void in
-                if let result = result {
-                    let startIndex = notification.index(notification.startIndex, offsetBy: result.range.location + 6)
-                    let endIndex = notification.index(notification.startIndex, offsetBy: result.range.location + result.range.length - 1)
-                    let count = notification[startIndex..<endIndex]
-                    if let acount = Int(count) {
-                        self.notificationCount = acount
-                    }
-                }
-            })
         }
     }
 

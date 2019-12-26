@@ -87,7 +87,7 @@ class WordListController: UIViewController,SaveBookMarkDelegate {
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
             self?.refresh()
         })
-        self.tableView.mj_header.beginRefreshing();
+        self.tableView.mj_header!.beginRefreshing();
         
         let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
@@ -123,12 +123,12 @@ class WordListController: UIViewController,SaveBookMarkDelegate {
                 refreshFooter.noMoreDataStateString = nil
                 refreshFooter.resetNoMoreData()
                 
-                self.tableView.mj_header.endRefreshing()
+                self.tableView.mj_header!.endRefreshing()
                 
             }, onError: { (error) in
                 SVProgressHUD.showError(withStatus: error.rawString())
                 
-                self.tableView.mj_header.endRefreshing()
+                self.tableView.mj_header!.endRefreshing()
             })
 
     }
@@ -148,7 +148,7 @@ class WordListController: UIViewController,SaveBookMarkDelegate {
                     
                     self.tableView.reloadData()
                     
-                    self.tableView.mj_footer.endRefreshing()
+                    self.tableView.mj_footer!.endRefreshing()
                 }
                 else{
                     //判断标签是否能加载下一页, 不能就提示下
@@ -163,7 +163,7 @@ class WordListController: UIViewController,SaveBookMarkDelegate {
             }, onError: { (error) in
                 SVProgressHUD.showError(withStatus: error.rawString())
                 
-                self.tableView.mj_footer.endRefreshing()
+                self.tableView.mj_footer!.endRefreshing()
             })
     }
     

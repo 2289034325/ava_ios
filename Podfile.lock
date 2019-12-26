@@ -1,19 +1,14 @@
 PODS:
   - 1PasswordExtension (1.8.5)
-  - Alamofire (4.7.3)
-  - AlamofireObjectMapper (5.1.0):
-    - Alamofire (~> 4.1)
-    - ObjectMapper (~> 3.3)
-  - Charts (3.3.0):
-    - Charts/Core (= 3.3.0)
-  - Charts/Core (3.3.0)
-  - ChartsRealm (3.2.2):
-    - Charts (~> 3.3.0)
-    - RealmSwift (~> 3.15.0)
-  - Crashlytics (3.11.0):
-    - Fabric (~> 1.8.0)
-  - CXSwipeGestureRecognizer (1.0.2)
-  - DeviceKit (1.9.0)
+  - Alamofire (4.9.1)
+  - AlamofireObjectMapper (5.2.1):
+    - Alamofire (~> 4.7)
+    - ObjectMapper (~> 3.4)
+  - Cosmos (20.0.1)
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
+  - CXSwipeGestureRecognizer (1.1.0)
+  - DeviceKit (2.3.0)
   - DrawerController (4.0.0):
     - DrawerController/Core (= 4.0.0)
     - DrawerController/DrawerVisualStates (= 4.0.0)
@@ -21,52 +16,40 @@ PODS:
   - DrawerController/DrawerVisualStates (4.0.0):
     - DrawerController/Core
   - DropDown (2.3.13)
-  - Fabric (1.8.0)
+  - Fabric (1.10.2)
   - FXBlurView (1.6.4)
-  - Ji (2.1.0):
-    - Ji/Ji (= 2.1.0)
-  - Ji/Ji (2.1.0):
-    - Ji/Ji-libxml
-  - Ji/Ji-libxml (2.1.0)
-  - JWTDecode (2.3.0)
-  - KeychainSwift (13.0.0)
-  - Kingfisher (4.10.0)
+  - JWTDecode (2.4.0)
+  - KeychainSwift (18.0.0)
+  - Kingfisher (5.12.0):
+    - Kingfisher/Core (= 5.12.0)
+  - Kingfisher/Core (5.12.0)
   - KVOController (1.2.0)
-  - MJRefresh (3.1.15.7)
-  - Moya/Core (11.0.2):
+  - MJRefresh (3.3.1)
+  - Moya/Core (13.0.1):
     - Alamofire (~> 4.1)
-    - Result (~> 3.0)
-  - Moya/RxSwift (11.0.2):
+    - Result (~> 4.1)
+  - Moya/RxSwift (13.0.1):
     - Moya/Core
     - RxSwift (~> 4.0)
-  - ObjectMapper (3.3.0)
-  - Realm (3.15.0):
-    - Realm/Headers (= 3.15.0)
-  - Realm/Headers (3.15.0)
-  - RealmSwift (3.15.0):
-    - Realm (= 3.15.0)
-  - Result (3.2.4)
-  - RxAtomic (4.4.2)
-  - RxBlocking (4.4.1):
-    - RxAtomic (~> 4.4)
-    - RxSwift (~> 4.0)
-  - RxCocoa (4.4.1):
-    - RxSwift (~> 4.0)
-  - RxSwift (4.3.1)
+  - ObjectMapper (3.5.1)
+  - Result (4.1.0)
+  - RxBlocking (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxCocoa (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxSwift (4.5.0)
   - Shimmer (1.0.2)
-  - SnapKit (4.2.0)
+  - SnapKit (5.0.1)
   - SVProgressHUD (2.2.5)
   - SwiftIconFont (3.0.0)
   - SwiftyJSON (3.1.4)
-  - TinderSwipeView (1.1.8)
   - YYText (1.0.7)
 
 DEPENDENCIES:
   - 1PasswordExtension
   - Alamofire
   - AlamofireObjectMapper
-  - Charts
-  - ChartsRealm
+  - Cosmos (~> 20.0)
   - Crashlytics
   - CXSwipeGestureRecognizer
   - DeviceKit
@@ -74,7 +57,6 @@ DEPENDENCIES:
   - DropDown
   - Fabric
   - FXBlurView
-  - Ji
   - JWTDecode (~> 2.3)
   - KeychainSwift
   - Kingfisher
@@ -89,7 +71,6 @@ DEPENDENCIES:
   - SVProgressHUD
   - SwiftIconFont
   - SwiftyJSON (~> 3.1.4)
-  - TinderSwipeView (~> 1.1.8)
   - YYText
 
 SPEC REPOS:
@@ -97,8 +78,7 @@ SPEC REPOS:
     - 1PasswordExtension
     - Alamofire
     - AlamofireObjectMapper
-    - Charts
-    - ChartsRealm
+    - Cosmos
     - Crashlytics
     - CXSwipeGestureRecognizer
     - DeviceKit
@@ -106,7 +86,6 @@ SPEC REPOS:
     - DropDown
     - Fabric
     - FXBlurView
-    - Ji
     - JWTDecode
     - KeychainSwift
     - Kingfisher
@@ -114,10 +93,7 @@ SPEC REPOS:
     - MJRefresh
     - Moya
     - ObjectMapper
-    - Realm
-    - RealmSwift
     - Result
-    - RxAtomic
     - RxBlocking
     - RxCocoa
     - RxSwift
@@ -126,45 +102,38 @@ SPEC REPOS:
     - SVProgressHUD
     - SwiftIconFont
     - SwiftyJSON
-    - TinderSwipeView
     - YYText
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  AlamofireObjectMapper: 3395e698901d8b0e6f48b7d0c43bd47875325102
-  Charts: e0dd4cd8f257bccf98407b58183ddca8e8d5b578
-  ChartsRealm: cb13811d8dd54741688ce057dce3e2f7ae1b5ce1
-  Crashlytics: 1448070c1d2731ab71ea7c3faf84ac0f69657287
-  CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
-  DeviceKit: a376cb3d0dda0c27c81dcc0d2b7b8600b6802065
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
+  Cosmos: b47fddf2102bb48580cd3025d9ce0a5c658a65da
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  CXSwipeGestureRecognizer: 5a53916aa69e85d041c35b5fc2180ff0bfe6333b
+  DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
-  Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  Ji: 21946da4e13425485ddd424edfaeeced0d80ad28
-  JWTDecode: fb77675c8049c1a7e9433c7cf448c3ce33ee4ac7
-  KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
-  Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
+  JWTDecode: 0930fb517c27bac2daef7cabc13577b18fdee0da
+  KeychainSwift: c46e1438d121e47459fb304ac88c5e058a2a91ed
+  Kingfisher: dc6e0f53bb5b12c3e75bedb0e01bbd7a640eea69
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
-  MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
-  Moya: a725035953bc1c0eb1be505ab903984501d82440
-  ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
-  Realm: 9b834e1be6062f544805252c812348872dc5d4ed
-  RealmSwift: 8a41886f8ab6efef9eb8df97de2f2bb911561a79
-  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
-  RxBlocking: 5508e90d36ca2304632dc9378ece4e9b5d4bf656
-  RxCocoa: 2f35a76bf8887872e28a1914112395b11b8e0e64
-  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
+  Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
+  ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  RxBlocking: 79413e4d916f44bb3e113c5b2cc059e36fe58910
+  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
-  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftIconFont: 2ba18554a77c44948dc35b561b344e3c23834a84
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  TinderSwipeView: 13e7de167edb6b9883b398878a0e36e3633e01a0
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 89e83c3f8e470a338bf91d0fd211582fb04c1efe
+PODFILE CHECKSUM: acdf286385bff3ecb3a7b6804f43576b8c7f5165
 
 COCOAPODS: 1.6.1

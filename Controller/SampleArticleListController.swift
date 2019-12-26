@@ -17,8 +17,8 @@ import MJRefresh
 import SVProgressHUD
 
 
-class SpeechListController: UIViewController {
-    var speechList:Array<ArticleModel>?
+class SampleArticleListController: UIViewController {
+    var articleList:Array<WritingArticleModel>?
     
     var currentPage = 0
     
@@ -27,7 +27,7 @@ class SpeechListController: UIViewController {
         tableView.cancelEstimatedHeight()
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         
-        regClass(tableView, cell: SpeechListTableViewCell.self)
+        regClass(tableView, cell: WritingListTableViewCell.self)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -37,7 +37,10 @@ class SpeechListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController!.navigationBar.topItem?.title = "会话"
+        
+        self.edgesForExtendedLayout = []
+        
+        self.navigationController!.navigationBar.topItem?.title = "写作"
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
@@ -65,11 +68,11 @@ class SpeechListController: UIViewController {
         }
         
         //获取脚本列表
-        _ = SpeechApi.provider
-            .requestAPI(.getSpeechList())
-            .mapResponseToObjArray(ArticleModel.self)
+        _ = WritingApi.provider
+            .requestAPI(.getArticleList)
+            .mapResponseToObjArray(WritingArticleModel.self)
             .subscribe(onNext: { (response) in
-                self.speechList = response
+                self.articleList = response
                 self.tableView.reloadData()
                 
                 //判断标签是否能加载下一页, 不能就提示下
@@ -90,7 +93,7 @@ class SpeechListController: UIViewController {
     }
     
     func getNextPage(){
-        if let count = self.speechList?.count , count <= 0{
+        if let count = self.articleList?.count , count <= 0{
             self.tableView.mj_footer!.endRefreshing()
             return;
         }
@@ -103,32 +106,32 @@ class SpeechListController: UIViewController {
 
 
 //MARK: - TableViewDataSource
-extension SpeechListController:UITableViewDataSource,UITableViewDelegate {
+extension SampleArticleListController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let list = self.speechList {
+        if let list = self.articleList {
             return list.count;
         }
         return 0;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = self.speechList![indexPath.row]
+        let item = self.articleList![indexPath.row]
         
-        return SpeechListTableViewCell().getHeight(item)
+        return WritingListTableViewCell().getHeight(item)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = getCell(tableView, cell: SpeechListTableViewCell.self, indexPath: indexPath);
-        cell.bind(self.speechList![indexPath.row]);
+        let cell = getCell(tableView, cell: WritingListTableViewCell.self, indexPath: indexPath);
+        cell.bind(self.articleList![indexPath.row]);
         return cell;
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.speechList![indexPath.row]
+        let item = self.articleList![indexPath.row]
         
-        let speechController = SpeechController()
-        speechController.article = item
-        speechController.hidesBottomBarWhenPushed = true
-        
-        self.navigationController?.pushViewController(speechController, animated: true)
+        let articleController = SampleArticleController()
+        articleController.article_id = item.id
+        articleController.hidesBottomBarWhenPushed = true
+
+        self.navigationController?.pushViewController(articleController, animated: true)
     }
 }

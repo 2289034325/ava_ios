@@ -15,8 +15,7 @@ class UserWordStatListTableViewCell: UITableViewCell {
     /// 语言国旗
     var avatarImageView: UIImageView = {
         let imageview = UIImageView()
-        imageview.backgroundColor = UIColor.red
-        imageview.contentMode=UIViewContentMode.scaleToFill
+        imageview.contentMode=UIViewContentMode.scaleAspectFit
         return imageview
     }()
     

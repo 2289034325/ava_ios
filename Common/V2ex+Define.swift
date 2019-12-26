@@ -28,8 +28,8 @@ let MOBILE_CLIENT_HEADERS = ["user-agent":USER_AGENT]
 //站点地址,客户端只有https,禁用http
 let V2EXURL = "https://www.v2ex.com/"
 
-//let API_BASE_URL = "https://192.168.1.147"
-let API_BASE_URL = "https://api.acxca.com"
+let API_BASE_URL = "https://192.168.1.147"
+//let API_BASE_URL = "https://api.acxca.com"
 
 let SEPARATOR_HEIGHT = 1.0 / UIScreen.main.scale
 
@@ -61,16 +61,16 @@ func v2ScaleFont(_ fontSize: CGFloat) -> UIFont{
 extension UIDevice {
     var isIphoneX:Bool {
         get {
-            let device = Device()
+            let device = Device.current
             if device.isOneOf([
                 Device.iPhoneX,
                 Device.simulator(.iPhoneX),
-                .iPhoneXs,
-                Device.simulator(.iPhoneXs),
-                .iPhoneXr,
-                Device.simulator(.iPhoneXr),
-                .iPhoneXsMax,
-                Device.simulator(.iPhoneXsMax)]) {
+                .iPhoneXS,
+                Device.simulator(.iPhoneXS),
+                .iPhoneXR,
+                Device.simulator(.iPhoneXR),
+                .iPhoneXSMax,
+                Device.simulator(.iPhoneXSMax)]) {
                 return true
             }
             return false

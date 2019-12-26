@@ -35,25 +35,50 @@ extension UIImageView {
                     })
                 }
                 else {
-                    KingfisherManager.shared.downloader.downloadImage(with: resource.downloadURL, options: nil, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) -> () in
-                        if let error = error , error.code == KingfisherError.notModified.rawValue {
-                            KingfisherManager.shared.cache.retrieveImage(forKey: resource.cacheKey, options: nil, completionHandler: { (cacheImage, cacheType) -> () in
-                                self.fin_setImage(cacheImage!, imageURL: imageURL!)
-                            })
-                            return
-                        }
-                        
-                        if var image = image, let originalData = originalData {
-                            //处理图片
-                            if let img = imageModificationClosure?(image) {
-                                image = img
+                    KingfisherManager.shared.downloader.downloadImage(with: resource.downloadURL, options: nil) { (result) in
+                        switch result {
+                        case .success(let value):
+                            var image = value.image
+                            let originalData = value.originalData
+                           //处理图片
+                           if let img = imageModificationClosure?(image) {
+                               image = img
+                           }
+                           //保存图片缓存
+                           KingfisherManager.shared.cache.store(image, original: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
+                            self.fin_setImage(image, imageURL: value.url!)
+                           
+                        case .failure(let error):
+                            if error.errorCode == 2004 {
+                                KingfisherManager.shared.cache.retrieveImage(forKey: resource.cacheKey, options: nil, completionHandler: { (cacheImage, cacheType) -> () in
+                                    self.fin_setImage(cacheImage!, imageURL: resource.downloadURL)
+                                })
+                                return
                             }
-                            
-                            //保存图片缓存
-                            KingfisherManager.shared.cache.store(image, original: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
-                            self.fin_setImage(image, imageURL: imageURL!)
                         }
-                    })
+                    }
+//                    KingfisherManager.shared.downloader.downloadImage(with: URL, options: KingfisherParsedOptionsInfo) { (Result<ImageLoadingResult, KingfisherError>) in
+//
+//                    }
+//                    KingfisherManager.shared.downloader.downloadImage(with: resource.downloadURL, options: nil, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) -> () in
+//                        if let error = error , error.code == 504 {
+//                            KingfisherManager.shared.cache.retrieveImage(forKey: resource.cacheKey, options: nil, completionHandler: { (cacheImage, cacheType) -> () in
+//                                self.fin_setImage(cacheImage!, imageURL: imageURL!)
+//                            })
+//                            return
+//                        }
+//                        
+//                        if var image = image, let originalData = originalData {
+//                            //处理图片
+//                            if let img = imageModificationClosure?(image) {
+//                                image = img
+//                            }
+//                            
+//                            //保存图片缓存
+//                            KingfisherManager.shared.cache.store(image, original: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
+//                            self.fin_setImage(image, imageURL: imageURL!)
+//                        }
+//                    })
                 }
             }
     }

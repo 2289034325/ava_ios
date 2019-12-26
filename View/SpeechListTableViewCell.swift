@@ -31,7 +31,8 @@ class SpeechListTableViewCell: UITableViewCell {
         return label
     }()
     var performerImageView: UIImageView = {
-        let imageview = UIImageView(image: UIImage(named: "users"))
+        let img = UIImage(from: .fontAwesome, code: "microphone", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 20, height: 20))
+        let imageview = UIImageView(image: img)
         imageview.contentMode = .scaleAspectFit
         return imageview
     }()
@@ -43,8 +44,6 @@ class SpeechListTableViewCell: UITableViewCell {
         label.numberOfLines=0
         return label
     }()
-
-    var descriptionLayout: YYTextLayout?
 
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView = UIView()
@@ -79,11 +78,12 @@ class SpeechListTableViewCell: UITableViewCell {
             make.top.left.right.equalTo(self.contentView);
         }
         self.avatarImageView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.equalTo(self.contentView).offset(12);
-            make.width.height.equalTo(35);
+            make.left.top.equalTo(self.contentView).offset(5);
+            make.width.equalTo(40);
+            make.height.equalTo(30);
         }
         self.titleLabel.snp.makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp.right).offset(10);
+            make.left.equalTo(self.avatarImageView.snp.right).offset(5);
             make.top.equalTo(self.avatarImageView);
         }
         self.performerImageView.snp.makeConstraints{ (make) -> Void in
@@ -98,7 +98,7 @@ class SpeechListTableViewCell: UITableViewCell {
         self.descriptionLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
-            make.right.equalTo(self.contentPanel).offset(-12);
+            make.right.equalTo(self.contentPanel).offset(-5);
         }
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.contentView.snp.bottom).offset(-1);
@@ -119,8 +119,8 @@ class SpeechListTableViewCell: UITableViewCell {
     
     func getHeight(_ model:ArticleModel)->CGFloat{
         self.descriptionLabel.text = model.description
-        let descriptionHeight = self.descriptionLabel.actualHeight(SCREEN_WIDTH-24)
+        let descriptionHeight = self.descriptionLabel.actualHeight(SCREEN_WIDTH-10)
         
-        return 12+35+12+descriptionHeight+12
+        return 5+30+12+descriptionHeight+5
     }
 }

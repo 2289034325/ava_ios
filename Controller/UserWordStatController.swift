@@ -12,7 +12,6 @@ import SnapKit
 import Alamofire
 import AlamofireObjectMapper
 
-import Ji
 import MJRefresh
 
 import SVProgressHUD
@@ -75,7 +74,7 @@ class UserWordStatController: UIViewController {
         let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
         })
-        footer?.centerOffset = -4
+        footer.centerOffset = -4
         self.tableView.mj_footer = footer
         
 //        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
@@ -144,12 +143,12 @@ class UserWordStatController: UIViewController {
     }
     
     func refreshPage(){
-        self.tableView.mj_header.beginRefreshing();
+        self.tableView.mj_header!.beginRefreshing();
     }
     func refresh(){
         //如果有上拉加载更多 正在执行，则取消它
-        if self.tableView.mj_footer.isRefreshing {
-            self.tableView.mj_footer.endRefreshing()
+        if self.tableView.mj_footer!.isRefreshing {
+            self.tableView.mj_footer!.endRefreshing()
         }
         
         //获取用y户词汇信息
@@ -168,23 +167,23 @@ class UserWordStatController: UIViewController {
 
                     //重置page
                     self.currentPage = 0
-                    self.tableView.mj_header.endRefreshing()
+                    self.tableView.mj_header!.endRefreshing()
 
                 }, onError: { (error) in
                     SVProgressHUD.showError(withStatus: error.rawString())
-                    self.tableView.mj_header.endRefreshing()
+                    self.tableView.mj_header!.endRefreshing()
                 })
 
     }
     
     func getNextPage(){
         if let count = self.statList?.count , count <= 0{
-            self.tableView.mj_footer.endRefreshing()
+            self.tableView.mj_footer!.endRefreshing()
             return;
         }
 
         //获取下一页词书
-        self.tableView.mj_footer.endRefreshing()
+        self.tableView.mj_footer!.endRefreshing()
 
     }
     
@@ -194,7 +193,7 @@ class UserWordStatController: UIViewController {
         //如果超过2分钟，则自动刷新本页面。
         let interval = -1 * UserWordStatController.lastLeaveTime.timeIntervalSinceNow
         if interval > 120 {
-            self.tableView.mj_header.beginRefreshing()
+            self.tableView.mj_header!.beginRefreshing()
         }
     }
     @objc func applicationDidEnterBackground(){

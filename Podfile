@@ -7,7 +7,6 @@ def pods
     pod 'Alamofire'
     pod 'ObjectMapper'
     pod 'AlamofireObjectMapper'
-    pod 'Ji'
     pod 'DrawerController'
     pod 'Kingfisher'
     pod 'KeychainSwift'
@@ -27,11 +26,9 @@ def pods
     pod 'Crashlytics'
     pod 'DeviceKit'
     pod 'JWTDecode', '~> 2.3'
-    pod 'TinderSwipeView', '~> 1.1.8'
     pod 'SwiftIconFont'
     pod 'DropDown'
-    pod 'Charts'
-    pod 'ChartsRealm'
+    pod 'Cosmos', '~> 20.0'
 end
 
 target 'AVA-Swift' do

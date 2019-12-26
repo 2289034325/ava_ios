@@ -14,6 +14,7 @@ class LayoutViewController: UITabBarController {
 
         let dicNav = UINavigationController(rootViewController:UserWordStatController())
         let speechNav = UINavigationController(rootViewController:SpeechListController())
+        let writingNav = UINavigationController(rootViewController:SampleArticleListController())
         let readNav = UINavigationController(rootViewController:BookMarkListController())
         let myNav = UINavigationController(rootViewController:MeViewController())
 
@@ -23,6 +24,7 @@ class LayoutViewController: UITabBarController {
 
         dicNav.tabBarItem.title = "词汇"
         speechNav.tabBarItem.title = "会话"
+        writingNav.tabBarItem.title = "写作"
         readNav.tabBarItem.title = "书签"
         myNav.tabBarItem.title = "我"
 
@@ -45,6 +47,8 @@ class LayoutViewController: UITabBarController {
         let speech_img = UIImage(from: .fontAwesome, code: "commentingo", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
         let speech_img_sel = UIImage(from: .fontAwesome, code: "commenting", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
         
+        let writing_img = UIImage(from: .fontAwesome, code: "pencilsquareo", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
+        let writing_img_sel = UIImage(from: .fontAwesome, code: "pencilsquareo", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
         
         let read_img = UIImage(from: .fontAwesome, code: "bookmarko", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
         let read_img_sel = UIImage(from: .fontAwesome, code: "bookmark", textColor: .gray, backgroundColor: .clear, size: CGSize(width: 30, height: 30))
@@ -59,6 +63,9 @@ class LayoutViewController: UITabBarController {
         
         speechNav.tabBarItem.image = speech_img.withRenderingMode(.alwaysTemplate)
         speechNav.tabBarItem.selectedImage = speech_img_sel.withRenderingMode(.alwaysTemplate)
+                
+        writingNav.tabBarItem.image = writing_img.withRenderingMode(.alwaysTemplate)
+        writingNav.tabBarItem.selectedImage = writing_img_sel.withRenderingMode(.alwaysTemplate)
         
         readNav.tabBarItem.image = read_img.withRenderingMode(.alwaysTemplate)
         readNav.tabBarItem.selectedImage = read_img_sel.withRenderingMode(.alwaysTemplate)
@@ -75,7 +82,7 @@ class LayoutViewController: UITabBarController {
 //        myNav.tabBarItem.icon(from: .fontAwesome, code: "user", iconColor: #colorLiteral(red: 0.3686772585, green: 0.6366325021, blue: 0.9931303859, alpha: 1), imageSize: CGSize(width: 20, height: 20), ofSize: 20)
 
 
-        self.viewControllers = [dicNav, speechNav, readNav, myNav]
+        self.viewControllers = [dicNav, speechNav, writingNav, readNav, myNav]
 
         // 文字图片颜色一块修改
         self.tabBar.tintColor = UIColor.blue

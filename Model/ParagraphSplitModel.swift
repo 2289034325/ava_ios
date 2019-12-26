@@ -17,6 +17,8 @@ class ParagraphSplitModel: BaseJsonModel {
     var end_index:Int = 0
     var start_time:Float = 0
     var end_time:Float = 0
+    var paragraph: ParagraphModel?
+    var histories = [WritingHistoryModel]()
     
     override func mapping(map: Map) {
         id <- map["id"]
@@ -25,5 +27,13 @@ class ParagraphSplitModel: BaseJsonModel {
         end_index <- map["end_index"]
         start_time <- map["start_time"]
         end_time <- map["end_time"]
+    }
+    
+    func getText()->String{
+        let startIndex = paragraph!.text.index(paragraph!.text.startIndex, offsetBy: start_index)
+        let endIndex =  paragraph!.text.index(paragraph!.text.startIndex, offsetBy: end_index+1)
+        let text = String(paragraph!.text[startIndex ..< endIndex])
+        
+        return text
     }
 }

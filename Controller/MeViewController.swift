@@ -12,7 +12,6 @@ import SnapKit
 import Alamofire
 import AlamofireObjectMapper
 
-import Ji
 import MJRefresh
 
 import SVProgressHUD

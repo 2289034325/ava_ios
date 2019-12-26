@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import Ji
 import ObjectMapper
 
 class UserModel: BaseJsonModel {
@@ -57,52 +56,6 @@ extension UserModel{
      - parameter once:              once
      - parameter completionHandler: 登录回调
      */
-//    class func Login(_ username:String,password:String ,once:String,
-//                     usernameFieldName:String ,passwordFieldName:String,
-//                     codeFieldName:String, code:String,
-//                     completionHandler: @escaping (V2ValueResponse<String>, Bool) -> Void){
-//        let prames = [
-//            "once":once,
-//            "next":"/",
-//            passwordFieldName:password,
-//            usernameFieldName:username,
-//            codeFieldName: code
-//        ]
-//
-//        var dict = MOBILE_CLIENT_HEADERS
-//        //为安全，此处使用https
-//        dict["Referer"] = "https://v2ex.com/signin"
-//        //登录
-//        Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, headers: dict).responseJiHtml{
-//            (response) -> Void in
-//            if let jiHtml = response .result.value{
-//                //判断有没有用户头像，如果有，则证明登录成功了
-//                if let avatarImg = jiHtml.xPath("//*[@id='Top']/div/div/table/tr/td[3]/a[1]/img[1]")?.first {
-//                    if let username = avatarImg.parent?["href"]{
-//                        if username.hasPrefix("/member/") {
-//                            let username = username.replacingOccurrences(of: "/member/", with: "")
-//
-//                            //用户开启了两步验证
-//                            if let url = response.response?.url?.absoluteString, url.contains("2fa") {
-//                                completionHandler(V2ValueResponse(value: username, success: true),true)
-//                            }
-//                                //登陆完成
-//                            else{
-//                                completionHandler(V2ValueResponse(value: username, success: true),false)
-//                            }
-//                            return;
-//                        }
-//                    }
-//                }
-//                else if let errMessage = jiHtml.xPath("//*[contains(@class, 'problem')]/ul/li")?.first?.value , errMessage.count > 0 {
-//                    completionHandler(V2ValueResponse(success: false,message: errMessage),false)
-//                    return
-//                }
-//
-//            }
-//            completionHandler(V2ValueResponse(success: false,message: "登录失败"),false)
-//        }
-//    }
 
     class func Login(_ username:String,password:String ,
                      code:String,loginTicket:String,
@@ -136,60 +89,9 @@ extension UserModel{
         }
     }
     
-    class func twoFALogin(code:String,
-                          completionHandler: @escaping (Bool) -> Void) {
-        V2User.sharedInstance.getOnce { (response) in
-            if(response.success){
-                let prames = [
-                    "code":code,
-                    "once":V2User.sharedInstance.once!
-                    ] as [String:Any]
-                let url = V2EXURL + "2fa"
-                Alamofire.request(url, method: .post, parameters: prames, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-                    if(response.result.isSuccess){
-                        if let url = response.response?.url?.absoluteString, url.contains("2fa") {
-                            completionHandler(false);
-                        }
-                        else{
-                            completionHandler(true);
-                        }
-                    }
-                    else{
-                        completionHandler(false);
-                    }
-                }
-            }
-            else{
-                completionHandler(false);
-            }
-        }
-    }
-
     class func getUserInfoFromToken(_ token:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){
 
 
-    }
-    
-    
-    class func dailyRedeem() {
-        V2User.sharedInstance.getOnce { (response) -> Void in
-            if response.success {
-                Alamofire.request(V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
-                    if let jiHtml = response .result.value{
-                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.last {
-                            if aRootNode.content?.trimmingCharacters(in: .whitespaces) == "已成功领取每日登录奖励" {
-                                print("每日登录奖励 领取成功")
-                                dispatch_sync_safely_main_queue({ () -> () in
-                                    V2Inform("已成功领取每日登录奖励")
-                                })
-                            }
-                        }
-                        
-                    }
-                }
-                
-            }
-        }
     }
     
 }

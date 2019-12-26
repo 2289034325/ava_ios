@@ -95,7 +95,7 @@ class BookMarkListController: UIViewController,SaveBookMarkDelegate {
         let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
         })
-        footer?.centerOffset = -4
+        footer.centerOffset = -4
         self.tableView.mj_footer = footer
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(longPressGestureRecognizer:)))
@@ -111,14 +111,14 @@ class BookMarkListController: UIViewController,SaveBookMarkDelegate {
     }
     
     func refreshPage(){
-        self.tableView.mj_header.beginRefreshing();
+        self.tableView.mj_header!.beginRefreshing();
 //
 //        self.tableView.mj_header.endRefreshing()
     }
     func refresh(){
         //如果有上拉加载更多 正在执行，则取消它
-        if self.tableView.mj_footer.isRefreshing {
-            self.tableView.mj_footer.endRefreshing()
+        if self.tableView.mj_footer!.isRefreshing {
+            self.tableView.mj_footer!.endRefreshing()
         }
         
         //获取用户书签列表
@@ -137,17 +137,17 @@ class BookMarkListController: UIViewController,SaveBookMarkDelegate {
                 
                 //重置page
                 self.currentPage = 0
-                self.tableView.mj_header.endRefreshing()
+                self.tableView.mj_header!.endRefreshing()
                 
             }, onError: { (error) in
                 SVProgressHUD.showError(withStatus: error.rawString())
-                self.tableView.mj_header.endRefreshing()
+                self.tableView.mj_header!.endRefreshing()
             })
 
     }
     
     func getNextPage(){
-        self.tableView.mj_footer.endRefreshing()
+        self.tableView.mj_footer!.endRefreshing()
     }
     
     func editBookMark(bookMark: BookMarkModel) {

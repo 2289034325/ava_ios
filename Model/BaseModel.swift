@@ -9,7 +9,6 @@
 import UIKit
 
 import ObjectMapper
-import Ji
 import Moya
 
 class BaseJsonModel: Mappable {
@@ -19,19 +18,4 @@ class BaseJsonModel: Mappable {
     func mapping(map: Map) {
         
     }
-}
-
-
-protocol BaseHtmlModelProtocol {
-    init(rootNode:JiNode)
-}
-
-/// 实现这个协议的类，可用于Moya自动解析出这个类的model的对象数组
-protocol HtmlModelArrayProtocol {
-    static func createModelArray(ji:Ji) -> [Any]
-}
-
-/// 实现这个协议的类，可用于Moya自动解析出这个类的model的对象
-protocol HtmlModelProtocol {
-    static func createModel(ji:Ji) -> Any
 }
