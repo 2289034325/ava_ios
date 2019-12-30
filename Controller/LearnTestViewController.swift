@@ -90,7 +90,21 @@ class LearnTestViewController: UIViewController {
 
         //生成question
         self.questions = [QuestionModel]()
-        let qts = [QuestionType.MF,QuestionType.FM,QuestionType.Fill]
+        var qts = [QuestionType.FM]
+        
+        if let mf = V2EXSettings.sharedInstance[setting_FM_key]{
+            let bmf = Bool(mf)!
+            if(bmf){
+                qts.append(QuestionType.MF)
+            }
+        }        
+        if let fl = V2EXSettings.sharedInstance[setting_Sentence_key]{
+           let bfl = Bool(fl)!
+           if(bfl){
+               qts.append(QuestionType.Fill)
+           }
+        }
+        
         for(idx,w) in self.words.enumerated(){
             let rd = LearnRecordWordModel(word:w)
             learnRecord.detail.append(rd)

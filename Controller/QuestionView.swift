@@ -155,44 +155,46 @@ class QuestionView: UIView {
 
     func setUpMF(){
         setUpBasic()
-
+        
+        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        meaningLabel.textColor = UIColor.black
         sentenceLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         translationLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     func showAnwserOfMF(){
+        spellLabel.textColor = UIColor.black
         pronLabel.textColor = UIColor.black
         pronImage.tintColor = UIColor.blue
-        meaningLabel.textColor = UIColor.black
     }
     func closeAnwserOfMF(){
+        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     func setUpFM(){
         setUpBasic()
 
-        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        spellLabel.textColor = UIColor.black
         pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         sentenceLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         translationLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     func showAnserOfFM(){
-        spellLabel.textColor = UIColor.black
         pronLabel.textColor = UIColor.black
         pronImage.tintColor = UIColor.blue
+        meaningLabel.textColor = UIColor.black
     }
     func closeAnserOfFM(){
-        spellLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         pronLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         pronImage.tintColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        meaningLabel.textColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
 
     func setUpSentence(){

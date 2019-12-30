@@ -10,17 +10,17 @@ import UIKit
 import Kingfisher
 import YYText
 
-class MeLogoutTableViewCell: UITableViewCell {
-    
+class MeSpliterTableViewCell: UITableViewCell {
+            
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
-        self.setup();
+        setup()
     }
     
     func setup()->Void{
-        self.textLabel?.text = "退出登陆"
+        self.backgroundColor = V2EXColor.colors.v2_backgroundColor
     }
 }
