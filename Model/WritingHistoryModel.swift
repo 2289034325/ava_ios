@@ -59,11 +59,15 @@ class WritingHistoryModel: Mappable,Codable {
     }
     
     func getDiffText(font: UIFont)->NSMutableAttributedString?{
-        let delAttribute = [ NSAttributedStringKey.foregroundColor: UIColor.green,
-                             NSAttributedStringKey.font: font]
-        let insAttribute = [ NSAttributedStringKey.foregroundColor: UIColor.red,
+        
+        let delAttribute = [ NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.002568773798, green: 0.9046637056, blue: 0.003985686436, alpha: 1),
+                             NSAttributedStringKey.font: font] as [NSAttributedStringKey : Any]
+        let insAttribute = [ NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.9141814721, green: 0.1367531477, blue: 0.007898330018, alpha: 1),
                              NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue,
                              NSAttributedStringKey.font: font] as [NSAttributedStringKey : Any]
+        let warningAttribute = [ NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.8683772208, green: 0.8559111588, blue: 0.005484322231, alpha: 1),
+                            NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue,
+                            NSAttributedStringKey.font: font] as [NSAttributedStringKey : Any]
         let nomAttribute = [ NSAttributedStringKey.foregroundColor: UIColor.black,
                              NSAttributedStringKey.font: font]
         
@@ -75,6 +79,12 @@ class WritingHistoryModel: Mappable,Codable {
             }
             else if(df.operation == "INSERT"){
                 aString = NSMutableAttributedString(string: df.text!, attributes: insAttribute)
+            }
+            else if(df.operation == "WARNING_ORIGIN"){
+                aString = NSMutableAttributedString(string: df.text!, attributes: delAttribute)
+            }
+            else if(df.operation == "WARNING"){
+                aString = NSMutableAttributedString(string: df.text!, attributes: warningAttribute)
             }
             else{
                 aString = NSMutableAttributedString(string: df.text!, attributes: nomAttribute)
