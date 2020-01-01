@@ -10,7 +10,13 @@ import Foundation
 import WebKit
 
 class MyWKWebView:WKWebView{
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {        
+        
+    // 屏蔽所有系统菜单
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if (action == #selector(self.copy(_:))) {
+            return true;
+        }
+        
         return false
     }
 }

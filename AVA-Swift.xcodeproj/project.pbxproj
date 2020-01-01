@@ -51,6 +51,7 @@
 		4018433A23BA18090040DFC5 /* MeCheckboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433923BA18090040DFC5 /* MeCheckboxTableViewCell.swift */; };
 		4018433C23BA23EE0040DFC5 /* MeSpliterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433B23BA23EE0040DFC5 /* MeSpliterTableViewCell.swift */; };
 		4018433E23BA2F710040DFC5 /* UIControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433D23BA2F710040DFC5 /* UIControl+Extension.swift */; };
+		4018434023BCA0D10040DFC5 /* ITranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4018433F23BCA0D10040DFC5 /* ITranslation.swift */; };
 		402B07C922E84B59007DC5D2 /* SpeechApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402B07C822E84B59007DC5D2 /* SpeechApi.swift */; };
 		4043E76822DDE5F100BFCA7B /* TypIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75922DDE5EF00BFCA7B /* TypIcons.ttf */; };
 		4043E76922DDE5F100BFCA7B /* Linearicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4043E75A22DDE5EF00BFCA7B /* Linearicons.ttf */; };
@@ -179,6 +180,7 @@
 		4018433923BA18090040DFC5 /* MeCheckboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeCheckboxTableViewCell.swift; sourceTree = "<group>"; };
 		4018433B23BA23EE0040DFC5 /* MeSpliterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeSpliterTableViewCell.swift; sourceTree = "<group>"; };
 		4018433D23BA2F710040DFC5 /* UIControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extension.swift"; sourceTree = "<group>"; };
+		4018433F23BCA0D10040DFC5 /* ITranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITranslation.swift; sourceTree = "<group>"; };
 		402B07C822E84B59007DC5D2 /* SpeechApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechApi.swift; sourceTree = "<group>"; };
 		40370EF022B3382E00766293 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		40370EF122B3385E00766293 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				4081017722E8600700C6DA1B /* DateTimeUtil.swift */,
 				4081017922E8600F00C6DA1B /* HttpClient.swift */,
 				06B6447D21B8D1A600D1BD46 /* V2HitTestSlopButton.swift */,
+				4018433F23BCA0D10040DFC5 /* ITranslation.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -808,6 +811,7 @@
 				C22D98D1672532A8730960AA /* JSONEncoder+Extension.swift in Sources */,
 				C22234C5A259CDD0E716B93D /* UserWordStatModel.swift in Sources */,
 				C22B110B647A524BBDC8EC5A /* AlamofireSessionManager.swift in Sources */,
+				4018434023BCA0D10040DFC5 /* ITranslation.swift in Sources */,
 				C22BA643965A2A78AA669F2D /* MeViewController.swift in Sources */,
 				C221092DC4F2BF6C34A42945 /* BookMarkListController.swift in Sources */,
 				C22371D6702E568750E09F6D /* MeDefaultTableViewCell.swift in Sources */,

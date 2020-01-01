@@ -27,7 +27,7 @@ protocol SaveBookMarkDelegate
     func addBookMark(bookMark:BookMarkModel)
 }
 
-class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFieldDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFieldDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, ITranslation {
     
     var initBookMark:BookMarkModel?
     
@@ -208,7 +208,7 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
             make.left.right.equalTo(self.view)
         }
         
-        setupCustomMenu()
+        setupTranslationMenu()
 
 //        NotificationCenter.default.addObserver(self, selector: #selector(pasteboardChanged(_:)), name: NSNotification.Name.UIPasteboardChanged, object: generalPasteboard)
         
@@ -224,6 +224,18 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
         }
         
         
+    }
+    
+    func avaSearch(_ sender: UIMenuController) {
+        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
+            let md = any as! String
+            self.search("AVA",lang: self.pageLang.id,form: md)}
+    }
+
+    func gglSearch(_ sender: UIMenuController){
+        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
+            let md = any as! String
+            self.search("Google",lang: self.pageLang.id,form: md)}
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -415,72 +427,72 @@ class ReadingBrowserController: UIViewController,WKNavigationDelegate,UITextFiel
 //        }
 //    }
     
-    func setupCustomMenu() {
-        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
-        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
-        UIMenuController.shared.menuItems = [mi_ava,mi_ggl]
-        UIMenuController.shared.update()
-    }
+//    func setupCustomMenu() {
+//        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
+//        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
+//        UIMenuController.shared.menuItems = [mi_ava,mi_ggl]
+//        UIMenuController.shared.update()
+//    }
     
-    @objc func searchAVA(_ sender:Any?){
-        var md = ""
-        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
-            md = any as! String
-        
-            SVProgressHUD.show(withStatus: "正在查询")
-        _ = DictionaryApi.provider
-            .requestAPI(.searchWord(lang: self.pageLang.id, form: md))
-            .mapResponseToObj(WordSearchModel.self)
-            .subscribe(onNext: { (response) in
-                SVProgressHUD.dismiss()
-                
-                let popUpView = SearchPopUpView()
-                popUpView.setInfo(word: response.word!)
-                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                alertView.setValue(popUpView, forKey: "contentViewController")
-
-                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertView, animated: true, completion: nil)
-
-            }, onError: { (error) in
-                SVProgressHUD.showError(withStatus: error.rawString())
-            })
-        }
-    }
-    
-    @objc func searchGGL(_ sender:Any?){
-        var md = ""
-        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
-            md = any as! String
-
-        SVProgressHUD.show(withStatus: "正在查询")
-        _ = OtherApi.provider
-            .requestAPI(.googleTranslate(text: md))
-            .mapResponseToObj(GoogleTransModel.self)
-            .subscribe(onNext: { (response) in
-                SVProgressHUD.dismiss()
-                
-                let popUpView = SearchPopUpView()
-                let text = response.getAllTrans()
-                popUpView.setInfo(trans: text)
-                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                alertView.setValue(popUpView, forKey: "contentViewController")
-                
-                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertView, animated: true, completion: nil)
-                
-            }, onError: { (error) in
-                SVProgressHUD.showError(withStatus: error.rawString())
-            })
-        }
-    }
-    
-    @objc func transelateMenuTapped() {
-        let yay = "" //Need to retrieve the selected text here
-        let alertView = UIAlertController(title: "Yay!!", message: yay, preferredStyle: .alert)
-        alertView.addAction(UIAlertAction(title: "cool", style: .default, handler: nil))
-        present(alertView, animated: true, completion: nil)
-    }
+//    @objc func searchAVA(_ sender:Any?){
+//        var md = ""
+//        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
+//            md = any as! String
+//
+//            SVProgressHUD.show(withStatus: "正在查询")
+//        _ = DictionaryApi.provider
+//            .requestAPI(.searchWord(lang: self.pageLang.id, form: md))
+//            .mapResponseToObj(WordSearchModel.self)
+//            .subscribe(onNext: { (response) in
+//                SVProgressHUD.dismiss()
+//
+//                let popUpView = SearchPopUpView()
+//                popUpView.setInfo(word: response.word!)
+//                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+//                alertView.setValue(popUpView, forKey: "contentViewController")
+//
+//                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                self.present(alertView, animated: true, completion: nil)
+//
+//            }, onError: { (error) in
+//                SVProgressHUD.showError(withStatus: error.rawString())
+//            })
+//        }
+//    }
+//
+//    @objc func searchGGL(_ sender:Any?){
+//        var md = ""
+//        webView.evaluateJavaScript("window.getSelection().toString()") { (any,error) -> Void in
+//            md = any as! String
+//
+//        SVProgressHUD.show(withStatus: "正在查询")
+//        _ = OtherApi.provider
+//            .requestAPI(.googleTranslate(text: md))
+//            .mapResponseToObj(GoogleTransModel.self)
+//            .subscribe(onNext: { (response) in
+//                SVProgressHUD.dismiss()
+//
+//                let popUpView = SearchPopUpView()
+//                let text = response.getAllTrans()
+//                popUpView.setInfo(trans: text)
+//                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+//                alertView.setValue(popUpView, forKey: "contentViewController")
+//
+//                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                self.present(alertView, animated: true, completion: nil)
+//
+//            }, onError: { (error) in
+//                SVProgressHUD.showError(withStatus: error.rawString())
+//            })
+//        }
+//    }
+//
+//    @objc func transelateMenuTapped() {
+//        let yay = "" //Need to retrieve the selected text here
+//        let alertView = UIAlertController(title: "Yay!!", message: yay, preferredStyle: .alert)
+//        alertView.addAction(UIAlertAction(title: "cool", style: .default, handler: nil))
+//        present(alertView, animated: true, completion: nil)
+//    }
     
     override var prefersStatusBarHidden: Bool {
         return true

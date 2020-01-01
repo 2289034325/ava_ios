@@ -20,74 +20,15 @@ import Cosmos
 
 import SVProgressHUD
 
-class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate {
+class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextViewDelegate, ITranslation {
+        
     var article_id: String?
     var article = WritingArticleModel(map: Map(mappingType: .fromJSON, JSON: [:]))
     var splits = [ParagraphSplitModel]()
     var histories = [WritingHistoryModel]()
         
     let tableView = UITableView()
-//    UIPasteboard.general.string = "Hello world"
-    
-    func setupCustomMenu() {
-        let mi_copy = UIMenuItem(title:"Copy", action:#selector(copyTopasteboard))
-        let mi_ava = UIMenuItem(title:"AVA", action:#selector(searchAVA))
-        let mi_ggl = UIMenuItem(title:"Google", action:#selector(searchGGL))
-        UIMenuController.shared.menuItems = [mi_ava,mi_ggl,mi_copy]
-        UIMenuController.shared.update()
-    }
-    
-    @objc func copyTopasteboard(_ sender:Any?){
-        UIPasteboard.general.string = selectionText!
-    }
-    
-    @objc func searchAVA(_ sender:Any?){
-        let md = selectionText!
-        SVProgressHUD.show(withStatus: "正在查询")
-        
-        _ = DictionaryApi.provider
-            .requestAPI(.searchWord(lang: article!.lang, form: md))
-            .mapResponseToObj(WordSearchModel.self)
-            .subscribe(onNext: { (response) in
-                SVProgressHUD.dismiss()
-                
-                let popUpView = SearchPopUpView()
-                popUpView.setInfo(word: response.word!)
-                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                alertView.setValue(popUpView, forKey: "contentViewController")
-                
-                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertView, animated: true, completion: nil)
-                
-            }, onError: { (error) in
-                SVProgressHUD.showError(withStatus: error.rawString())
-            })
-    }
-    
-    @objc func searchGGL(_ sender:Any?){
-        let md = selectionText!
-        SVProgressHUD.show(withStatus: "正在查询")
-        
-        _ = OtherApi.provider
-            .requestAPI(.googleTranslate(text: md))
-            .mapResponseToObj(GoogleTransModel.self)
-            .subscribe(onNext: { (response) in
-                SVProgressHUD.dismiss()
-                
-                let popUpView = SearchPopUpView()
-                let text = response.getAllTrans()                
-                popUpView.setInfo(trans: text)
-                let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                alertView.setValue(popUpView, forKey: "contentViewController")
-                
-                alertView.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alertView, animated: true, completion: nil)
-                
-            }, onError: { (error) in
-                SVProgressHUD.showError(withStatus: error.rawString())
-            })
-    }
-    
+       
     var selectionText:String?
     
     override func viewDidLoad() {
@@ -97,14 +38,31 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
         tableView.delegate = self
         
         self.edgesForExtendedLayout = []
+        
+//        let tv = UITextView()
+//        self.view.addSubview(tv)
+//        tv.snp.makeConstraints{ (make) -> Void in
+//            make.top.left.right.equalToSuperview()
+//            make.height.equalTo(50)
+//        }
+        
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints{ (make) -> Void in
-            make.top.left.right.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+            make.left.right.bottom.equalToSuperview()
         }
         
         loadArticle()
-        
-        setupCustomMenu()
+                
+        setupTranslationMenu()
+    }
+    
+    func avaSearch(_ sender: UIMenuController) {
+        search("AVA",lang: self.article!.lang,form: self.selectionText!)
+    }
+
+    func gglSearch(_ sender: UIMenuController){
+        search("Google",lang: self.article!.lang,form: self.selectionText!)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -190,7 +148,7 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
 //        textView.text = String(split.paragraph!.text[startIndex ..< endIndex])
         if let attt = split.getAttrText(font: v2Font(18))
         {
-            textView.attributedText = attt            
+            textView.attributedText = attt
         }
         else{
             textView.text = split.getText()
@@ -209,10 +167,7 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
     }
     
     @objc func splitDbTapAction(sender:UITapGestureRecognizer) {
-        
         let lbl = sender.view as! UITextView
-        let split = lbl.accessibilityElements![0] as! ParagraphSplitModel
-        
         lbl.isEditable = true
         lbl.becomeFirstResponder()
     }
@@ -299,17 +254,14 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
     
     func textViewDidChangeSelection(_ textView: UITextView) {
         if (textView.selectedTextRange != nil){
-            self.selectionText = textView.text(in:textView.selectedTextRange!)
+            self.selectionText = textView.text(in:textView.selectedTextRange!)!
         }
     }
-    
-    
     
     // controller init 垃圾东西!!!
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
