@@ -31,6 +31,9 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
        
     var selectionText:String?
     
+    var currentTextView:UITextView?
+    var currentTransfrom:CGFloat = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -55,6 +58,38 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
         loadArticle()
                 
         setupTranslationMenu()
+        
+        //键盘监听
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    @objc func keyboardWillShow(notification: Notification) {
+        let info = notification.userInfo
+        let kbRect = (info?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        // 判断textview会不会被键盘遮盖
+        if let tv = currentTextView{
+            let globalPoint = tv.convert(tv.frame.origin, to: nil)
+            let oY = kbRect.origin.y-(globalPoint.y+tv.bounds.height)
+            if(oY < 0)
+            {
+                currentTransfrom = oY
+                UIView.animate(withDuration: 0.3) {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: oY)
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: Notification) {
+        if (currentTextView != nil){
+            if(currentTransfrom < 0){
+                UIView.animate(withDuration: 0.3) {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+                    self.currentTransfrom = 0
+                }
+            }
+        }
     }
     
     func avaSearch(_ sender: UIMenuController) {
@@ -168,6 +203,8 @@ class SampleArticleController: UIViewController,UITableViewDelegate,UITableViewD
     
     @objc func splitDbTapAction(sender:UITapGestureRecognizer) {
         let lbl = sender.view as! UITextView
+        currentTextView = lbl
+        
         lbl.isEditable = true
         lbl.becomeFirstResponder()
     }
