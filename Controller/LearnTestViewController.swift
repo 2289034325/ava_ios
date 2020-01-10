@@ -76,9 +76,41 @@ class LearnTestViewController: UIViewController {
     }()
     
     var actionFloatView: LearnTestRightFloatView!
+    
+    var detaiView:WordViewController?
+    var detailBtn:UIButton={
+        let btn = UIButton()
+        btn.backgroundColor = #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1)
+        btn.setTitle("查看详细", for: UIControlState())
+        btn.setTitleColor(UIColor.white, for: UIControlState())
+        btn.titleLabel!.font = v2Font(20)
+        btn.addTarget(self, action: #selector(showDetail(_:)), for: UIControlEvents.touchUpInside)
+        return btn
+    }()
+    
+    @objc func showDetail(_ sender: UIButton!){
+        if(self.detaiView != nil){
+            self.detaiView?.removeFromParentViewController()
+            self.detaiView?.view.removeFromSuperview()
+            self.detaiView = nil
+            sender.setTitle("查看详细", for: UIControlState())
+        }
+        else{
+            let wv = WordViewController()
+            wv.word = self.questionView.question.word
+            self.addChildViewController(wv)
+            self.view.addSubview(wv.view)
+            wv.view.snp.makeConstraints{(make)->Void in
+                make.left.top.right.equalTo(self.view)
+                make.bottom.equalTo(self.detailBtn.snp.top)
+            }
+            self.detaiView = wv
+            sender.setTitle("关闭", for: UIControlState())
+        }
+    }
 
     init(lang:Int,words:[WordModel]) {
-
+        
         self.lang = lang
         self.words = words
 
@@ -144,18 +176,27 @@ class LearnTestViewController: UIViewController {
 
         let panRecognizer = UIPanGestureRecognizer(target: self, action:  #selector(panedView))
         self.view.addGestureRecognizer(panRecognizer)
-
+        
+        self.view.addSubview(detailBtn)
+        detailBtn.snp.makeConstraints{(make)->Void in
+            make.left.right.bottom.equalTo(self.view)
+            make.height.equalTo(50)
+        }
+        
         self.view.addSubview(questionView)
         questionView.snp.makeConstraints{(make)->Void in
-            make.left.top.right.bottom.equalTo(self.view)
+            make.left.top.right.equalTo(self.view)
+            make.bottom.equalTo(self.detailBtn.snp.top)
         }
 
         if self.questionViewNext != nil {
             self.view.insertSubview(questionViewNext!, belowSubview: questionView)
             questionViewNext!.snp.makeConstraints { (make) -> Void in
-                make.left.top.right.bottom.equalTo(self.view)
+                make.left.top.right.equalTo(self.view)
+                make.bottom.equalTo(self.detailBtn.snp.top)
             }
         }
+        
         
         self.view.addSubview(rImage)
         self.view.addSubview(wImage)
@@ -230,6 +271,10 @@ class LearnTestViewController: UIViewController {
 
     @objc func panedView(sender:UIPanGestureRecognizer) {
 
+        if self.detaiView != nil{
+            return
+        }
+        
         if self.animating{
             return
         }
@@ -369,7 +414,8 @@ class LearnTestViewController: UIViewController {
                 self.questionViewNext = QuestionView(frame: self.view.frame, question: qst)
                 self.view.insertSubview(self.questionViewNext!, belowSubview: self.questionView)
                 self.questionViewNext!.snp.makeConstraints { (make) -> Void in
-                    make.left.top.right.bottom.equalTo(self.view)
+                    make.left.top.right.equalTo(self.view)
+                    make.bottom.equalTo(self.detailBtn.snp.top)
                 }
             }
             else{

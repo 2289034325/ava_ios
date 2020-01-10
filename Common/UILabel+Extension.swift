@@ -13,7 +13,13 @@ extension UILabel{
         label.numberOfLines = self.numberOfLines
         label.lineBreakMode = self.lineBreakMode
         label.font = self.font
-        label.text = self.text
+        if(self.text?.isEmpty ?? true){
+            // 空白的label应当也能占据一定高度
+            label.text = " "
+        }
+        else{
+            label.text = self.text
+        }
         label.sizeToFit()
 
         return label.frame.height
