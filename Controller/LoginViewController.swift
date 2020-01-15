@@ -532,6 +532,29 @@ extension LoginViewController {
         }
         self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshCode)))
         
+        let privacyText = UILabel()
+        privacyText.font = v2Font(12)
+        privacyText.text = "登陆即表示您已阅读并同意";
+        privacyText.textColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        self.view.addSubview(privacyText);
+        privacyText.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.codeTextField.snp.bottom).offset(20)
+            make.left.equalTo(self.codeTextField.snp.left)
+        }
+        
+        let privacyLbl = UILabel()
+        privacyLbl.font = v2Font(12)
+        privacyLbl.text = "《用户服务协议》";
+        privacyLbl.textColor = #colorLiteral(red: 0, green: 0.605794545, blue: 1, alpha: 1)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showPrivacy))
+        privacyLbl.isUserInteractionEnabled = true
+        privacyLbl.addGestureRecognizer(tap)
+        self.view.addSubview(privacyLbl);
+        privacyLbl.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(privacyText.snp.right)
+            make.centerY.equalTo(privacyText)
+        }
+        
         self.loginButton.setTitle("登  录", for: UIControlState())
         self.loginButton.setTitleColor(UIColor(white: 0.2, alpha: 0.9), for: UIControlState())
         self.loginButton.titleLabel!.font = v2Font(20)
@@ -539,13 +562,14 @@ extension LoginViewController {
         self.loginButton.layer.borderWidth = 0.5
         self.loginButton.layer.borderColor = UIColor(white: 0.5, alpha: 0.8).cgColor;
         self.view.addSubview(self.loginButton);
-        
         self.loginButton.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.codeTextField.snp.bottom).offset(20)
+            make.top.equalTo(privacyText.snp.bottom).offset(20)
             make.centerX.equalTo(self.view)
             make.width.equalTo(300)
             make.height.equalTo(38)
         }
+        
+        
 //        self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(login)))
 
 //        let codeProblem = UILabel()
@@ -583,6 +607,13 @@ extension LoginViewController {
 //        }
         
         refreshCode()
+    }
+    
+    func showPrivacy(){
+        let controller = UINavigationController(rootViewController:PrivacyController())
+//        let controller = PrivacyController()
+        self.navigationController?.pushViewController(controller, animated: true)
+        present(controller, animated: true, completion: nil)
     }
     
     @objc func codeProblemClick(){
