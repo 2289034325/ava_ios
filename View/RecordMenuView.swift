@@ -8,6 +8,9 @@
 
 import UIKit
 import AVFoundation
+import SVProgressHUD
+import RxSwift
+import Kingfisher
 
 class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
@@ -149,15 +152,52 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         
         override var isSelected: Bool{
             didSet{
-                imageView.tintColor = isSelected ? #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1) : #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
-                
                 playCell?.playerStatus = "reload"
                 
-                if(isSelected)
+                if(!isRecording)
                 {
-                    isRecording = true;
-                    //开始录音
-                    startRecording()
+                    recordingSession = AVAudioSession.sharedInstance()
+                    do {
+                        try self.recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                        try self.recordingSession.setActive(true)
+                        //[unowned self] 如果不加，会引起崩溃!!!
+                        recordingSession.requestRecordPermission() { [unowned self] allowed in
+                            DispatchQueue.main.async {
+                                if allowed {
+                                    let audioFilename = RecordCell.getAudioName()
+                                    let settings = [
+                                        AVFormatIDKey: Int(kAudioFormatLinearPCM),
+                                        AVLinearPCMBitDepthKey: 16,
+                                        AVSampleRateKey: 44100,
+                                        AVNumberOfChannelsKey: 1,
+                                        AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
+                                    ]
+
+                                    do {
+                                        self.audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+                                        self.audioRecorder.delegate = self
+                                        self.audioRecorder.record()
+
+                                        self.updater = CADisplayLink(target: self, selector: #selector(RecordCell.updateTimer))
+                                        self.updater.preferredFramesPerSecond = 1
+                                        self.updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+
+                                        self.isRecording = true;
+                                        self.imageView.tintColor = #colorLiteral(red: 0, green: 0.5032967925, blue: 1, alpha: 1)
+
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                                else {
+                                    let alertView = UIAlertView(title: "无法访问您的麦克风" , message: "请到设置 -> 隐私 -> 麦克风 ，打开访问权限", delegate: nil, cancelButtonTitle: "取消", otherButtonTitles: "好的")
+                                    alertView.show()
+                                }
+                            }
+                        }
+                    }catch {
+                        print(error)
+                    }
                 }
                 else
                 {
@@ -168,6 +208,8 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
                     do {
                         try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
                     } catch _ {}
+                    
+                    imageView.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
                 }
             }
         }
@@ -194,55 +236,90 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
             return audioFilename
         }
         
-        func startRecording(){
+        func startRecording(_ obs:AnyObserver<Bool>){
             recordingSession = AVAudioSession.sharedInstance()
             do {
                 try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
                 try recordingSession.setActive(true)
-                recordingSession.requestRecordPermission() {
-                    allowed in
-                    print(allowed)
-//                                    [unowned self] allowed in
-//                                    DispatchQueue.main.async {
-//                                        if allowed {
-//                                                                    self.loadRecordingUI()
-//                                            print("allowed")
-//                                        } else {
-//                                            // failed to record!
-//                    //                        print("not allowed")
-//                                        }
-//                                    }
+                
+                recordingSession.requestRecordPermission() { allowed in
+
+                    DispatchQueue.main.async {
+                        if !allowed{
+                                
+                                let controller = UIAlertController(title: "没有麦克风权限", message: "请在\"设置-隐私-麦克风\"打开麦克风", preferredStyle: .alert)
+                                controller.addAction(UIAlertAction(title: "确定", style: .cancel, handler: nil))
+
+        //                        let sharedApplication = KingfisherWrapper<UIApplication>.shared
+        //                        let vController = sharedApplication?.keyWindow?.rootViewController
+                                let vController = self.findViewController()
+                                vController!.present(controller, animated: true, completion: nil)
+                            
+                        }
+                        else{
+                            let audioFilename = RecordCell.getAudioName()
+                            
+                            let settings = [
+                                AVFormatIDKey: Int(kAudioFormatLinearPCM),
+                                AVLinearPCMBitDepthKey: 16,
+                                AVSampleRateKey: 44100,
+                                AVNumberOfChannelsKey: 1,
+                                AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
+                            ]
+                            
+                            do {
+                                self.audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+                                self.audioRecorder.delegate = self
+                                self.audioRecorder.record()
+                                
+                                self.updater = CADisplayLink(target: self, selector: #selector(RecordCell.updateTimer))
+                                self.updater.preferredFramesPerSecond = 1
+                                self.updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+                                
+                            } catch {
+                                print(error)
+                            }
+                        }
+                    }
+                    
+                    obs.onNext(allowed)
                 }
             } catch {
                 print(error)
             }
             
-            let audioFilename = RecordCell.getAudioName()
-            
-            let settings = [
-                AVFormatIDKey: Int(kAudioFormatLinearPCM),
-                AVLinearPCMBitDepthKey: 16,
-                AVSampleRateKey: 44100,
-                AVNumberOfChannelsKey: 1,
-                AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
-            ]
-            
-            do {
-                audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
-                audioRecorder.delegate = self
-                audioRecorder.record()
-                
-                //            NSObject.cancelPreviousPerformRequests(withTarget: audioRecorder!)
-                //            audioRecorder!.perform(#selector(player!.pause), with: nil, afterDelay: stopTime)
-                updater = CADisplayLink(target: self, selector: #selector(RecordCell.updateTimer))
-                updater.preferredFramesPerSecond = 1
-                updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
-                
-                //            recordButton.setTitle("Tap to Stop", for: .normal)
-            } catch {
-                print(error)
-                finishRecording(success: false)
-            }
+//            if !isAllowed{
+//                return false
+//            }
+//
+//            let audioFilename = RecordCell.getAudioName()
+//
+//            let settings = [
+//                AVFormatIDKey: Int(kAudioFormatLinearPCM),
+//                AVLinearPCMBitDepthKey: 16,
+//                AVSampleRateKey: 44100,
+//                AVNumberOfChannelsKey: 1,
+//                AVEncoderAudioQualityKey: AVAudioQuality.max.rawValue
+//            ]
+//
+//            do {
+//                audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+//                audioRecorder.delegate = self
+//                audioRecorder.record()
+//
+//                //            NSObject.cancelPreviousPerformRequests(withTarget: audioRecorder!)
+//                //            audioRecorder!.perform(#selector(player!.pause), with: nil, afterDelay: stopTime)
+//                updater = CADisplayLink(target: self, selector: #selector(RecordCell.updateTimer))
+//                updater.preferredFramesPerSecond = 1
+//                updater.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
+//
+//                //            recordButton.setTitle("Tap to Stop", for: .normal)
+//            } catch {
+//                print(error)
+//                return false
+//            }
+//
+//            return true
         }
         
         @objc func updateTimer(){
@@ -250,6 +327,8 @@ class RecordMenuView: UIView,UICollectionViewDataSource,UICollectionViewDelegate
         }
         
         func finishRecording(success: Bool) {
+//            imageView.tintColor = #colorLiteral(red: 0.325210184, green: 0.325210184, blue: 0.325210184, alpha: 1)
+//            isSelected = false
             updater?.invalidate()
             audioRecorder?.stop()
             audioRecorder = nil

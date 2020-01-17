@@ -50,7 +50,7 @@
 		<true/>
 	</dict>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>use microphone</string>
+	<string>使用麦克风录下自己的声音，然后点击右边的播放按钮，跟原声进行对照，帮助你找出自己的发音不准的地方，迅速改进你的发音</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
