@@ -92,6 +92,7 @@ class UserWordStatController: UIViewController {
             
             let touchPoint = longPressGestureRecognizer.location(in: self.tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                let cell = tableView.cellForRow(at: indexPath)
                 let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 let names = ["学习", "复习"]
                 for name in names {
@@ -109,6 +110,10 @@ class UserWordStatController: UIViewController {
                 let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                 controller.addAction(cancelAction)
 
+                if let popoverPresentationController = controller.popoverPresentationController {
+                    popoverPresentationController.sourceView = cell!.contentView
+                    popoverPresentationController.sourceRect = cell!.bounds
+                }
                 present(controller, animated: true, completion: nil)
             }
         }
@@ -229,7 +234,7 @@ extension UserWordStatController:UITableViewDataSource,UITableViewDelegate {
     }
 
     func selectedRowWithActionSheet(_ indexPath:IndexPath){
-        
+        let cell = tableView.cellForRow(at: indexPath)
         let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let names = ["浏览","学习", "复习"]
         for name in names {
@@ -248,7 +253,12 @@ extension UserWordStatController:UITableViewDataSource,UITableViewDelegate {
         }
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         controller.addAction(cancelAction)
-
+        
+        // iPad crash!!!
+        if let popoverPresentationController = controller.popoverPresentationController {
+            popoverPresentationController.sourceView = cell!.contentView
+            popoverPresentationController.sourceRect = cell!.bounds
+        }
         present(controller, animated: true, completion: nil)
     }
     

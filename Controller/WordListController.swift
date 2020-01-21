@@ -277,6 +277,12 @@ extension WordListController:UITableViewDataSource,UITableViewDelegate {
             let touchPoint = longPressGestureRecognizer.location(in: self.tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 self.selectedIndex = indexPath.row
+                
+                let cell = tableView.cellForRow(at: indexPath)
+                if let popoverPresentationController = optionAlert.popoverPresentationController {
+                    popoverPresentationController.sourceView = cell!.contentView
+                    popoverPresentationController.sourceRect = cell!.bounds
+                       }
                 present(optionAlert, animated: true, completion: nil)
             }
         }

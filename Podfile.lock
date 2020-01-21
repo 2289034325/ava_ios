@@ -74,7 +74,7 @@ DEPENDENCIES:
   - YYText
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - 1PasswordExtension
     - Alamofire
     - AlamofireObjectMapper
@@ -136,4 +136,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: acdf286385bff3ecb3a7b6804f43576b8c7f5165
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4

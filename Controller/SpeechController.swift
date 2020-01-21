@@ -629,6 +629,11 @@ class SpeechController: UIViewController,UITableViewDelegate,UITableViewDataSour
     }
     
     @objc func expandMenu(){
+        if let popoverPresentationController = menuController.popoverPresentationController {
+            popoverPresentationController.sourceView = recrdMenuView.menuCell
+            popoverPresentationController.sourceRect = recrdMenuView.menuCell!.bounds
+               }
+        
         present(menuController, animated: true, completion: nil)
     }
 }
